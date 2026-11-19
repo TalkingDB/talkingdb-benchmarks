@@ -10,7 +10,7 @@ HERE="$(cd "$(dirname "$0")" && pwd)"
 cd "$HERE"
 
 [ -d .venv-extract ] || uv venv -q -p 3.14 .venv-extract
-VIRTUAL_ENV=.venv-extract uv pip install -q -r requirements-extract.txt
+VIRTUAL_ENV=.venv-extract uv pip install -q --torch-backend cpu -r requirements-extract.txt  # CPU build of torch, no GPU libraries
 
 mkdir -p ttt-src
 while read -r name sha; do
