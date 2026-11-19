@@ -34,6 +34,8 @@ Both are public UK government publications, used under the [Open Government Lice
 
 ## How we tested, in plain words
 
+![From document to answer: what happens in between](images/how-it-works.png)
+
 1. **Read the tables.** An open source PDF table extractor reads pages 1 to 4: no OCR, accurate table mode, CPU only ([extract.py](pipeline/extract.py); exact version in [requirements-extract.txt](requirements-extract.txt)). Its output is saved in [results/extraction-raib-pages-1-4.json](results/extraction-raib-pages-1-4.json), so you can check every later step without running it.
 2. **Fix the page breaks.** The extractor marks the first row of each new page as column names. A row that holds a row ID, here a recommendation number such as `13/2024/03`, is kept as data whatever that mark says, and a table on the next page joins the one before it when its first row is data ([join_pages.py](pipeline/join_pages.py)).
 3. **Index and ask.** TalkingDB TTT indexes every row with its column names and the page it came from, then answers five plain English questions, such as "Which recommendations did RAIB report 13/2024 make, who must act on each and what is its status?" ([ask.py](pipeline/ask.py)).

@@ -182,8 +182,137 @@ def column_names():
         f.unlink()
 
 
+def how_it_works():
+    """Diagram: document to output, with where rows are lost and what the fix changes."""
+    res = json.loads((ROOT / "results/results.json").read_text(encoding="utf-8"))
+    std = res["rows_surviving_extraction"]["standard_extraction"]
+    fix = res["ttt_answers"]["with_page_break_fix"]
+    W, H = 640, 790
+    doc = pymupdf.open()
+    pg = doc.new_page(width=W, height=H)
+    ink, grey = (0.11, 0.12, 0.14), (0.35, 0.38, 0.42)
+    steps = [
+        (
+            "1. Document",
+            "UK RAIB index of recommendations, a public PDF. Pages 1 to 4 hold one table of 149 rows.",
+            None,
+        ),
+        (
+            "2. Table extraction",
+            "An open source extractor reads each page as its own table.",
+            None,
+        ),
+        (
+            "3. TalkingDB page break fix",
+            "A row with an ID is data. A table that continues on the next page joins the one before. Printed column names, page kept.",
+            GREEN,
+        ),
+        (
+            "4. Chunks: one per table row",
+            "149 rows, each written as column: value, plus its page.",
+            None,
+        ),
+        (
+            "5. TTT index",
+            "Every row indexed by its words, column names and page. Symbolic: no vectors, no language model.",
+            None,
+        ),
+        ("6. Question", '"Which recommendations did RAIB report 13/2024 make?"', None),
+        (
+            "7. Retrieval",
+            f"The top matching rows that fit in {res['budget_words']} words.",
+            None,
+        ),
+        (
+            "8. Output",
+            "13/2024/01 Network Rail, page 1; 13/2024/02 Dundee City Council, page 1; 13/2024/03 RSSB, page 2.",
+            GREEN,
+        ),
+    ]
+    pg.insert_textbox(
+        pymupdf.Rect(28, 14, W - 28, 48),
+        "From document to answer: what happens in between",
+        fontsize=18,
+        fontname="hebo",
+        color=ink,
+    )
+    pg.insert_textbox(
+        pymupdf.Rect(28, 46, W - 28, 64),
+        "Railway table test, one public PDF. Every number comes from results/results.json.",
+        fontsize=9.5,
+        fontname="helv",
+        color=grey,
+    )
+    x0, x1, top, bh, gap = 28, 352, 76, 62, 26
+    boxes = []
+    for i, (title, body, colour) in enumerate(steps):
+        y = top + i * (bh + gap)
+        r = pymupdf.Rect(x0, y, x1, y + bh)
+        pg.draw_rect(
+            r, color=colour or grey, fill=(0.97, 0.98, 0.99), width=2 if colour else 1
+        )
+        pg.insert_textbox(
+            r + (10, 7, -8, 0), title, fontsize=11.5, fontname="hebo", color=ink
+        )
+        pg.insert_textbox(
+            r + (10, 24, -8, -2), body, fontsize=9, fontname="helv", color=ink
+        )
+        boxes.append(r)
+        if i:
+            a = pymupdf.Point((x0 + x1) / 2, boxes[i - 1].y1 + 2)
+            b = pymupdf.Point((x0 + x1) / 2, r.y0 - 3)
+            pg.draw_line(a, b, color=grey, width=1.4)
+            pg.draw_polyline([b + (-5, -7), b, b + (5, -7)], color=grey, width=1.4)
+
+    def callout(box, rect, colour, title, body):
+        pg.draw_rect(rect, color=colour, fill=(1, 1, 1), width=1.6)
+        pg.insert_textbox(
+            rect + (8, 6, -6, 0), title, fontsize=10.5, fontname="hebo", color=colour
+        )
+        pg.insert_textbox(
+            rect + (8, 22, -6, -2), body, fontsize=8.8, fontname="helv", color=ink
+        )
+        y = (box.y0 + box.y1) / 2
+        pg.draw_line(
+            pymupdf.Point(box.x1, y),
+            pymupdf.Point(rect.x0, y),
+            color=colour,
+            width=1.2,
+            dashes="[3 2] 0",
+        )
+
+    b2, b5, b8 = boxes[1], boxes[4], boxes[7]
+    callout(
+        b2,
+        pymupdf.Rect(368, b2.y0 - 4, W - 20, b2.y1 + 6),
+        RED,
+        "Where it goes wrong",
+        f"The first row of each new page is read as column names. {std['expected_rows'] - std['found_rows']} of the "
+        f"{std['expected_rows']} expected rows are lost, and all 146 rows that survive carry wrong or merged column names.",
+    )
+    callout(
+        b5,
+        pymupdf.Rect(368, b5.y0 - 4, W - 20, b5.y1 + 4),
+        grey,
+        "TTT's own PDF reader today",
+        "It converts the PDF to a Word file first and loses the long table rows before indexing: 0 of 13. "
+        "Moving steps 2 and 3 into it is next.",
+    )
+    callout(
+        b8,
+        pymupdf.Rect(368, b8.y0, W - 20, b8.y1),
+        GREEN,
+        "Result, five lookups",
+        f"{fix['found_rows']} of {fix['expected_rows']} expected rows, {fix['complete_lookups']} of {fix['lookups']} "
+        f"lookups complete, {fix['wrong_rows']} wrong rows. Same search without step 3: "
+        f"{res['ttt_answers']['standard_extraction']['found_rows']} of 13.",
+    )
+    pg.get_pixmap(dpi=150).save(OUT / "how-it-works.png")
+
+
 if __name__ == "__main__":
     lost_rows()
     answer()
     column_names()
+    how_it_works()
     print("images written:", sorted(p.name for p in OUT.glob("*.png")))
