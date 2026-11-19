@@ -1,0 +1,110 @@
+[
+  {
+    "report": "13/2024",
+    "question": "Which recommendations did RAIB report 13/2024 make, who must act on each and what is its status?",
+    "expected_rows": [
+      {
+        "recommendation": "13/2024/01",
+        "implementer": "Network Rail",
+        "status": "Open",
+        "page": 1
+      },
+      {
+        "recommendation": "13/2024/02",
+        "implementer": "Dundee City Council",
+        "status": "Open",
+        "page": 1
+      },
+      {
+        "recommendation": "13/2024/03",
+        "implementer": "RSSB",
+        "status": "Closed - I",
+        "page": 2
+      }
+    ]
+  },
+  {
+    "report": "01/2024",
+    "question": "Which recommendations did RAIB report 01/2024 make, who must act on each and what is its status?",
+    "expected_rows": [
+      {
+        "recommendation": "01/2024/01",
+        "implementer": "Network Rail",
+        "status": "Open",
+        "page": 2
+      },
+      {
+        "recommendation": "01/2024/02",
+        "implementer": "Network Rail",
+        "status": "Open",
+        "page": 2
+      },
+      {
+        "recommendation": "01/2024/03",
+        "implementer": "Network Rail",
+        "status": "Open",
+        "page": 2
+      },
+      {
+        "recommendation": "01/2024/04",
+        "implementer": "Network Rail",
+        "status": "Open",
+        "page": 3
+      }
+    ]
+  },
+  {
+    "report": "14/2023",
+    "question": "Which recommendations did RAIB report 14/2023 make, who must act on each and what is its status?",
+    "expected_rows": [
+      {
+        "recommendation": "14/2023/01",
+        "implementer": "VTG",
+        "status": "Open",
+        "page": 3
+      },
+      {
+        "recommendation": "14/2023/02",
+        "implementer": "GB Railfreight",
+        "status": "Open",
+        "page": 3
+      },
+      {
+        "recommendation": "14/2023/03",
+        "implementer": "RSSB",
+        "status": "Open",
+        "page": 3
+      }
+    ]
+  },
+  {
+    "report": "07/2023",
+    "recommendation": "07/2023/04",
+    "question": "Who must implement RAIB recommendation 07/2023/04 and what is its status?",
+    "expected_rows": [
+      {
+        "recommendation": "07/2023/04",
+        "implementer": "Environment Agency",
+        "status": "Awaiting Response",
+        "page": 3
+      },
+      {
+        "recommendation": "07/2023/04",
+        "implementer": "Natural Resources Wales",
+        "status": "Awaiting Response",
+        "page": 3
+      },
+      {
+        "recommendation": "07/2023/04",
+        "implementer": "Network Rail",
+        "status": "Awaiting Response",
+        "page": 4
+      }
+    ]
+  },
+  {
+    "report": "99/1999",
+    "question": "Which recommendations did RAIB report 99/1999 make?",
+    "expected_rows": []
+  }
+]

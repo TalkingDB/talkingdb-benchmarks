@@ -1,0 +1,424 @@
+{
+  "document": "documents/raib-recommendations-index.pdf, pages 1 to 4",
+  "budget_words": 300,
+  "rows_surviving_extraction": {
+    "standard_extraction": {
+      "found_rows": 10,
+      "expected_rows": 13,
+      "complete_lookups": 2,
+      "lookups": 5,
+      "wrong_rows": 0
+    },
+    "with_page_break_fix": {
+      "found_rows": 13,
+      "expected_rows": 13,
+      "complete_lookups": 5,
+      "lookups": 5,
+      "wrong_rows": 0
+    }
+  },
+  "ttt_answers": {
+    "standard_extraction": {
+      "found_rows": 10,
+      "expected_rows": 13,
+      "complete_lookups": 2,
+      "lookups": 5,
+      "wrong_rows": 0,
+      "lookups_detail": [
+        {
+          "report": "13/2024",
+          "expected_rows": 3,
+          "found_rows": 2,
+          "complete": false,
+          "missing": [
+            [
+              "13/2024/03",
+              "RSSB",
+              2
+            ]
+          ],
+          "wrong": [],
+          "question": "Which recommendations did RAIB report 13/2024 make, who must act on each and what is its status?",
+          "results": [
+            {
+              "type": "table_row",
+              "content": "Collision between a passenger train and a fallen tree at Broughty Ferry | Report No: 13/2024 | Event Date: 27/12/2023 13/2024/01 | Recommendation No: Open None | Recommendation Status: Network Rail | RAIB Concern: https://assets.publishing.service.gov.uk/media/67f3ab3130feae0e082ab889/13_2024_Broughty_Ferry.pdf | Page: page 1"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision between a passenger train and a fallen tree at Broughty Ferry | Report No: 13/2024 | Event Date: 27/12/2023 13/2024/02 | Recommendation No: Open None | Recommendation Status: Dundee City Council | RAIB Concern: https://assets.publishing.service.gov.uk/media/67f3ab3130feae0e082ab889/13_2024_Broughty_Ferry.pdf | Page: page 1"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision at Aviemore station on the Strathspey Railway | Report No: 09/2024 | Event Date: 29/09/2023 | Recommendation No: 09/2024/01 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: Strathspey Railway | Recommendation status report: https://assets.publishing.service.gov.uk/media/66fe60b23b919067bb482b79/09_2024_Aviemore.pdf | Page: page 2"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision between on-track machines near to Strood, Kent | Report No: 11/2024 | Event Date: 16/11/2023 | Recommendation No: 11/2024/01 | Recommendation Status: Closed - I | RAIB Concern: None | End Implementer/s: Network Rail High Speed | Recommendation status report: https://assets.publishing.service.gov.uk/media/67f3aa956852ad6032f5bf9c/11_2024_Strood.pdf | Page: page 2"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision between on-track machines near to Strood, Kent | Report No: 11/2024 | Event Date: 16/11/2023 | Recommendation No: 11/2024/02 | Recommendation Status: Closed - I | RAIB Concern: None | End Implementer/s: Network Rail High Speed | Recommendation status report: https://assets.publishing.service.gov.uk/media/67f3aa956852ad6032f5bf9c/11_2024_Strood.pdf | Page: page 2"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision between on-track machines near to Strood, Kent | Report No: 11/2024 | Event Date: 16/11/2023 | Recommendation No: 11/2024/03 | Recommendation Status: Closed - I | RAIB Concern: None | End Implementer/s: Network Rail High Speed | Recommendation status report: https://assets.publishing.service.gov.uk/media/67f3aa956852ad6032f5bf9c/11_2024_Strood.pdf | Page: page 2"
+            }
+          ]
+        },
+        {
+          "report": "01/2024",
+          "expected_rows": 4,
+          "found_rows": 3,
+          "complete": false,
+          "missing": [
+            [
+              "01/2024/04",
+              "Network Rail",
+              3
+            ]
+          ],
+          "wrong": [],
+          "question": "Which recommendations did RAIB report 01/2024 make, who must act on each and what is its status?",
+          "results": [
+            {
+              "type": "table_row",
+              "content": "Train striking debris at Yarnton near Hanborough, Oxfordshire | Report No: 01/2024 | Event Date: 10/02/2023 | Recommendation No: 01/2024/01 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: Network Rail | Recommendation status report: https://assets.publishing.service.gov.uk/media/65f324399d99de001103df3a/01_2024_Yarton.pdf | Page: page 2"
+            },
+            {
+              "type": "table_row",
+              "content": "Train striking debris at Yarnton near Hanborough, Oxfordshire | Report No: 01/2024 | Event Date: 10/02/2023 | Recommendation No: 01/2024/02 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: Network Rail | Recommendation status report: https://assets.publishing.service.gov.uk/media/65f324399d99de001103df3a/01_2024_Yarton.pdf | Page: page 2"
+            },
+            {
+              "type": "table_row",
+              "content": "Train striking debris at Yarnton near Hanborough, Oxfordshire | Report No: 01/2024 | Event Date: 10/02/2023 | Recommendation No: 01/2024/03 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: Network Rail | Recommendation status report: https://assets.publishing.service.gov.uk/media/65f324399d99de001103df3a/01_2024_Yarton.pdf | Page: page 2"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision at Aviemore station on the Strathspey Railway | Report No: 09/2024 | Event Date: 29/09/2023 | Recommendation No: 09/2024/01 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: Strathspey Railway | Recommendation status report: https://assets.publishing.service.gov.uk/media/66fe60b23b919067bb482b79/09_2024_Aviemore.pdf | Page: page 2"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision between on-track machines near to Strood, Kent | Report No: 11/2024 | Event Date: 16/11/2023 | Recommendation No: 11/2024/01 | Recommendation Status: Closed - I | RAIB Concern: None | End Implementer/s: Network Rail High Speed | Recommendation status report: https://assets.publishing.service.gov.uk/media/67f3aa956852ad6032f5bf9c/11_2024_Strood.pdf | Page: page 2"
+            },
+            {
+              "type": "table_row",
+              "content": "Pedestrian struck by a train at Bourneview footpath crossing, London Borough of Croydon | Report No: 08/2025 | Event Date: 23/01/2025 08/2025/01 | Recommendation No: Awaiting Response None | Recommendation Status: Departrment for Education and Skills | RAIB Concern: https://assets.publishing.service.gov.uk/media/698c6dd0547c54ae7c023630/08_2025_Bourneview.pdf | Page: page 1"
+            },
+            {
+              "type": "table_row",
+              "content": "Runaway of a trolley and subsequent collision at North Rode, Cheshire | Report No: 07/2025 | Event Date: 26/05/2024 07/2025/01 | Recommendation No: Awaiting Response None | Recommendation Status: Network Rail | RAIB Concern: https://assets.publishing.service.gov.uk/media/698c6d8a84cc2df4a871237b/07_2025_North_Rode_Congleton.pdf | Page: page 1"
+            }
+          ]
+        },
+        {
+          "report": "14/2023",
+          "expected_rows": 3,
+          "found_rows": 3,
+          "complete": true,
+          "missing": [],
+          "wrong": [],
+          "question": "Which recommendations did RAIB report 14/2023 make, who must act on each and what is its status?",
+          "results": [
+            {
+              "type": "table_row",
+              "content": "Freight train derailment at London Gateway, Essex | Report No: 14/2023 | Event Date: 24/12/2021 | Recommendation No: 14/2023/01 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: VTG | Recommendation status report: https://assets.publishing.service.gov.uk/media/65f323e8fa1851001a011781/14_2023_London_Gateway.pdf | Page: page 3"
+            },
+            {
+              "type": "table_row",
+              "content": "Freight train derailment at London Gateway, Essex | Report No: 14/2023 | Event Date: 24/12/2021 | Recommendation No: 14/2023/02 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: GB Railfreight | Recommendation status report: https://assets.publishing.service.gov.uk/media/65f323e8fa1851001a011781/14_2023_London_Gateway.pdf | Page: page 3"
+            },
+            {
+              "type": "table_row",
+              "content": "Freight train derailment at London Gateway, Essex | Report No: 14/2023 | Event Date: 24/12/2021 | Recommendation No: 14/2023/03 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: RSSB | Recommendation status report: https://assets.publishing.service.gov.uk/media/65f323e8fa1851001a011781/14_2023_London_Gateway.pdf | Page: page 3"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision at Aviemore station on the Strathspey Railway | Report No: 09/2024 | Event Date: 29/09/2023 | Recommendation No: 09/2024/01 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: Strathspey Railway | Recommendation status report: https://assets.publishing.service.gov.uk/media/66fe60b23b919067bb482b79/09_2024_Aviemore.pdf | Page: page 2"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision between on-track machines near to Strood, Kent | Report No: 11/2024 | Event Date: 16/11/2023 | Recommendation No: 11/2024/01 | Recommendation Status: Closed - I | RAIB Concern: None | End Implementer/s: Network Rail High Speed | Recommendation status report: https://assets.publishing.service.gov.uk/media/67f3aa956852ad6032f5bf9c/11_2024_Strood.pdf | Page: page 2"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision between on-track machines near to Strood, Kent | Report No: 11/2024 | Event Date: 16/11/2023 | Recommendation No: 11/2024/02 | Recommendation Status: Closed - I | RAIB Concern: None | End Implementer/s: Network Rail High Speed | Recommendation status report: https://assets.publishing.service.gov.uk/media/67f3aa956852ad6032f5bf9c/11_2024_Strood.pdf | Page: page 2"
+            }
+          ]
+        },
+        {
+          "report": "07/2023",
+          "expected_rows": 3,
+          "found_rows": 2,
+          "complete": false,
+          "missing": [
+            [
+              "07/2023/04",
+              "Network Rail",
+              4
+            ]
+          ],
+          "wrong": [],
+          "question": "Who must implement RAIB recommendation 07/2023/04 and what is its status?",
+          "results": [
+            {
+              "type": "paragraph",
+              "content": "Index of RAIB recommendations, pages 1 to 4"
+            },
+            {
+              "type": "table_row",
+              "content": "Embankment washout under a passenger train at Haddiscoe | Report No: 07/2023 | Event Date: 30/01/2022 | Recommendation No: 07/2023/04 | Recommendation Status: Awaiting | RAIB Concern: Response None | End Implementer/s: Environment Agency | Recommendation status report: https://assets.publishing.service.gov.uk/media/6502cc4c702634001389b826/07_2023_Haddiscoe.pdf | Page: page 3"
+            },
+            {
+              "type": "table_row",
+              "content": "Embankment washout under a passenger train at Haddiscoe | Report No: 07/2023 | Event Date: 30/01/2022 | Recommendation No: 07/2023/04 | Recommendation Status: Awaiting | RAIB Concern: Response None | End Implementer/s: Natural Resources Wales | Recommendation status report: https://assets.publishing.service.gov.uk/media/6502cc4c702634001389b826/07_2023_Haddiscoe.pdf | Page: page 3"
+            },
+            {
+              "type": "table_row",
+              "content": "Pedestrian struck by a train at Bourneview footpath crossing, London Borough of Croydon | Report No: 08/2025 | Event Date: 23/01/2025 08/2025/01 | Recommendation No: Awaiting Response None | Recommendation Status: Departrment for Education and Skills | RAIB Concern: https://assets.publishing.service.gov.uk/media/698c6dd0547c54ae7c023630/08_2025_Bourneview.pdf | Page: page 1"
+            },
+            {
+              "type": "table_row",
+              "content": "Runaway of a trolley and subsequent collision at North Rode, Cheshire | Report No: 07/2025 | Event Date: 26/05/2024 07/2025/01 | Recommendation No: Awaiting Response None | Recommendation Status: Network Rail | RAIB Concern: https://assets.publishing.service.gov.uk/media/698c6d8a84cc2df4a871237b/07_2025_North_Rode_Congleton.pdf | Page: page 1"
+            },
+            {
+              "type": "table_row",
+              "content": "Runaway of a trolley and subsequent collision at North Rode, Cheshire | Report No: 07/2025 | Event Date: 26/05/2024 07/2025/02 | Recommendation No: Awaiting Response None | Recommendation Status: Network Rail | RAIB Concern: https://assets.publishing.service.gov.uk/media/698c6d8a84cc2df4a871237b/07_2025_North_Rode_Congleton.pdf | Page: page 1"
+            },
+            {
+              "type": "table_row",
+              "content": "Track worker near miss at Chiltern Green, between Harpenden and Luton | Report No: 06/2025 | Event Date: 23/04/2024 06/2025/01 | Recommendation No: Awaiting Response None | Recommendation Status: Keltbray Infrastructure Services Limited | RAIB Concern: https://assets.publishing.service.gov.uk/media/698c66a9048fe5f7c6475fdb/06_2025_Chiltern_Green.pdf | Page: page 1"
+            },
+            {
+              "type": "table_row",
+              "content": "Track worker near miss at Chiltern Green, between Harpenden and Luton | Report No: 06/2025 | Event Date: 23/04/2024 06/2025/02 | Recommendation No: Awaiting Response None | Recommendation Status: RSSB | RAIB Concern: https://assets.publishing.service.gov.uk/media/698c66a9048fe5f7c6475fdb/06_2025_Chiltern_Green.pdf | Page: page 1"
+            }
+          ]
+        },
+        {
+          "report": "99/1999",
+          "expected_rows": 0,
+          "found_rows": 0,
+          "complete": true,
+          "missing": [],
+          "wrong": [],
+          "question": "Which recommendations did RAIB report 99/1999 make?",
+          "results": [
+            {
+              "type": "table_row",
+              "content": "Derailment of a freight train at Audenshaw, Greater Manchester | Report No: 10/2025 | Event Date: 06/09/2024 10/2025/01 | Recommendation No: Awaiting Response None | Recommendation Status: Network Rail | RAIB Concern: https://assets.publishing.service.gov.uk/media/698c6e58547c54ae7c023633/10_2025_Audenshaw.pdf | Page: page 1"
+            },
+            {
+              "type": "table_row",
+              "content": "Buffer stop collision at London Bridge station | Report No: 09/2025 | Event Date: 13/12/2024 09/2025/02 | Recommendation No: Awaiting Response None | Recommendation Status: RSSB | RAIB Concern: https://assets.publishing.service.gov.uk/media/698c6e162f683cc788c28764/09_2025_London_Bridge_Station.pdf | Page: page 1"
+            },
+            {
+              "type": "table_row",
+              "content": "Pedestrian struck by a train at Bourneview footpath crossing, London Borough of Croydon | Report No: 08/2025 | Event Date: 23/01/2025 08/2025/01 | Recommendation No: Awaiting Response None | Recommendation Status: Department of Education (NI) | RAIB Concern: https://assets.publishing.service.gov.uk/media/698c6dd0547c54ae7c023630/08_2025_Bourneview.pdf | Page: page 1"
+            },
+            {
+              "type": "table_row",
+              "content": "Pedestrian struck by a train at Bourneview footpath crossing, London Borough of Croydon | Report No: 08/2025 | Event Date: 23/01/2025 08/2025/01 | Recommendation No: Awaiting Response None | Recommendation Status: Departrment for Education and Skills | RAIB Concern: https://assets.publishing.service.gov.uk/media/698c6dd0547c54ae7c023630/08_2025_Bourneview.pdf | Page: page 1"
+            },
+            {
+              "type": "table_row",
+              "content": "Pedestrian struck by a train at Bourneview footpath crossing, London Borough of Croydon | Report No: 08/2025 | Event Date: 23/01/2025 08/2025/01 | Recommendation No: Awaiting Response None | Recommendation Status: Education Scotland | RAIB Concern: https://assets.publishing.service.gov.uk/media/698c6dd0547c54ae7c023630/08_2025_Bourneview.pdf | Page: page 1"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision between a road-rail vehicle and a trolley near Brading, Isle of Wight | Report No: 12/2024 | Event Date: 22/11/2023 | Recommendation No: 12/2024/01 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: South Western Railway | Recommendation status report: https://assets.publishing.service.gov.uk/media/67f3aadd6852ad6032f5bf9d/12_2024_Brading.pdf | Page: page 2"
+            },
+            {
+              "type": "table_row",
+              "content": "Overspeed at Spital Junction, Peterborough | Report No: 10/2024 | Event Date: 04/05/2023 | Recommendation No: 10/2024/03 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: RSSB | Recommendation status report: https://assets.publishing.service.gov.uk/media/66fe60f5080bdf716392ed3b/10_2024_Peterborough.pdf | Page: page 2"
+            }
+          ]
+        }
+      ]
+    },
+    "with_page_break_fix": {
+      "found_rows": 13,
+      "expected_rows": 13,
+      "complete_lookups": 5,
+      "lookups": 5,
+      "wrong_rows": 0,
+      "lookups_detail": [
+        {
+          "report": "13/2024",
+          "expected_rows": 3,
+          "found_rows": 3,
+          "complete": true,
+          "missing": [],
+          "wrong": [],
+          "question": "Which recommendations did RAIB report 13/2024 make, who must act on each and what is its status?",
+          "results": [
+            {
+              "type": "table_row",
+              "content": "Collision between a passenger train and a fallen tree at Broughty Ferry | Report No: 13/2024 | Event Date: 27/12/2023 13/2024/01 | Recommendation No: Open None | Recommendation Status: Network Rail | RAIB Concern: https://assets.publishing.service.gov.uk/media/67f3ab3130feae0e082ab889/13_2024_Broughty_Ferry.pdf | Page: page 1"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision between a passenger train and a fallen tree at Broughty Ferry | Report No: 13/2024 | Event Date: 27/12/2023 13/2024/02 | Recommendation No: Open None | Recommendation Status: Dundee City Council | RAIB Concern: https://assets.publishing.service.gov.uk/media/67f3ab3130feae0e082ab889/13_2024_Broughty_Ferry.pdf | Page: page 1"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision between a passenger train and a fallen tree at Broughty Ferry | Report No: 13/2024 | Event Date: 27/12/2023 | Recommendation No: 13/2024/03 | Recommendation Status: Closed - I | RAIB Concern: White | End Implementer/s: RSSB | Recommendation status report: https://assets.publishing.service.gov.uk/media/67f3ab3130feae0e082ab889/13_2024_Broughty_Ferry.pdf | Page: page 2"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision between on-track machines near to Strood, Kent | Report No: 11/2024 | Event Date: 16/11/2023 | Recommendation No: 11/2024/01 | Recommendation Status: Closed - I | RAIB Concern: None | End Implementer/s: Network Rail High Speed | Recommendation status report: https://assets.publishing.service.gov.uk/media/67f3aa956852ad6032f5bf9c/11_2024_Strood.pdf | Page: page 2"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision between on-track machines near to Strood, Kent | Report No: 11/2024 | Event Date: 16/11/2023 | Recommendation No: 11/2024/02 | Recommendation Status: Closed - I | RAIB Concern: None | End Implementer/s: Network Rail High Speed | Recommendation status report: https://assets.publishing.service.gov.uk/media/67f3aa956852ad6032f5bf9c/11_2024_Strood.pdf | Page: page 2"
+            },
+            {
+              "type": "paragraph",
+              "content": "Index of RAIB recommendations, pages 1 to 4"
+            }
+          ]
+        },
+        {
+          "report": "01/2024",
+          "expected_rows": 4,
+          "found_rows": 4,
+          "complete": true,
+          "missing": [],
+          "wrong": [],
+          "question": "Which recommendations did RAIB report 01/2024 make, who must act on each and what is its status?",
+          "results": [
+            {
+              "type": "table_row",
+              "content": "Train striking debris at Yarnton near Hanborough, Oxfordshire | Report No: 01/2024 | Event Date: 10/02/2023 | Recommendation No: 01/2024/01 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: Network Rail | Recommendation status report: https://assets.publishing.service.gov.uk/media/65f324399d99de001103df3a/01_2024_Yarton.pdf | Page: page 2"
+            },
+            {
+              "type": "table_row",
+              "content": "Train striking debris at Yarnton near Hanborough, Oxfordshire | Report No: 01/2024 | Event Date: 10/02/2023 | Recommendation No: 01/2024/02 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: Network Rail | Recommendation status report: https://assets.publishing.service.gov.uk/media/65f324399d99de001103df3a/01_2024_Yarton.pdf | Page: page 2"
+            },
+            {
+              "type": "table_row",
+              "content": "Train striking debris at Yarnton near Hanborough, Oxfordshire | Report No: 01/2024 | Event Date: 10/02/2023 | Recommendation No: 01/2024/03 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: Network Rail | Recommendation status report: https://assets.publishing.service.gov.uk/media/65f324399d99de001103df3a/01_2024_Yarton.pdf | Page: page 2"
+            },
+            {
+              "type": "table_row",
+              "content": "Train striking debris at Yarnton near Hanborough, Oxfordshire | Report No: 01/2024 | Event Date: 10/02/2023 | Recommendation No: 01/2024/04 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: Network Rail | Recommendation status report: https://assets.publishing.service.gov.uk/media/65f324399d99de001103df3a/01_2024_Yarton.pdf | Page: page 3"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision between on-track machines near to Strood, Kent | Report No: 11/2024 | Event Date: 16/11/2023 | Recommendation No: 11/2024/01 | Recommendation Status: Closed - I | RAIB Concern: None | End Implementer/s: Network Rail High Speed | Recommendation status report: https://assets.publishing.service.gov.uk/media/67f3aa956852ad6032f5bf9c/11_2024_Strood.pdf | Page: page 2"
+            },
+            {
+              "type": "paragraph",
+              "content": "Index of RAIB recommendations, pages 1 to 4"
+            }
+          ]
+        },
+        {
+          "report": "14/2023",
+          "expected_rows": 3,
+          "found_rows": 3,
+          "complete": true,
+          "missing": [],
+          "wrong": [],
+          "question": "Which recommendations did RAIB report 14/2023 make, who must act on each and what is its status?",
+          "results": [
+            {
+              "type": "table_row",
+              "content": "Freight train derailment at London Gateway, Essex | Report No: 14/2023 | Event Date: 24/12/2021 | Recommendation No: 14/2023/01 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: VTG | Recommendation status report: https://assets.publishing.service.gov.uk/media/65f323e8fa1851001a011781/14_2023_London_Gateway.pdf | Page: page 3"
+            },
+            {
+              "type": "table_row",
+              "content": "Freight train derailment at London Gateway, Essex | Report No: 14/2023 | Event Date: 24/12/2021 | Recommendation No: 14/2023/02 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: GB Railfreight | Recommendation status report: https://assets.publishing.service.gov.uk/media/65f323e8fa1851001a011781/14_2023_London_Gateway.pdf | Page: page 3"
+            },
+            {
+              "type": "table_row",
+              "content": "Freight train derailment at London Gateway, Essex | Report No: 14/2023 | Event Date: 24/12/2021 | Recommendation No: 14/2023/03 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: RSSB | Recommendation status report: https://assets.publishing.service.gov.uk/media/65f323e8fa1851001a011781/14_2023_London_Gateway.pdf | Page: page 3"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision between on-track machines near to Strood, Kent | Report No: 11/2024 | Event Date: 16/11/2023 | Recommendation No: 11/2024/01 | Recommendation Status: Closed - I | RAIB Concern: None | End Implementer/s: Network Rail High Speed | Recommendation status report: https://assets.publishing.service.gov.uk/media/67f3aa956852ad6032f5bf9c/11_2024_Strood.pdf | Page: page 2"
+            },
+            {
+              "type": "table_row",
+              "content": "Collision between on-track machines near to Strood, Kent | Report No: 11/2024 | Event Date: 16/11/2023 | Recommendation No: 11/2024/02 | Recommendation Status: Closed - I | RAIB Concern: None | End Implementer/s: Network Rail High Speed | Recommendation status report: https://assets.publishing.service.gov.uk/media/67f3aa956852ad6032f5bf9c/11_2024_Strood.pdf | Page: page 2"
+            },
+            {
+              "type": "paragraph",
+              "content": "Index of RAIB recommendations, pages 1 to 4"
+            }
+          ]
+        },
+        {
+          "report": "07/2023",
+          "expected_rows": 3,
+          "found_rows": 3,
+          "complete": true,
+          "missing": [],
+          "wrong": [],
+          "question": "Who must implement RAIB recommendation 07/2023/04 and what is its status?",
+          "results": [
+            {
+              "type": "paragraph",
+              "content": "Index of RAIB recommendations, pages 1 to 4"
+            },
+            {
+              "type": "table_row",
+              "content": "Embankment washout under a passenger train at Haddiscoe | Report No: 07/2023 | Event Date: 30/01/2022 | Recommendation No: 07/2023/04 | Recommendation Status: Awaiting | RAIB Concern: Response None | End Implementer/s: Environment Agency | Recommendation status report: https://assets.publishing.service.gov.uk/media/6502cc4c702634001389b826/07_2023_Haddiscoe.pdf | Page: page 3"
+            },
+            {
+              "type": "table_row",
+              "content": "Embankment washout under a passenger train at Haddiscoe | Report No: 07/2023 | Event Date: 30/01/2022 | Recommendation No: 07/2023/04 | Recommendation Status: Awaiting | RAIB Concern: Response None | End Implementer/s: Natural Resources Wales | Recommendation status report: https://assets.publishing.service.gov.uk/media/6502cc4c702634001389b826/07_2023_Haddiscoe.pdf | Page: page 3"
+            },
+            {
+              "type": "table_row",
+              "content": "Embankment washout under a passenger train at Haddiscoe | Report No: 07/2023 | Event Date: 30/01/2022 | Recommendation No: 07/2023/04 | Recommendation Status: Awaiting Response | RAIB Concern: None | End Implementer/s: Network Rail | Recommendation status report: https://assets.publishing.service.gov.uk/media/6502cc4c702634001389b826/07_2023_Haddiscoe.pdf | Page: page 4"
+            },
+            {
+              "type": "table_row",
+              "content": "Pedestrian struck by a train at Bourneview footpath crossing, London Borough of Croydon | Report No: 08/2025 | Event Date: 23/01/2025 08/2025/01 | Recommendation No: Awaiting Response None | Recommendation Status: Departrment for Education and Skills | RAIB Concern: https://assets.publishing.service.gov.uk/media/698c6dd0547c54ae7c023630/08_2025_Bourneview.pdf | Page: page 1"
+            },
+            {
+              "type": "table_row",
+              "content": "Track damage between Pencoed and Llanharan, South Wales | Report No: 03/2023 | Event Date: 06/03/2021 | Recommendation No: 03/2023/01 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: Network Rail | Recommendation status report: https://assets.publishing.service.gov.uk/media/6409c77ae90e076cd09acd29/03_2023_Pencoed-Llanharan.pdf | Page: page 4"
+            }
+          ]
+        },
+        {
+          "report": "99/1999",
+          "expected_rows": 0,
+          "found_rows": 0,
+          "complete": true,
+          "missing": [],
+          "wrong": [],
+          "question": "Which recommendations did RAIB report 99/1999 make?",
+          "results": [
+            {
+              "type": "table_row",
+              "content": "Derailment of a freight train at Audenshaw, Greater Manchester | Report No: 10/2025 | Event Date: 06/09/2024 10/2025/01 | Recommendation No: Awaiting Response None | Recommendation Status: Network Rail | RAIB Concern: https://assets.publishing.service.gov.uk/media/698c6e58547c54ae7c023633/10_2025_Audenshaw.pdf | Page: page 1"
+            },
+            {
+              "type": "table_row",
+              "content": "Buffer stop collision at London Bridge station | Report No: 09/2025 | Event Date: 13/12/2024 09/2025/02 | Recommendation No: Awaiting Response None | Recommendation Status: RSSB | RAIB Concern: https://assets.publishing.service.gov.uk/media/698c6e162f683cc788c28764/09_2025_London_Bridge_Station.pdf | Page: page 1"
+            },
+            {
+              "type": "table_row",
+              "content": "Freight train derailment at Petteril Bridge Junction | Report No: 10/2023 | Event Date: 19/10/2022 | Recommendation No: 10/2023/02 | Recommendation Status: Closed - I | RAIB Concern: None | End Implementer/s: RSSB | Recommendation status report: https://assets.publishing.service.gov.uk/media/65f32251fa1851001a01177c/10_2023_Pettril_Bridge.pdf | Page: page 3"
+            },
+            {
+              "type": "table_row",
+              "content": "Freight train derailment at Petteril Bridge Junction | Report No: 10/2023 | Event Date: 19/10/2022 | Recommendation No: 10/2023/03 | Recommendation Status: Closed - I | RAIB Concern: Blue | End Implementer/s: Freight Operating Companies | Recommendation status report: https://assets.publishing.service.gov.uk/media/65f32251fa1851001a01177c/10_2023_Pettril_Bridge.pdf | Page: page 3"
+            },
+            {
+              "type": "table_row",
+              "content": "Near miss with two track workers at Penkridge, Staffordshire | Report No: 09/2023 | Event Date: 10/07/2022 | Recommendation No: 09/2023/01 | Recommendation Status: Open | RAIB Concern: None | End Implementer/s: Network Rail | Recommendation status report: https://assets.publishing.service.gov.uk/media/6502ce6b5b07380013029e7e/09_2023_Penkridge.pdf | Page: page 3"
+            },
+            {
+              "type": "paragraph",
+              "content": "Index of RAIB recommendations, pages 1 to 4"
+            }
+          ]
+        }
+      ]
+    }
+  }
+}
