@@ -8,6 +8,10 @@ On a public UK rail safety document, standard PDF table extraction loses the fir
 
 ![What TalkingDB returns](images/talkingdb-answer.png)
 
+It is not only the lost rows. Every row that survives standard extraction carries wrong or merged column names: on pages 2 to 4 the lost row becomes the column names for the 111 rows below it, and on page 1 eight printed columns come out as six. The page break fix gives pages 2 to 4 their printed column names back; page 1 stays merged (limit 3).
+
+![The rows that survive get the wrong labels](images/wrong-column-names.png)
+
 ## The result
 
 Five lookups on pages 1 to 4 of the index, 13 expected rows ([cases](cases/raib-lookups.json), [full results](results/results.json)).

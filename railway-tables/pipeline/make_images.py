@@ -16,7 +16,7 @@ from score import cells_of, identity  # noqa: E402
 ROOT = Path(__file__).resolve().parent.parent
 PDF = ROOT / "documents/raib-recommendations-index.pdf"
 OUT = ROOT / "images"
-GREEN, RED = (0.05, 0.55, 0.3), (0.85, 0.1, 0.1)
+GREEN, RED, AMBER = (0.05, 0.55, 0.3), (0.85, 0.1, 0.1), (0.85, 0.5, 0.0)
 X0, X1 = 362, 760  # from "Report No" to the end of "End Implementer/s"
 
 CSS = """
@@ -25,6 +25,7 @@ h1 { font-size: 22pt; margin: 0 0 6pt 0; }
 p { font-size: 12pt; line-height: 1.35; margin: 0 0 8pt 0; }
 .kept { color: #0d8c4d; font-weight: bold; font-size: 11pt; margin: 6pt 0 2pt 0; }
 .lost { color: #d91a1a; font-weight: bold; font-size: 11pt; margin: 6pt 0 2pt 0; }
+.amber { color: #c26a00; font-weight: bold; font-size: 11pt; margin: 6pt 0 2pt 0; }
 .case { font-size: 13pt; font-weight: bold; margin: 14pt 0 0 0; }
 .note { font-size: 10pt; color: #57606a; }
 table { border-collapse: collapse; margin: 4pt 0 6pt 0; }
@@ -130,7 +131,59 @@ an invented report; nothing for it comes back. No language model is used.</p>"""
     render(html, "talkingdb-answer", 420)
 
 
+def column_names():
+    """The rows that survive: what the extractor labels them with."""
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from join_pages import grid
+
+    ext = json.loads(
+        (ROOT / "results/extraction-raib-pages-1-4.json").read_text(encoding="utf-8")
+    )
+    tables = [grid(t) for t in ext["tables"]]
+    below = {
+        t["pages"][0]: sum(not m for _, m in g) for t, g in zip(ext["tables"], tables)
+    }
+    (h1, _), (r1, _) = tables[0][0], tables[0][1]
+    (h2, m2), (r2, _) = tables[1][0], tables[1][1]
+    assert m2 and below[1] == 35 and below[2] + below[3] + below[4] == 111, below
+    # every page 1 row merges date with recommendation number and status with concern
+    assert all(
+        any("/" in c and len(c.split()) == 2 for c in r[2:3])
+        for r, m in tables[0]
+        if not m
+    )
+    src = pymupdf.open(PDF)
+    p2 = crop(src, 2, 55, 74, RED, "_p2head.png")
+    p2b = crop(src, 2, 75, 93, AMBER, "_p2next.png")
+    p1 = crop(src, 1, 108, 128, AMBER, "_p1row.png")
+    cells = lambda hs, rs: (
+        "<tr>"
+        + "".join(f"<th>{h}</th>" for h in hs)
+        + "</tr><tr>"
+        + "".join(f"<td>{c}</td>" for c in rs)
+        + "</tr>"
+    )
+    html = f"""<h1>The rows that survive get the wrong labels</h1>
+<p>It is not only the lost rows. The extractor also names the columns of every page, and those names are wrong.</p>
+<p class="case">Pages 2 to 4: the lost row becomes the column names</p>
+<p class="lost">Top of page 2, read as column names</p><img src="{p2}" width="584"/>
+<p class="amber">The next row, labelled by it</p><img src="{p2b}" width="584"/>
+<p class="note">What the extracted table says for that row:</p>
+<table>{cells(h2[1:7], r2[1:7])}</table>
+<p>The column called "RSSB" now holds South Western Railway. This happens to all {below[2] + below[3] + below[4]} rows below the lost rows on pages 2 to 4.</p>
+<p class="case">Page 1: eight printed columns come out as six</p>
+<img src="{p1}" width="584"/>
+<table>{cells(h1[1:5], r1[1:5])}</table>
+<p>Date and recommendation number share one cell, and so do status and concern, in all {below[1]} rows on page 1.</p>
+<p class="big" style="margin-top:12pt">So all {below[1] + below[2] + below[3] + below[4]} rows that survive carry wrong or merged column names.</p>
+<p class="note">The TalkingDB page break fix gives pages 2 to 4 the eight printed column names back. Page 1's merged columns remain; we list that as a limit.</p>"""
+    render(html, "wrong-column-names", 640)
+    for f in OUT.glob("_*.png"):
+        f.unlink()
+
+
 if __name__ == "__main__":
     lost_rows()
     answer()
+    column_names()
     print("images written:", sorted(p.name for p in OUT.glob("*.png")))
