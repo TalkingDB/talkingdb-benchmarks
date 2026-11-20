@@ -1,0 +1,9 @@
+agent-src/
+.index/
+.env
+.venv-rag/
+results/*-partial/
+*.part
+# kept on Hugging Face (DATA.txt), fetched by fetch_data.py
+documents/*.pdf
+cases/questions.json

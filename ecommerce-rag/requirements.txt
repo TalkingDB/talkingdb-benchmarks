@@ -1,0 +1,16 @@
+# The pipeline's own dependencies, at the versions that built the published index (277 chunks).
+# A different pypdf or text splitter can cut the documents differently.
+langchain-core==1.8.1
+langchain-openai==1.8.0
+langchain-ollama==1.1.0
+langchain-text-splitters==1.1.3
+langchain-qdrant==1.1.0
+qdrant-client==1.20.0
+openai==2.48.0
+tiktoken==0.14.0
+pypdf==7.0.1
+python-dotenv==1.0.1
+pydantic==2.13.4
+numpy==2.5.4
+httpx==0.28.1
+portalocker==4.4.2

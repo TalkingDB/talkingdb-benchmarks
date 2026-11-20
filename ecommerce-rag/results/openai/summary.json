@@ -1,0 +1,58 @@
+{
+  "runs": 3,
+  "questions_scored": 64,
+  "questions_answer_not_in_documents": 6,
+  "metrics": {
+    "All primary evidence in top 20": {
+      "mean": 0.625,
+      "min": 0.625,
+      "max": 0.625
+    },
+    "Primary recall in top 20": {
+      "mean": 0.727,
+      "min": 0.727,
+      "max": 0.727
+    },
+    "All primary evidence in top 4 (headline)": {
+      "mean": 0.318,
+      "min": 0.312,
+      "max": 0.328
+    },
+    "Primary recall in top 4": {
+      "mean": 0.484,
+      "min": 0.477,
+      "max": 0.5
+    },
+    "All primary in top 4 by vector order alone": {
+      "mean": 0.271,
+      "min": 0.266,
+      "max": 0.281
+    },
+    "Evidence recall in top 4, capped at 4": {
+      "mean": 0.403,
+      "min": 0.398,
+      "max": 0.411
+    },
+    "Top 4 passages that are evidence": {
+      "mean": 0.347,
+      "min": 0.342,
+      "max": 0.354
+    },
+    "Mean reciprocal rank of first primary passage": {
+      "mean": 0.489,
+      "min": 0.474,
+      "max": 0.516
+    }
+  },
+  "top20_verdicts": {
+    "FAIL": 11,
+    "N/A": 6,
+    "PARTIAL": 13,
+    "PASS": 40
+  },
+  "top4_verdicts": {
+    "FAIL": 43,
+    "PASS": 24,
+    "RISK": 3
+  }
+}
