@@ -1,0 +1,44 @@
+[
+  {
+    "id": "ORR-01",
+    "group": "distant evidence",
+    "question": "What was the quarterly passenger journey total, and which table in the data index lists passenger journeys by operator?",
+    "evidence_pages": [[1, 3], [22]],
+    "expected_answer": "466 million journeys. Table 1223 lists quarterly passenger journeys by operator."
+  },
+  {
+    "id": "ORR-02",
+    "group": "distant evidence",
+    "question": "How many passenger journeys were reported in the latest quarter, and how does Annex 1 count a trip involving a change of train?",
+    "evidence_pages": [[1, 3], [15]],
+    "expected_answer": "466 million journeys. Each train used is counted as a separate journey."
+  },
+  {
+    "id": "ORR-03",
+    "group": "distant evidence",
+    "question": "Why was the Other ticket type omitted from the revenue chart, and which table in the data index supplies those values?",
+    "evidence_pages": [[12], [22]],
+    "expected_answer": "The category includes refunds and miscellaneous items that can lead to negative values. The quarterly ticket type revenue series is Table 1212."
+  },
+  {
+    "id": "ORR-04",
+    "group": "distant evidence",
+    "question": "For Table 1233, why did the operator figures change in July to September 2025 and what does the data index say that series measures?",
+    "evidence_pages": [[20], [22]],
+    "expected_answer": "Govia Thameslink Railway supplied revised figures. Table 1233 tracks quarterly passenger kilometres by operator."
+  },
+  {
+    "id": "ORR-05",
+    "group": "ordinary control",
+    "question": "What was the total distance travelled by passengers in the latest quarter and the change from the comparable prior year quarter?",
+    "evidence_pages": [[1, 6]],
+    "expected_answer": "16.7 billion passenger kilometres, up 3% from 16.2 billion."
+  },
+  {
+    "id": "ORR-06",
+    "group": "ordinary control",
+    "question": "Which billing system supplied the actual passenger train and vehicle kilometre data and who provided the data?",
+    "evidence_pages": [[19]],
+    "expected_answer": "The Track Access Billing System (TABS). Network Rail provided the data."
+  }
+]
