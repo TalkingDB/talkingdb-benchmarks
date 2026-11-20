@@ -1,0 +1,56 @@
+{
+  "23.228": {
+    "version": "18.6.0",
+    "url": "https://www.etsi.org/deliver/etsi_ts/123200_123299/123228/18.06.00_60/ts_123228v180600p.pdf",
+    "sha256": "24c2bdefc46146dcc0e6a5f6b53b1acd75f4c1decbf680451660f21c5f7b243f",
+    "summary": "IMS architecture, voice and multimedia sessions, SIP identities, application servers, bearer services and media resource allocation"
+  },
+  "23.501": {
+    "version": "18.7.0",
+    "url": "https://www.etsi.org/deliver/etsi_ts/123500_123599/123501/18.07.00_60/ts_123501v180700p.pdf",
+    "sha256": "1d3aa4e25e2db98542c2984465024e792af56383f1b5302598006ebe030a30d7",
+    "summary": "5G core architecture, network functions, application traffic steering, registration, mobility, device identity and subscriber identity"
+  },
+  "24.501": {
+    "version": "18.8.0",
+    "url": "https://www.etsi.org/deliver/etsi_ts/124500_124599/124501/18.08.00_60/ts_124501v180800p.pdf",
+    "sha256": "96fd72f43f235e61eca1cf0aa8f7f386196730268f6a63ded17fb530a316399f",
+    "summary": "Non Access Stratum signalling, registration, residential gateway provisioning, multicast service keys and NAS integrity protection"
+  },
+  "32.255": {
+    "version": "16.5.0",
+    "url": "https://www.etsi.org/deliver/etsi_ts/132200_132299/132255/16.05.00_60/ts_132255v160500p.pdf",
+    "sha256": "65b9413fd76c7ea2e55590e83f2ac5b0c77ed1f53aa6f39bfaa438d4dc99b399",
+    "summary": "5G charging architecture, charging records, charging events and metering"
+  },
+  "33.310": {
+    "version": "18.4.0",
+    "url": "https://www.etsi.org/deliver/etsi_ts/133300_133399/133310/18.04.00_60/ts_133310v180400p.pdf",
+    "sha256": "3513c428ed81bb3d602f18c2988f1a87a10ff7b3ecd40ea7f6ecd4deb588c392",
+    "summary": "Network domain security, public key infrastructure, TLS peer certificates, trust and certificate enrolment"
+  },
+  "33.501": {
+    "version": "18.11.0",
+    "url": "https://www.etsi.org/deliver/etsi_ts/133500_133599/133501/18.11.00_60/ts_133501v181100p.pdf",
+    "sha256": "753dad79397fd14864537692ec71156739544300ff42a3a4912c01224939b424",
+    "summary": "5G security architecture, AKA authentication tokens, authentication vectors, AUTN bits and EAP key material"
+  },
+  "38.321": {
+    "version": "18.4.0",
+    "url": "https://www.etsi.org/deliver/etsi_ts/138300_138399/138321/18.04.00_60/ts_138321v180400p.pdf",
+    "sha256": "69fb7044ab07f0de427e340aa74dc11b3d5efbe93e8fc9f85790e5dec21375ce",
+    "summary": "NR MAC protocol, radio scheduling, packet data units, uplink and downlink transmissions and coordinated radio endpoints"
+  },
+  "38.331": {
+    "version": "18.4.0",
+    "url": "https://www.etsi.org/deliver/etsi_ts/138300_138399/138331/18.04.00_60/ts_138331v180400p.pdf",
+    "sha256": "cd4938b944034c768e35144b4756f7f71dc2a0376ddacc51e0f108a353be15f1",
+    "summary": "NR RRC protocol, radio configuration, master and secondary cell groups, RRC logical channels, multicast radio bearers and idle paging"
+  },
+  "38.521-2": {
+    "version": "19.2.0",
+    "url": "https://www.etsi.org/deliver/etsi_ts/138500_138599/13852102/19.02.00_60/ts_13852102v190200p.pdf",
+    "sha256": "ad4db4c975a72577bee547112a5a1e17efd676d6614001a04f4bdaa67a608669",
+    "summary": "NR radio conformance, receiver interference, radio laboratory tests, component carriers, frequency numerology and over the air RF power"
+  }
+}
