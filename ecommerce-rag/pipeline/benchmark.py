@@ -60,18 +60,19 @@ def ensure_index(settings, reingest: bool) -> None:
         **{k: str(getattr(settings, k)) for k in ("embedding_id", "chunking_strategy", "chunk_size", "chunk_overlap")},
     }, sort_keys=True)
     stamp_file = INDEX_DIR / f"{settings.collection}.json"
-    if not reingest and count_points(settings) and (not stamp_file.exists() or stamp_file.read_text(encoding="utf-8") != stamp):
+    folder = INDEX_DIR / "collection" / settings.collection
+    # Decide from the files alone: opening the index here (count_points) would keep its SQLite
+    # file open, and on Windows the folder could then not be deleted.
+    if not reingest and folder.exists() and (not stamp_file.exists() or stamp_file.read_text(encoding="utf-8") != stamp):
         print("Documents or chunk settings changed since the index was built; rebuilding it.")
         reingest = True
-    if reingest:
+    if reingest and folder.exists():
         # Delete the collection's files before any Qdrant client opens them. Qdrant's local
         # delete leaves its SQLite file open and ignores the error, so on Windows the old
         # points survive and a rebuild adds every chunk a second time.
         import shutil
 
-        folder = INDEX_DIR / "collection" / settings.collection
-        if folder.exists():
-            shutil.rmtree(folder)
+        shutil.rmtree(folder)
     if reingest or count_points(settings) == 0:
         import ingest
 

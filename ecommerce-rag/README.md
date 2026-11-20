@@ -6,24 +6,49 @@ The documents and the questions are on Hugging Face: [TalkingDB/ecommerce-rag](h
 
 ## Run it
 
-Linux, WSL or Git Bash on Windows, with `git` and [uv](https://docs.astral.sh/uv/) (uv provides Python).
+You need a terminal with bash (Linux, macOS, WSL, or Git Bash on Windows), [git](https://git-scm.com/), [uv](https://docs.astral.sh/uv/) (it installs Python for you) and an OpenAI API key.
+
+**1. Get the code**
 
 ```bash
-git clone https://github.com/TalkingDB/talkingdb-benchmarks.git && cd talkingdb-benchmarks/ecommerce-rag
-bash setup.sh
-OPENAI_API_KEY=sk-... bash run.sh
+git clone https://github.com/TalkingDB/talkingdb-benchmarks.git
+cd talkingdb-benchmarks/ecommerce-rag
 ```
 
-`setup.sh` fetches the documents and questions from pinned dataset commits and checks them by SHA-256, checks out the bot's code at the commit in [AGENT_COMMIT.txt](AGENT_COMMIT.txt) and installs pinned dependencies. `run.sh` asks every question three times (about 20 minutes with the current set) and rewrites `results/openai/` and the result below.
+**2. Set up (once)**
+
+```bash
+bash setup.sh
+```
+
+This downloads the documents and questions from Hugging Face and checks each file's SHA-256, downloads the bot's code at the commit in [AGENT_COMMIT.txt](AGENT_COMMIT.txt), and installs its dependencies.
+
+**3. Run**
+
+```bash
+export OPENAI_API_KEY=sk-...
+bash run.sh
+```
+
+The first run builds the search index from the documents; later runs reuse it. Every question is asked three times, which takes about 20 minutes.
+
+**4. Read the result**
+
+The run ends by printing a report with every percentage. It also saves the report in `results/openai/report.md`, writes the other files in `results/openai/`, and updates [The result](#the-result) below. Rerunning overwrites these, so `git diff` shows what changed.
+
+**Options** for `bash run.sh`:
 
 | Option | What it does |
 | :--- | :--- |
-| `--runs 1`, `--only Q01,Q68` | A single run, or a few questions (written to `results/openai-partial/`, never over the published run) |
-| `--reingest` | Rebuild the index |
-| `--answers` | Also have the bot answer from the same top 4, and check each answer cites its evidence |
-| `--local` | Use Ollama (`bge-m3`, `qwen3.5:9b`) instead of OpenAI; results go to `results/local/` |
+| `--only Q01,Q68` | Run only these questions; results go to `results/openai-partial/`, so the published run is untouched |
+| `--runs 1` | Ask each question once instead of three times |
+| `--reingest` | Rebuild the search index, for example after the documents or the chunking change |
+| `--answers` | Also have the bot write its answer from the same top 4, and check the answer cites the evidence |
+| `--local` | Use local models through Ollama (`bge-m3`, `qwen3.5:9b`) instead of OpenAI; results go to `results/local/` |
 
-No API key? `python3 fetch_data.py && python3 pipeline/score.py` re-scores the saved run with plain Python.
+A quick test: `bash run.sh --runs 1 --only Q01`.
+
+**No API key?** You can still check the saved run without installing anything: `python fetch_data.py && python pipeline/score.py` downloads the questions, re-scores `results/openai/` and confirms it matches `summary.json`.
 
 ## How it works
 
