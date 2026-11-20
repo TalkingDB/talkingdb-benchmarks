@@ -1,21 +1,23 @@
 # TalkingDB Telecom Acronym Benchmark
 
-When one acronym has two valid meanings, can a system choose the right expansion and cite the specification that supports it? This pilot tests a glossary in the system prompt against lexical retrieval, dense retrieval and a prototype that selects definitions by acronym and document scope. It uses a small local model. The prototype score is evidence about this test setup only.
+When one acronym has two valid meanings, can a system choose the right expansion and cite the specification that supports it? This pilot compares a glossary in the system prompt with TalkingDB Text-to-Tree, lexical retrieval, dense retrieval and a scoped prototype. Every arm uses the same small answer model and fixed choices.
 
 ## Results
 
-The prompt glossary got one more grounded answer than the scoped prototype. The prototype used **59% fewer input tokens** on average. The quality difference is uncertain. Neither arm handled ambiguity reliably.
+**TalkingDB Text-to-Tree used 61% fewer input tokens** than the budgeted prompt glossary. It got 11 grounded answers and the glossary got 13. The quality difference is uncertain. Both guessed on 10 of 13 controls.
 
 | Arm | Grounded answers, out of 40 | Correct abstentions, out of 13 | Mean input tokens |
 | :--- | ---: | ---: | ---: |
 | No glossary | 0 | 3 | 139.9 |
 | Glossary in system prompt | **13** | 3 | 529.9 |
+| TalkingDB Text-to-Tree | 11 | 3 | **205.5** |
 | Full glossary | 12 | 3 | 629.1 |
 | BM25 | 11 | 3 | 218.0 |
 | BGE dense | 12 | 3 | 218.9 |
-| Scoped prototype | 12 | 3 | **217.4** |
+| Scoped prototype | 12 | 3 | 217.4 |
 
-- On the 20 named questions, the budgeted glossary and scoped prototype each got 7 right. On the 20 domain clue questions, the glossary got 6 and the prototype got 5. The prototype had 0 paired wins, 1 loss and 39 ties on the 40 answerable cases. Its family bootstrap interval relative to the glossary was −7.5 to 0 percentage points. This pilot provides no evidence of a quality advantage.
+- TTT found an accepted source among its top three elements in **38 of 40** answerable cases. The two misses were both named SCS questions. Against the glossary, TTT had 0 paired wins, 2 losses and 38 ties. Its family bootstrap interval relative to the glossary was −12.5 to 0 percentage points. [TTT summary](results/ttt/scored/summary.json) · [Raw TTT retrieval](results/ttt/rankings.json) · [TTT decisions](results/ttt/scored/per-case.jsonl)
+- On the 20 named questions, the budgeted glossary and scoped prototype each got 7 right. On the 20 domain clue questions, the glossary got 6 and the prototype got 5. The prototype had 0 paired wins, 1 loss and 39 ties. Its family bootstrap interval relative to the glossary was −7.5 to 0 percentage points.
 - BM25 and the scoped prototype each found an accepted citation in their first three rows for all 40 answerable cases. Even with that evidence available, the model frequently chose the wrong expansion or abstained. Each arm guessed on 10 of 13 controls. A grounded production answer would need a check that the cited row was actually supplied and applicable.
 - The [summary](results/evaluation/summary.json) includes the wrong expansions, citation errors, breakdown by case type, paired results and local timing. The [318 individual decisions](results/evaluation/per-case.jsonl) record the visible evidence and scored options. Timing includes selection and prompt construction. It excludes model loading and the up front BGE encoding. The local run made zero paid API calls.
 
@@ -37,6 +39,18 @@ python benchmark.py --dense-dir .cache/bge --threads 8 --out results/repeat
 
 Use a fresh output directory for each run. Omit `--dense-dir` to run the other arms. Use `--retrieval-only` for an evidence ranking check without the answer model. `--split development` selects the development families.
 
+## Run TalkingDB Text-to-Tree
+
+Use the [railway setup](../railway-tables/README.md) on Linux or WSL. The runner checks the five source checkouts against the [same pins](../railway-tables/TTT_COMMITS.txt). From `telecom-acronyms/`, rank the evidence with that environment, then score the answers using the pinned model set up above.
+
+```sh
+../railway-tables/.venv-ttt/bin/python ttt_rank.py \
+  --ttt-src ../railway-tables/ttt-src --out results/ttt-repeat/rankings.json
+python ttt_evaluate.py --rankings results/ttt-repeat/rankings.json --out results/ttt-repeat/scored
+```
+
+TTT indexes the same 42 verified abbreviation rows as nine separate tables. The benchmark uses the named specification to choose a graph when the question supplies it. Otherwise, TTT ranks over all nine graphs. It takes up to three evidence rows from TTT’s first three returned elements. The answer model and scorer are shared across the experiments. This measures the existing TalkingDB retrieval engine on prepared glossary rows. Whole PDF ingestion is outside this comparison.
+
 ## Cases and evidence
 
 - **80 cases across 15 acronym families.** There are 60 questions with answers and 20 controls. The evaluation has **53 cases in 10 families**. Of these, 20 name the specification, 20 give a domain clue, 10 lack enough context to disambiguate and 3 lack evidence in the named scope.
@@ -54,6 +68,7 @@ All arms receive the same question and shuffled expansion and citation options, 
 | Full glossary | The same glossary at its natural size, with the definitions grouped by specification. |
 | BM25 | The three highest ranked definition rows. BM25 searches the acronym, expansion and document scope summary. |
 | BGE dense | The three highest cosine matches over the same evidence pool. |
+| TalkingDB Text-to-Tree | Up to three definition rows from the first three results returned by the pinned TTT engine. |
 | Scoped prototype | An exact acronym filter followed by BM25 ranking. The named specification is a hard scope boundary. Without a named scope, competing senses stay eligible. |
 
 The budgeted arms have a 768 input token cap, including instructions, options and the glossary. Full glossary is the natural size control. All retrievers use named scope when the question provides it. For implicit queries, the retriever can use only the question and shared corpus metadata.
@@ -65,15 +80,16 @@ The budgeted arms have a 768 input token cap, including instructions, options an
 | Arm | Evidence and answer |
 | :--- | :--- |
 | Glossary in system prompt | Saw both definitions. Selected **Authentication Management Field** and cited E10. Correct. |
+| TalkingDB Text-to-Tree | Returned both AMF definitions in TS 33.501. The model selected **Access and Mobility Management Function** and cited E09. Incorrect for AUTN. |
 | Scoped prototype | Ranked E10 first. Selected **Access and Mobility Management Function** and cited E06, which was absent from the supplied rows. Incorrect. |
 
-E10 is [TS 33.501 clause 3.2, printed page 27](https://www.etsi.org/deliver/etsi_ts/133500_133599/133501/18.11.00_60/ts_133501v181100p.pdf#page=28). E06 is [TS 23.501 clause 3.2, printed page 37](https://www.etsi.org/deliver/etsi_ts/123500_123599/123501/18.07.00_60/ts_123501v180700p.pdf#page=38). Here the model ignored the correct first ranked source.
+E09 and E10 are both in [TS 33.501 clause 3.2, printed page 27](https://www.etsi.org/deliver/etsi_ts/133500_133599/133501/18.11.00_60/ts_133501v181100p.pdf#page=28). E06 is in [TS 23.501 clause 3.2, printed page 37](https://www.etsi.org/deliver/etsi_ts/123500_123599/123501/18.07.00_60/ts_123501v180700p.pdf#page=38). For TTT and the prototype, the model had the correct source in view and picked the wrong meaning.
 
 ## Scoring and limits
 
 The primary metric is the count of correct expansions with a supporting citation, out of the 40 answerable evaluation questions. The cited row must have been shown to the model. We track correct abstentions and guesses separately. Evidence recall checks whether a correct citation is in the first three rows of the evidence ranking. The analysis compares paired results by acronym family and reports a bootstrap interval over the ten evaluation families. The working margin for a quality advantage is five percentage points with an interval above zero.
 
-We use the pinned [SmolLM2 360M Instruct](https://huggingface.co/HuggingFaceTB/SmolLM2-360M-Instruct/tree/a10cc1512eabd3dde888204e902eca88bddb4951) ONNX Q4 checkpoint on CPU. The same model and option rule apply to every arm. The runner records actual input tokens, local timing and the selected citation. The pilot uses authored questions and selected abbreviation rows. Development and evaluation families are disjoint, and the evaluation labels still need an independent domain review. Free form generation is outside the measured comparisons. The pinned TTT runtime could not load a native dependency in the evaluation environment. The run contains prototype results only for scoped retrieval.
+We use the pinned [SmolLM2 360M Instruct](https://huggingface.co/HuggingFaceTB/SmolLM2-360M-Instruct/tree/a10cc1512eabd3dde888204e902eca88bddb4951) ONNX Q4 checkpoint on CPU. The same model and option rule apply to every arm. The runner records actual input tokens, local timing and the selected citation. The pilot uses authored questions and selected abbreviation rows. Development and evaluation families are disjoint, and the evaluation labels still need an independent domain review. Free form generation is outside the measured comparisons.
 
 ## Connection to the paper
 

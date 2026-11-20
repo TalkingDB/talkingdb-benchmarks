@@ -194,9 +194,10 @@ class LocalModel:
         return max(scores, key=scores.get), scores
 
 
-def run_case(case, arm, entries, specs, bm25, model, dense_scores):
+def run_case(case, arm, entries, specs, bm25, model, dense_scores, *, ranking=None):
     start = time.perf_counter()
-    ranking = evidence_for(arm, case["question"], case["acronym"], entries, bm25, dense_scores)
+    if ranking is None:
+        ranking = evidence_for(arm, case["question"], case["acronym"], entries, bm25, dense_scores)
     gold = set(case["expected"].get("citations", []))
     result = {"id": case["id"], "family": case["acronym"], "kind": case["kind"], "arm": arm,
               "evidence_at_3": [row["id"] for row in ranking[:TOP_K]],

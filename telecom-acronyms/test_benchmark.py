@@ -9,6 +9,8 @@ from benchmark import (
     score_answer,
 )
 from sources import read_json
+from ttt_evaluate import checked_order
+from ttt_rank import INPUTS, runtime_pins
 
 
 class BenchmarkTests(unittest.TestCase):
@@ -72,6 +74,22 @@ class BenchmarkTests(unittest.TestCase):
         comparison = paired(rows, other)
         self.assertEqual((comparison["wins"], comparison["losses"], comparison["ties"]), (1, 1, 0))
         self.assertEqual(comparison["family_mean_delta"], 0)
+
+    def test_ttt_ranking_is_rejected_for_wrong_specification(self):
+        from benchmark import dataset_hash
+        from sources import ROOT
+
+        case = next(c for c in self.evaluation if c["id"] == "CA-01")
+        valid_id = case["expected"]["citations"][0]
+        wrong_id = next(row["id"] for row in self.entries if row["acronym"] == "CA" and row["spec"] == "33.310")
+        item = {"evidence_ids": [valid_id], "elements": [{"evidence_ids": [valid_id]}], "retrieval_seconds": 0.1}
+        report = {"dataset_hashes": {path: dataset_hash(ROOT / path) for path in INPUTS},
+                  "commits": runtime_pins(), "k": 3, "rankings": {case["id"]: item}}
+        self.assertEqual(checked_order(report, [case], self.rows), report["dataset_hashes"])
+        item["evidence_ids"] = [wrong_id]
+        item["elements"] = [{"evidence_ids": [wrong_id]}]
+        with self.assertRaisesRegex(ValueError, "document scope"):
+            checked_order(report, [case], self.rows)
 
 
 if __name__ == "__main__":
