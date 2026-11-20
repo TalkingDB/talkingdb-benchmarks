@@ -53,7 +53,7 @@ In 24 of the 64 questions, search never puts a primary piece of evidence in the 
 Per question, with each stage's verdict and the passages returned: [per_question.csv](results/openai/per_question.csv). Every metric, mean and range over the runs: [summary.json](results/openai/summary.json).
 <!-- result:end -->
 
-To read the questions and their evidence with the text of every passage, open [questions-with-chunks.xlsx](results/openai/questions-with-chunks.xlsx). Its top 20, top 4 and verdict columns are from an earlier run (top 4: 33.3%); for this run, use [per_question.csv](results/openai/per_question.csv).
+To read the questions and their evidence, open [questions-with-chunks.xlsx](results/openai/questions-with-chunks.xlsx): it lists the chunk labels for each stage, and the text of every chunk is in its Chunks tab. Its top 20, top 4 and verdict columns are from an earlier run (top 4: 33.3%); for this run, use [per_question.csv](results/openai/per_question.csv).
 
 ## Scoring
 
