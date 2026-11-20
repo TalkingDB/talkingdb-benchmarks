@@ -16,7 +16,7 @@ bash run.sh your.pdf "your question" --row-id "REQ-\d+"
 
 `--row-id` says what a row ID looks like in your table ([examples](#try-it-on-your-own-documents)). You get the matching rows, each with its page. To rerun our result instead, type `bash run.sh` ([what it checks](#the-result)).
 
-More detail: [how it works](#how-it-works), [where rows go missing](#where-rows-go-missing), [the result](#the-result), [the documents](#the-documents), [limits](#limits-plainly).
+More detail: [how it works](#how-it-works), [where rows go missing](#where-rows-go-missing), [the result](#the-result), [the questions and expected answers](#questions-and-expected-answers), [the documents](#the-documents), [limits](#limits-plainly).
 
 ## How it works
 
@@ -26,14 +26,6 @@ More detail: [how it works](#how-it-works), [where rows go missing](#where-rows-
 2. **Fix the page breaks.** The extractor marks the first row of each new page as column names. A row that holds a row ID, here a recommendation number such as `13/2024/03`, is kept as data whatever that mark says, and a table on the next page joins the one before it when its first row is data ([join_pages.py](pipeline/join_pages.py)).
 3. **Index and ask.** TalkingDB TTT indexes every row with its column names and the page it came from, then answers five plain English questions, such as "Which recommendations did RAIB report 13/2024 make, who must act on each and what is its status?" ([ask.py](pipeline/ask.py)).
 4. **Score exactly.** A row counts only with the exact recommendation number, the right organisation that must act and the right page. One lookup asks about a report that does not exist; any row returned for it fails. Only the results that fit in 300 words count. No language model writes or judges anything ([score.py](pipeline/score.py)).
-
-| Lookup | Expected rows (recommendation, who must act, page) |
-| :--- | :--- |
-| Report 13/2024 | /01 Network Rail p1; /02 Dundee City Council p1; /03 RSSB p2 |
-| Report 01/2024 | /01, /02, /03 Network Rail p2; /04 Network Rail p3 |
-| Report 14/2023 | /01 VTG p3; /02 GB Railfreight p3; /03 RSSB p3 |
-| Recommendation 07/2023/04 | Environment Agency p3; Natural Resources Wales p3; Network Rail p4 |
-| Report 99/1999, invented | Nothing |
 
 ## Where rows go missing
 
@@ -55,6 +47,31 @@ Five lookups on pages 1 to 4 of the index, 13 expected rows ([cases](cases/raib-
 Same search in both rows. The only difference is the page break fix, so the three missing rows are lost at extraction, before any search runs. For example, "Which recommendations did RAIB report 13/2024 make, who must act on each and what is its status?" gets 2 of its 3 rows without the fix and all 3 with it (picture at the top).
 
 ![What TalkingDB returns](images/talkingdb-answer.png)
+
+## Questions and expected answers
+
+These are the exact questions TTT gets, and what a complete answer must contain ([RAIB cases](cases/raib-lookups.json), [ORR questions](cases/orr-questions.json)). A row counts only with the exact recommendation number, the organisation that must act and the page. Each returned row also carries its status, but status is not scored.
+
+**Long tables, [RAIB index](documents/raib-recommendations-index.pdf), pages 1 to 4.** These five give the result above.
+
+| Question | Expected rows |
+| :--- | :--- |
+| Which recommendations did RAIB report 13/2024 make, who must act on each and what is its status? | 13/2024/01 Network Rail, page 1; 13/2024/02 Dundee City Council, page 1; 13/2024/03 RSSB, page 2 |
+| Which recommendations did RAIB report 01/2024 make, who must act on each and what is its status? | 01/2024/01 Network Rail, page 2; 01/2024/02 Network Rail, page 2; 01/2024/03 Network Rail, page 2; 01/2024/04 Network Rail, page 3 |
+| Which recommendations did RAIB report 14/2023 make, who must act on each and what is its status? | 14/2023/01 VTG, page 3; 14/2023/02 GB Railfreight, page 3; 14/2023/03 RSSB, page 3 |
+| Who must implement RAIB recommendation 07/2023/04 and what is its status? | 07/2023/04 Environment Agency, page 3; 07/2023/04 Natural Resources Wales, page 3; 07/2023/04 Network Rail, page 4 |
+| Which recommendations did RAIB report 99/1999 make? | Nothing. Any row returned for this report fails |
+
+**Distant evidence, [ORR report](documents/orr-passenger-rail-usage-oct-dec-2025.pdf).** Included for the next release; their runner is not here yet ([limit 5](#limits-plainly)).
+
+| Question | Expected answer | Pages that prove it |
+| :--- | :--- | :--- |
+| What was the quarterly passenger journey total, and which table in the data index lists passenger journeys by operator? | 466 million journeys. Table 1223 lists quarterly passenger journeys by operator. | [1](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=1) or [3](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=3) and [22](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=22) |
+| How many passenger journeys were reported in the latest quarter, and how does Annex 1 count a trip involving a change of train? | 466 million journeys. Each train used is counted as a separate journey. | [1](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=1) or [3](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=3) and [15](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=15) |
+| Why was the Other ticket type omitted from the revenue chart, and which table in the data index supplies those values? | The category includes refunds and miscellaneous items that can lead to negative values. The quarterly ticket type revenue series is Table 1212. | [12](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=12) and [22](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=22) |
+| For Table 1233, why did the operator figures change in July to September 2025 and what does the data index say that series measures? | Govia Thameslink Railway supplied revised figures. Table 1233 tracks quarterly passenger kilometres by operator. | [20](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=20) and [22](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=22) |
+| What was the total distance travelled by passengers in the latest quarter and the change from the comparable prior year quarter? | 16.7 billion passenger kilometres, up 3% from 16.2 billion. | [1](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=1) or [6](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=6) |
+| Which billing system supplied the actual passenger train and vehicle kilometre data and who provided the data? | The Track Access Billing System (TABS). Network Rail provided the data. | [19](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=19) |
 
 ## The documents
 
