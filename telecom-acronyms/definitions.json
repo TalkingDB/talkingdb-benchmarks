@@ -1,0 +1,380 @@
+[
+  {
+    "id": "E01",
+    "acronym": "ACS",
+    "spec": "24.501",
+    "clause": "3.2",
+    "pdf_page": 45,
+    "printed_page": 44,
+    "expansion": "Auto-Configuration Server"
+  },
+  {
+    "id": "E02",
+    "acronym": "ACS",
+    "spec": "38.521-2",
+    "clause": "3.3",
+    "pdf_page": 24,
+    "printed_page": 23,
+    "expansion": "Adjacent Channel Selectivity"
+  },
+  {
+    "id": "E03",
+    "acronym": "AF",
+    "spec": "23.501",
+    "clause": "3.2",
+    "pdf_page": 38,
+    "printed_page": 37,
+    "expansion": "Application Function"
+  },
+  {
+    "id": "E04",
+    "acronym": "AF",
+    "spec": "32.255",
+    "clause": "3.3",
+    "pdf_page": 11,
+    "printed_page": 10,
+    "expansion": "Application Function"
+  },
+  {
+    "id": "E05",
+    "acronym": "AF",
+    "spec": "33.310",
+    "clause": "3.2",
+    "pdf_page": 13,
+    "printed_page": 12,
+    "expansion": "Authentication Framework"
+  },
+  {
+    "id": "E06",
+    "acronym": "AMF",
+    "spec": "23.501",
+    "clause": "3.2",
+    "pdf_page": 38,
+    "printed_page": 37,
+    "expansion": "Access and Mobility Management Function"
+  },
+  {
+    "id": "E07",
+    "acronym": "AMF",
+    "spec": "24.501",
+    "clause": "3.2",
+    "pdf_page": 45,
+    "printed_page": 44,
+    "expansion": "Access and Mobility Management Function"
+  },
+  {
+    "id": "E08",
+    "acronym": "AMF",
+    "spec": "32.255",
+    "clause": "3.3",
+    "pdf_page": 11,
+    "printed_page": 10,
+    "expansion": "Access and Mobility Management Function"
+  },
+  {
+    "id": "E09",
+    "acronym": "AMF",
+    "spec": "33.501",
+    "clause": "3.2",
+    "pdf_page": 28,
+    "printed_page": 27,
+    "expansion": "Access and Mobility Management Function"
+  },
+  {
+    "id": "E10",
+    "acronym": "AMF",
+    "spec": "33.501",
+    "clause": "3.2",
+    "pdf_page": 28,
+    "printed_page": 27,
+    "expansion": "Authentication Management Field"
+  },
+  {
+    "id": "E11",
+    "acronym": "AS",
+    "spec": "23.228",
+    "clause": "3.3",
+    "pdf_page": 26,
+    "printed_page": 25,
+    "expansion": "Application Server"
+  },
+  {
+    "id": "E12",
+    "acronym": "AS",
+    "spec": "23.501",
+    "clause": "3.2",
+    "pdf_page": 38,
+    "printed_page": 37,
+    "expansion": "Access Stratum"
+  },
+  {
+    "id": "E13",
+    "acronym": "AS",
+    "spec": "24.501",
+    "clause": "3.2",
+    "pdf_page": 45,
+    "printed_page": 44,
+    "expansion": "Access stratum"
+  },
+  {
+    "id": "E14",
+    "acronym": "AS",
+    "spec": "38.331",
+    "clause": "3.2",
+    "pdf_page": 35,
+    "printed_page": 34,
+    "expansion": "Access Stratum"
+  },
+  {
+    "id": "E15",
+    "acronym": "BS",
+    "spec": "23.228",
+    "clause": "3.3",
+    "pdf_page": 26,
+    "printed_page": 25,
+    "expansion": "Bearer Service"
+  },
+  {
+    "id": "E16",
+    "acronym": "BS",
+    "spec": "38.521-2",
+    "clause": "3.3",
+    "pdf_page": 24,
+    "printed_page": 23,
+    "expansion": "Base Station"
+  },
+  {
+    "id": "E17",
+    "acronym": "CA",
+    "spec": "33.310",
+    "clause": "3.2",
+    "pdf_page": 13,
+    "printed_page": 12,
+    "expansion": "Certification Authority"
+  },
+  {
+    "id": "E18",
+    "acronym": "CA",
+    "spec": "38.331",
+    "clause": "3.2",
+    "pdf_page": 35,
+    "printed_page": 34,
+    "expansion": "Carrier Aggregation"
+  },
+  {
+    "id": "E19",
+    "acronym": "CA",
+    "spec": "38.521-2",
+    "clause": "3.3",
+    "pdf_page": 24,
+    "printed_page": 23,
+    "expansion": "Carrier Aggregation"
+  },
+  {
+    "id": "E20",
+    "acronym": "CDF",
+    "spec": "32.255",
+    "clause": "3.3",
+    "pdf_page": 11,
+    "printed_page": 10,
+    "expansion": "Charging Data Function"
+  },
+  {
+    "id": "E21",
+    "acronym": "CDF",
+    "spec": "38.521-2",
+    "clause": "3.3",
+    "pdf_page": 24,
+    "printed_page": 23,
+    "expansion": "Cumulative Distribution Function"
+  },
+  {
+    "id": "E22",
+    "acronym": "DC",
+    "spec": "23.228",
+    "clause": "3.3",
+    "pdf_page": 26,
+    "printed_page": 25,
+    "expansion": "Data Channel"
+  },
+  {
+    "id": "E23",
+    "acronym": "DC",
+    "spec": "38.331",
+    "clause": "3.2",
+    "pdf_page": 36,
+    "printed_page": 35,
+    "expansion": "Dual Connectivity"
+  },
+  {
+    "id": "E24",
+    "acronym": "MAC",
+    "spec": "24.501",
+    "clause": "3.2",
+    "pdf_page": 46,
+    "printed_page": 45,
+    "expansion": "Message Authentication Code"
+  },
+  {
+    "id": "E25",
+    "acronym": "MAC",
+    "spec": "38.331",
+    "clause": "3.2",
+    "pdf_page": 36,
+    "printed_page": 35,
+    "expansion": "Medium Access Control"
+  },
+  {
+    "id": "E26",
+    "acronym": "MRB",
+    "spec": "23.228",
+    "clause": "3.3",
+    "pdf_page": 27,
+    "printed_page": 26,
+    "expansion": "Media Resource Broker"
+  },
+  {
+    "id": "E27",
+    "acronym": "MRB",
+    "spec": "38.331",
+    "clause": "3.2",
+    "pdf_page": 37,
+    "printed_page": 36,
+    "expansion": "MBS Radio Bearer"
+  },
+  {
+    "id": "E28",
+    "acronym": "MSK",
+    "spec": "24.501",
+    "clause": "3.2",
+    "pdf_page": 46,
+    "printed_page": 45,
+    "expansion": "MBS Service Key"
+  },
+  {
+    "id": "E29",
+    "acronym": "MSK",
+    "spec": "33.501",
+    "clause": "3.2",
+    "pdf_page": 29,
+    "printed_page": 28,
+    "expansion": "Master Session Key"
+  },
+  {
+    "id": "E30",
+    "acronym": "PEI",
+    "spec": "23.501",
+    "clause": "3.2",
+    "pdf_page": 40,
+    "printed_page": 39,
+    "expansion": "Permanent Equipment Identifier"
+  },
+  {
+    "id": "E31",
+    "acronym": "PEI",
+    "spec": "24.501",
+    "clause": "3.2",
+    "pdf_page": 47,
+    "printed_page": 46,
+    "expansion": "Permanent Equipment Identifier"
+  },
+  {
+    "id": "E32",
+    "acronym": "PEI",
+    "spec": "32.255",
+    "clause": "3.3",
+    "pdf_page": 11,
+    "printed_page": 10,
+    "expansion": "Permanent Equipment Identifier"
+  },
+  {
+    "id": "E33",
+    "acronym": "PEI",
+    "spec": "33.501",
+    "clause": "3.2",
+    "pdf_page": 29,
+    "printed_page": 28,
+    "expansion": "Permanent Equipment Identifier"
+  },
+  {
+    "id": "E34",
+    "acronym": "PEI",
+    "spec": "38.331",
+    "clause": "3.2",
+    "pdf_page": 37,
+    "printed_page": 36,
+    "expansion": "Paging Early Indication"
+  },
+  {
+    "id": "E35",
+    "acronym": "PSI",
+    "spec": "23.228",
+    "clause": "3.3",
+    "pdf_page": 27,
+    "printed_page": 26,
+    "expansion": "Public Service Identity"
+  },
+  {
+    "id": "E36",
+    "acronym": "PSI",
+    "spec": "38.321",
+    "clause": "3.2",
+    "pdf_page": 15,
+    "printed_page": 14,
+    "expansion": "PDU Set Importance"
+  },
+  {
+    "id": "E37",
+    "acronym": "PSI",
+    "spec": "38.331",
+    "clause": "3.2",
+    "pdf_page": 37,
+    "printed_page": 36,
+    "expansion": "PDU Set Importance"
+  },
+  {
+    "id": "E38",
+    "acronym": "SCS",
+    "spec": "23.228",
+    "clause": "3.3",
+    "pdf_page": 27,
+    "printed_page": 26,
+    "expansion": "Service Capability Server"
+  },
+  {
+    "id": "E39",
+    "acronym": "SCS",
+    "spec": "38.331",
+    "clause": "3.2",
+    "pdf_page": 37,
+    "printed_page": 36,
+    "expansion": "Subcarrier Spacing"
+  },
+  {
+    "id": "E40",
+    "acronym": "SCS",
+    "spec": "38.521-2",
+    "clause": "3.3",
+    "pdf_page": 25,
+    "printed_page": 24,
+    "expansion": "Subcarrier Spacing"
+  },
+  {
+    "id": "E41",
+    "acronym": "TRP",
+    "spec": "38.321",
+    "clause": "3.2",
+    "pdf_page": 16,
+    "printed_page": 15,
+    "expansion": "Transmit/Receive Point"
+  },
+  {
+    "id": "E42",
+    "acronym": "TRP",
+    "spec": "38.521-2",
+    "clause": "3.3",
+    "pdf_page": 25,
+    "printed_page": 24,
+    "expansion": "Total Radiated Power"
+  }
+]

@@ -1,0 +1,606 @@
+{
+  "split": "evaluation",
+  "dataset_hashes": {
+    "cases/evaluation.json": "fc52713d4abdae88ece2c6cb91f975b8ad00c95c8c7e80bbab3fd78401cede27",
+    "sources.json": "e48ca7f814add3954fabc7d057438351eeae9e86be68ef8b71b67485bfe6d038",
+    "definitions.json": "9b6522b6d6eb6981771d30658ec9980068bde1d130280f6e70d389d6488f20db"
+  },
+  "k": 3,
+  "budget": 768,
+  "python": "3.13.7",
+  "threads": 8,
+  "model": {
+    "id": "HuggingFaceTB/SmolLM2-360M-Instruct",
+    "revision": "a10cc1512eabd3dde888204e902eca88bddb4951",
+    "format": "ONNX Q4",
+    "onnxruntime": "1.23.2",
+    "tokenizers": "0.22.1",
+    "api_cost": 0
+  },
+  "dense": {
+    "id": "BAAI/bge-small-en-v1.5",
+    "revision": "5c38ec7c405ec4b44b94cc5a9bb96e735b38267a",
+    "sentence_transformers": "5.2.0",
+    "torch": "2.9.1"
+  },
+  "arms": {
+    "no_glossary": {
+      "cases": 53,
+      "answerable": 40,
+      "evidence_found_at_3": 0,
+      "verdicts": {
+        "wrong_or_missing_citation": 15,
+        "missed_answer": 10,
+        "wrong_expansion": 15,
+        "guessed_on_control": 10,
+        "correct_abstention": 3
+      },
+      "answers_citing_unseen_evidence": 40,
+      "mean_input_tokens": 139.9,
+      "mean_seconds": 1.0177
+    },
+    "glossary_in_system_prompt": {
+      "cases": 53,
+      "answerable": 40,
+      "evidence_found_at_3": 39,
+      "verdicts": {
+        "wrong_or_missing_citation": 2,
+        "missed_answer": 11,
+        "wrong_expansion": 14,
+        "guessed_on_control": 10,
+        "grounded_answer": 13,
+        "correct_abstention": 3
+      },
+      "answers_citing_unseen_evidence": 11,
+      "mean_input_tokens": 529.9,
+      "mean_seconds": 3.4925
+    },
+    "glossary_full": {
+      "cases": 53,
+      "answerable": 40,
+      "evidence_found_at_3": 12,
+      "verdicts": {
+        "wrong_or_missing_citation": 2,
+        "missed_answer": 11,
+        "wrong_expansion": 15,
+        "guessed_on_control": 10,
+        "grounded_answer": 12,
+        "correct_abstention": 3
+      },
+      "answers_citing_unseen_evidence": 12,
+      "mean_input_tokens": 629.1,
+      "mean_seconds": 4.2833
+    },
+    "bm25": {
+      "cases": 53,
+      "answerable": 40,
+      "evidence_found_at_3": 40,
+      "verdicts": {
+        "wrong_or_missing_citation": 2,
+        "missed_answer": 11,
+        "wrong_expansion": 16,
+        "guessed_on_control": 10,
+        "grounded_answer": 11,
+        "correct_abstention": 3
+      },
+      "answers_citing_unseen_evidence": 20,
+      "mean_input_tokens": 218.0,
+      "mean_seconds": 1.4908
+    },
+    "scoped_prototype": {
+      "cases": 53,
+      "answerable": 40,
+      "evidence_found_at_3": 40,
+      "verdicts": {
+        "wrong_or_missing_citation": 2,
+        "missed_answer": 11,
+        "wrong_expansion": 15,
+        "guessed_on_control": 10,
+        "grounded_answer": 12,
+        "correct_abstention": 3
+      },
+      "answers_citing_unseen_evidence": 14,
+      "mean_input_tokens": 217.4,
+      "mean_seconds": 1.5091
+    },
+    "bge_dense": {
+      "cases": 53,
+      "answerable": 40,
+      "evidence_found_at_3": 39,
+      "verdicts": {
+        "wrong_or_missing_citation": 2,
+        "missed_answer": 11,
+        "wrong_expansion": 15,
+        "guessed_on_control": 10,
+        "grounded_answer": 12,
+        "correct_abstention": 3
+      },
+      "answers_citing_unseen_evidence": 21,
+      "mean_input_tokens": 218.9,
+      "mean_seconds": 1.5048
+    }
+  },
+  "by_case_type": {
+    "no_glossary": {
+      "ambiguous": {
+        "cases": 10,
+        "answerable": 0,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "guessed_on_control": 8,
+          "correct_abstention": 2
+        },
+        "answers_citing_unseen_evidence": 8,
+        "mean_input_tokens": 138.7,
+        "mean_seconds": 0.9365
+      },
+      "implicit": {
+        "cases": 20,
+        "answerable": 20,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "missed_answer": 7,
+          "wrong_expansion": 7,
+          "wrong_or_missing_citation": 6
+        },
+        "answers_citing_unseen_evidence": 13,
+        "mean_input_tokens": 143.6,
+        "mean_seconds": 1.0489
+      },
+      "named": {
+        "cases": 20,
+        "answerable": 20,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "wrong_or_missing_citation": 9,
+          "wrong_expansion": 8,
+          "missed_answer": 3
+        },
+        "answers_citing_unseen_evidence": 17,
+        "mean_input_tokens": 136.7,
+        "mean_seconds": 1.0188
+      },
+      "unsupported": {
+        "cases": 3,
+        "answerable": 0,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "guessed_on_control": 2,
+          "correct_abstention": 1
+        },
+        "answers_citing_unseen_evidence": 2,
+        "mean_input_tokens": 141,
+        "mean_seconds": 1.0726
+      }
+    },
+    "glossary_in_system_prompt": {
+      "ambiguous": {
+        "cases": 10,
+        "answerable": 0,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "guessed_on_control": 8,
+          "correct_abstention": 2
+        },
+        "answers_citing_unseen_evidence": 0,
+        "mean_input_tokens": 761.6,
+        "mean_seconds": 4.7673
+      },
+      "implicit": {
+        "cases": 20,
+        "answerable": 20,
+        "evidence_found_at_3": 19,
+        "verdicts": {
+          "missed_answer": 7,
+          "wrong_expansion": 7,
+          "grounded_answer": 6
+        },
+        "answers_citing_unseen_evidence": 0,
+        "mean_input_tokens": 762.0,
+        "mean_seconds": 5.0053
+      },
+      "named": {
+        "cases": 20,
+        "answerable": 20,
+        "evidence_found_at_3": 20,
+        "verdicts": {
+          "wrong_or_missing_citation": 2,
+          "wrong_expansion": 7,
+          "grounded_answer": 7,
+          "missed_answer": 4
+        },
+        "answers_citing_unseen_evidence": 9,
+        "mean_input_tokens": 228.2,
+        "mean_seconds": 1.649
+      },
+      "unsupported": {
+        "cases": 3,
+        "answerable": 0,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "guessed_on_control": 2,
+          "correct_abstention": 1
+        },
+        "answers_citing_unseen_evidence": 2,
+        "mean_input_tokens": 222.7,
+        "mean_seconds": 1.4487
+      }
+    },
+    "glossary_full": {
+      "ambiguous": {
+        "cases": 10,
+        "answerable": 0,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "guessed_on_control": 8,
+          "correct_abstention": 2
+        },
+        "answers_citing_unseen_evidence": 0,
+        "mean_input_tokens": 933.7,
+        "mean_seconds": 6.3733
+      },
+      "implicit": {
+        "cases": 20,
+        "answerable": 20,
+        "evidence_found_at_3": 1,
+        "verdicts": {
+          "missed_answer": 7,
+          "wrong_expansion": 7,
+          "grounded_answer": 6
+        },
+        "answers_citing_unseen_evidence": 0,
+        "mean_input_tokens": 938.6,
+        "mean_seconds": 6.3602
+      },
+      "named": {
+        "cases": 20,
+        "answerable": 20,
+        "evidence_found_at_3": 11,
+        "verdicts": {
+          "wrong_or_missing_citation": 2,
+          "wrong_expansion": 8,
+          "missed_answer": 4,
+          "grounded_answer": 6
+        },
+        "answers_citing_unseen_evidence": 10,
+        "mean_input_tokens": 228.2,
+        "mean_seconds": 1.5893
+      },
+      "unsupported": {
+        "cases": 3,
+        "answerable": 0,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "guessed_on_control": 2,
+          "correct_abstention": 1
+        },
+        "answers_citing_unseen_evidence": 2,
+        "mean_input_tokens": 222.7,
+        "mean_seconds": 1.43
+      }
+    },
+    "bm25": {
+      "ambiguous": {
+        "cases": 10,
+        "answerable": 0,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "guessed_on_control": 8,
+          "correct_abstention": 2
+        },
+        "answers_citing_unseen_evidence": 2,
+        "mean_input_tokens": 257.7,
+        "mean_seconds": 1.7393
+      },
+      "implicit": {
+        "cases": 20,
+        "answerable": 20,
+        "evidence_found_at_3": 20,
+        "verdicts": {
+          "missed_answer": 7,
+          "wrong_expansion": 9,
+          "grounded_answer": 4
+        },
+        "answers_citing_unseen_evidence": 7,
+        "mean_input_tokens": 220.6,
+        "mean_seconds": 1.4153
+      },
+      "named": {
+        "cases": 20,
+        "answerable": 20,
+        "evidence_found_at_3": 20,
+        "verdicts": {
+          "wrong_or_missing_citation": 2,
+          "wrong_expansion": 7,
+          "grounded_answer": 7,
+          "missed_answer": 4
+        },
+        "answers_citing_unseen_evidence": 9,
+        "mean_input_tokens": 198.9,
+        "mean_seconds": 1.4235
+      },
+      "unsupported": {
+        "cases": 3,
+        "answerable": 0,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "guessed_on_control": 2,
+          "correct_abstention": 1
+        },
+        "answers_citing_unseen_evidence": 2,
+        "mean_input_tokens": 196.3,
+        "mean_seconds": 1.6153
+      }
+    },
+    "scoped_prototype": {
+      "ambiguous": {
+        "cases": 10,
+        "answerable": 0,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "guessed_on_control": 8,
+          "correct_abstention": 2
+        },
+        "answers_citing_unseen_evidence": 1,
+        "mean_input_tokens": 246.9,
+        "mean_seconds": 1.7451
+      },
+      "implicit": {
+        "cases": 20,
+        "answerable": 20,
+        "evidence_found_at_3": 20,
+        "verdicts": {
+          "missed_answer": 7,
+          "wrong_expansion": 8,
+          "grounded_answer": 5
+        },
+        "answers_citing_unseen_evidence": 2,
+        "mean_input_tokens": 253.8,
+        "mean_seconds": 1.649
+      },
+      "named": {
+        "cases": 20,
+        "answerable": 20,
+        "evidence_found_at_3": 20,
+        "verdicts": {
+          "wrong_or_missing_citation": 2,
+          "wrong_expansion": 7,
+          "grounded_answer": 7,
+          "missed_answer": 4
+        },
+        "answers_citing_unseen_evidence": 9,
+        "mean_input_tokens": 177.8,
+        "mean_seconds": 1.275
+      },
+      "unsupported": {
+        "cases": 3,
+        "answerable": 0,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "guessed_on_control": 2,
+          "correct_abstention": 1
+        },
+        "answers_citing_unseen_evidence": 2,
+        "mean_input_tokens": 141,
+        "mean_seconds": 1.3516
+      }
+    },
+    "bge_dense": {
+      "ambiguous": {
+        "cases": 10,
+        "answerable": 0,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "guessed_on_control": 8,
+          "correct_abstention": 2
+        },
+        "answers_citing_unseen_evidence": 3,
+        "mean_input_tokens": 247.7,
+        "mean_seconds": 1.7422
+      },
+      "implicit": {
+        "cases": 20,
+        "answerable": 20,
+        "evidence_found_at_3": 20,
+        "verdicts": {
+          "missed_answer": 7,
+          "wrong_expansion": 8,
+          "grounded_answer": 5
+        },
+        "answers_citing_unseen_evidence": 7,
+        "mean_input_tokens": 225.9,
+        "mean_seconds": 1.4462
+      },
+      "named": {
+        "cases": 20,
+        "answerable": 20,
+        "evidence_found_at_3": 19,
+        "verdicts": {
+          "wrong_or_missing_citation": 2,
+          "wrong_expansion": 7,
+          "grounded_answer": 7,
+          "missed_answer": 4
+        },
+        "answers_citing_unseen_evidence": 9,
+        "mean_input_tokens": 200.8,
+        "mean_seconds": 1.4179
+      },
+      "unsupported": {
+        "cases": 3,
+        "answerable": 0,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "guessed_on_control": 2,
+          "correct_abstention": 1
+        },
+        "answers_citing_unseen_evidence": 2,
+        "mean_input_tokens": 197,
+        "mean_seconds": 1.6844
+      }
+    }
+  },
+  "paired_vs_glossary": {
+    "no_glossary": {
+      "wins": 0,
+      "losses": 13,
+      "ties": 27,
+      "family_mean_delta": -0.325,
+      "family_bootstrap_95": [
+        -0.45,
+        -0.175
+      ]
+    },
+    "glossary_full": {
+      "wins": 0,
+      "losses": 1,
+      "ties": 39,
+      "family_mean_delta": -0.025,
+      "family_bootstrap_95": [
+        -0.075,
+        0
+      ]
+    },
+    "bm25": {
+      "wins": 0,
+      "losses": 2,
+      "ties": 38,
+      "family_mean_delta": -0.05,
+      "family_bootstrap_95": [
+        -0.125,
+        0
+      ]
+    },
+    "scoped_prototype": {
+      "wins": 0,
+      "losses": 1,
+      "ties": 39,
+      "family_mean_delta": -0.025,
+      "family_bootstrap_95": [
+        -0.075,
+        0
+      ]
+    },
+    "bge_dense": {
+      "wins": 0,
+      "losses": 1,
+      "ties": 39,
+      "family_mean_delta": -0.025,
+      "family_bootstrap_95": [
+        -0.075,
+        0
+      ]
+    }
+  },
+  "paired_by_case_type": {
+    "no_glossary": {
+      "ambiguous": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 10
+      },
+      "implicit": {
+        "wins": 0,
+        "losses": 6,
+        "ties": 14
+      },
+      "named": {
+        "wins": 0,
+        "losses": 7,
+        "ties": 13
+      },
+      "unsupported": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 3
+      }
+    },
+    "glossary_full": {
+      "ambiguous": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 10
+      },
+      "implicit": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 20
+      },
+      "named": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 19
+      },
+      "unsupported": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 3
+      }
+    },
+    "bm25": {
+      "ambiguous": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 10
+      },
+      "implicit": {
+        "wins": 0,
+        "losses": 2,
+        "ties": 18
+      },
+      "named": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 20
+      },
+      "unsupported": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 3
+      }
+    },
+    "scoped_prototype": {
+      "ambiguous": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 10
+      },
+      "implicit": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 19
+      },
+      "named": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 20
+      },
+      "unsupported": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 3
+      }
+    },
+    "bge_dense": {
+      "ambiguous": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 10
+      },
+      "implicit": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 19
+      },
+      "named": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 20
+      },
+      "unsupported": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 3
+      }
+    }
+  }
+}
