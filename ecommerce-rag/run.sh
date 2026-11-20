@@ -17,5 +17,11 @@ set -e
 HERE="$(cd "$(dirname "$0")" && pwd)"
 cd "$HERE"
 
-python3 pipeline/score.py --self-check  # the scoring rules still behave
-.venv-rag/bin/python pipeline/benchmark.py "$@"
+PY=.venv-rag/bin/python                 # Linux and WSL
+[ -x "$PY" ] || PY=.venv-rag/Scripts/python.exe  # Windows (Git Bash)
+[ -x "$PY" ] || { echo "No .venv-rag found. Run: bash setup.sh"; exit 1; }
+# A certificate path that does not exist (conda in Git Bash sets one) breaks every HTTPS call.
+if [ -n "${SSL_CERT_FILE:-}" ] && [ ! -f "$SSL_CERT_FILE" ]; then unset SSL_CERT_FILE; fi
+
+"$PY" pipeline/score.py --self-check  # the scoring rules still behave
+"$PY" pipeline/benchmark.py "$@"

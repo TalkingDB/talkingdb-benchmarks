@@ -52,7 +52,7 @@ def section(folder):
         "",
         "| Stage | Questions | Result |",
         "| :--- | :--- | :--- |",
-        f"| Top 20, after vector search | {n} | {v20.get('PASS', 0)} ({v20.get('PASS', 0) / n:.1%}) have all primary evidence: "
+        f"| Top 20, after vector search | {n} | {v20.get('PASS', 0)} ({v20.get('PASS', 0) / max(n, 1):.1%}) have all primary evidence: "
         f"PASS {v20.get('PASS', 0)}, PARTIAL {v20.get('PARTIAL', 0)}, FAIL {v20.get('FAIL', 0)} |",
         f"| Top 4, after the reranker (what the bot answers from) | {n} | {head['mean']:.1%} per run "
         f"({round(head['min'] * n)} to {round(head['max'] * n)} of {n}): PASS {pass4}, FAIL {v4.get('FAIL', 0)} by most runs |",
@@ -92,6 +92,30 @@ def section(folder):
     return "\n".join(lines)
 
 
+def value(name, m):
+    """A metric as a percentage, except mean reciprocal rank, which is a plain number."""
+    if name.startswith("Mean reciprocal rank"):
+        return f"{m['mean']:.3f}", f"{m['min']:.3f} to {m['max']:.3f}"
+    return f"{m['mean']:.1%}", f"{m['min']:.1%} to {m['max']:.1%}"
+
+
+def metrics_table(summary):
+    """Every metric in summary.json: mean over the runs and the range."""
+    lines = ["| Metric | Mean | Range over runs |", "| :--- | ---: | :--- |"]
+    for group in ("metrics", "answer_metrics"):
+        for name, m in summary.get(group, {}).items():
+            mean, spread = value(name, m)
+            lines.append(f"| {name} | {mean} | {spread} |")
+    return "\n".join(lines)
+
+
+def full_report(folder):
+    """report.md for any run folder: the result section, then every metric."""
+    summary, _, _ = load(folder)
+    return (f"# Result: {Path(folder).name}\n\n{section(folder)}\n\n"
+            f"## All metrics\n\n{metrics_table(summary)}\n")
+
+
 def rel(folder, name):
     """Link target as seen from where the section is written."""
     folder = Path(folder).resolve()
@@ -100,8 +124,11 @@ def rel(folder, name):
 
 
 def write_report(folder):
+    """Write report.md in the run folder and return it; for the published run also
+    rewrite the README result section."""
     folder = Path(folder).resolve()
-    text = section(folder)
+    text = full_report(folder)
+    (folder / "report.md").write_text(text, encoding="utf-8")
     if folder == PUBLISHED.resolve():
         readme = HERE / "README.md"
         doc = readme.read_text(encoding="utf-8")
@@ -109,12 +136,10 @@ def write_report(folder):
             sys.exit("README.md has no result markers")
         before, rest = doc.split(START, 1)
         _, after = rest.split(END, 1)
-        readme.write_text(f"{before}{START}\n{text}\n{END}{after}", encoding="utf-8")
+        readme.write_text(f"{before}{START}\n{section(folder)}\n{END}{after}", encoding="utf-8")
         print("README.md result section rewritten from results/openai")
-    else:
-        (folder / "report.md").write_text(f"# Result: {folder.name}\n\n{text}\n", encoding="utf-8")
-        print(f"Wrote {folder / 'report.md'}")
+    return text
 
 
 if __name__ == "__main__":
-    write_report(sys.argv[1] if len(sys.argv) > 1 else PUBLISHED)
+    print(write_report(sys.argv[1] if len(sys.argv) > 1 else PUBLISHED))

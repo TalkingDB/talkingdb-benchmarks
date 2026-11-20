@@ -14,34 +14,34 @@
       "max": 0.727
     },
     "All primary evidence in top 4 (headline)": {
-      "mean": 0.333,
-      "min": 0.328,
-      "max": 0.344
+      "mean": 0.318,
+      "min": 0.312,
+      "max": 0.328
     },
     "Primary recall in top 4": {
-      "mean": 0.508,
-      "min": 0.5,
-      "max": 0.516
+      "mean": 0.484,
+      "min": 0.477,
+      "max": 0.5
     },
     "All primary in top 4 by vector order alone": {
-      "mean": 0.276,
+      "mean": 0.271,
       "min": 0.266,
       "max": 0.281
     },
     "Evidence recall in top 4, capped at 4": {
-      "mean": 0.417,
-      "min": 0.41,
-      "max": 0.422
+      "mean": 0.403,
+      "min": 0.398,
+      "max": 0.411
     },
     "Top 4 passages that are evidence": {
-      "mean": 0.36,
-      "min": 0.353,
-      "max": 0.367
+      "mean": 0.347,
+      "min": 0.342,
+      "max": 0.354
     },
     "Mean reciprocal rank of first primary passage": {
-      "mean": 0.514,
-      "min": 0.497,
-      "max": 0.535
+      "mean": 0.489,
+      "min": 0.474,
+      "max": 0.516
     }
   },
   "top20_verdicts": {
@@ -51,8 +51,8 @@
     "PASS": 40
   },
   "top4_verdicts": {
-    "FAIL": 42,
-    "PASS": 25,
+    "FAIL": 43,
+    "PASS": 24,
     "RISK": 3
   }
 }

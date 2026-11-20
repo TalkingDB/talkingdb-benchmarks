@@ -286,17 +286,24 @@ def write(folder, summary, rows):
         w.writerows(rows)
 
 
+def fmt(name, m):
+    """Mean and range as percentages; mean reciprocal rank stays a plain number."""
+    if name.startswith("Mean reciprocal rank"):
+        return f"{m['mean']:.3f}  (min {m['min']:.3f}, max {m['max']:.3f})"
+    return f"{m['mean']:6.1%}  (min {m['min']:.1%}, max {m['max']:.1%})"
+
+
 def show(summary):
     print(f"{summary['questions_scored']} questions with evidence, "
           f"{summary['questions_answer_not_in_documents']} with no answer in the documents, {summary['runs']} runs")
     for name, m in summary["metrics"].items():
-        print(f"  {name:<50} {m['mean']:.3f}  (min {m['min']:.3f}, max {m['max']:.3f})")
+        print(f"  {name:<50} {fmt(name, m)}")
     print("  Top 20 verdicts:", summary["top20_verdicts"])
     print("  Top 4 verdicts: ", summary["top4_verdicts"])
     if "answer_metrics" in summary:
         print("Answers, checked against the passages they cite:")
         for name, m in summary["answer_metrics"].items():
-            print(f"  {name:<50} {m['mean']:.3f}  (min {m['min']:.3f}, max {m['max']:.3f})")
+            print(f"  {name:<50} {fmt(name, m)}")
         print("  Answer verdicts:", summary["answer_verdicts"])
 
 

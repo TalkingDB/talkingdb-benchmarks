@@ -51,6 +51,15 @@ def configure(local: bool) -> None:
 def ensure_index(settings, reingest: bool) -> None:
     from app.vectorstore import count_points
 
+    if reingest:
+        # Delete the collection's files before any Qdrant client opens them. Qdrant's local
+        # delete leaves its SQLite file open and ignores the error, so on Windows the old
+        # points survive and a rebuild adds every chunk a second time.
+        import shutil
+
+        folder = INDEX_DIR / "collection" / settings.collection
+        if folder.exists():
+            shutil.rmtree(folder)
     if reingest or count_points(settings) == 0:
         import ingest
 
@@ -78,6 +87,10 @@ def snapshot(store, out: Path) -> dict:
         ),
         key=lambda c: c["chunk_id"],
     )
+    ids = [c["chunk_id"] for c in chunks]
+    if len(ids) != len(set(ids)):
+        sys.exit(f"The index holds {len(ids)} points for {len(set(ids))} chunks: some chunks are indexed twice, "
+                 "which would skew every result. Rebuild it: bash run.sh --reingest")
     (out / "index.json").write_text(json.dumps(chunks, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     return {c["chunk_id"]: {"document": c["document"], "text": score.norm(c["text"])} for c in chunks}
 
@@ -224,13 +237,10 @@ def main():
     runner.assistant.vectorstore.client.close()  # close the local index now, not during interpreter shutdown
     summary, rows = score.score_folder(out)
     score.write(out, summary, rows)
-    print()
-    score.show(summary)
-    if not args.only:
-        import report
+    import report
 
-        report.write_report(out)
-    print(f"\nResults: {out}")
+    print("\n" + report.write_report(out))
+    print(f"Report: {out / 'report.md'}\nResults: {out}")
 
 
 if __name__ == "__main__":
