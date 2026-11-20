@@ -1,6 +1,6 @@
 # E-commerce RAG: what a support bot retrieves
 
-A customer support bot answers questions about returns, refunds, warranties and consumer rights from six documents (Indian consumer law, Meesho store policies, a Havells product manual). This benchmark asks it 70 support questions and checks, word for word, whether the passages it retrieves hold the evidence each answer needs. It measures the pipeline as it is today; no fix is applied.
+A customer support bot answers questions about returns, refunds, warranties and consumer rights from six documents (Indian consumer law, Meesho store policies, a Havells product manual). This benchmark asks it a set of support questions and checks, word for word, whether the passages it retrieves hold the evidence each answer needs. It measures the pipeline as it is today; no fix is applied.
 
 The documents and the questions are on Hugging Face: [TalkingDB/ecommerce-rag](https://huggingface.co/datasets/TalkingDB/ecommerce-rag).
 
@@ -14,7 +14,7 @@ bash setup.sh
 OPENAI_API_KEY=sk-... bash run.sh
 ```
 
-`setup.sh` fetches the documents and questions from pinned dataset commits and checks them by SHA-256, checks out the bot's code at the commit in [AGENT_COMMIT.txt](AGENT_COMMIT.txt) and installs pinned dependencies. `run.sh` asks the 70 questions three times (about 20 minutes) and rewrites `results/openai/` and the result below.
+`setup.sh` fetches the documents and questions from pinned dataset commits and checks them by SHA-256, checks out the bot's code at the commit in [AGENT_COMMIT.txt](AGENT_COMMIT.txt) and installs pinned dependencies. `run.sh` asks every question three times (about 20 minutes with the current set) and rewrites `results/openai/` and the result below.
 
 | Option | What it does |
 | :--- | :--- |
@@ -64,11 +64,11 @@ Each question lists **primary** evidence (what the answer cannot do without) and
 | Top 20 (search) | every primary piece found | some found | none found |
 | Top 4 (after reranking) | every primary piece kept, in most runs | | otherwise |
 
-Six questions have no answer in the documents: they pass when nothing gets through the reranker, and are a RISK when passages still get through. No language model writes or judges the score; `pipeline/score.py` has a self check and re-scores the saved run to the same [summary.json](results/openai/summary.json).
+Some questions have no answer in the documents: they pass when nothing gets through the reranker, and are a RISK when passages still get through. No language model writes or judges the score; `pipeline/score.py` has a self check and re-scores the saved run to the same [summary.json](results/openai/summary.json).
 
 ## Limits
 
-1. 70 questions, 64 with evidence: one question is 1.6 points, so treat differences under about 5 points as noise.
+1. A small question set: each question with evidence moves the score by 100 divided by their number (1.6 points with the current set), so treat differences of a few questions as noise.
 2. The evidence was chosen by one team and reviewed once; some choices are judgement calls.
 3. Strict scoring: a near-duplicate of the primary passage does not count, so real retrieval is somewhat better than the headline.
 4. Retrieval only. `--answers` checks that answers cite their evidence, not that they are right.

@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Run the benchmark.
 #
-#   bash run.sh                      index the documents and run the 70 questions with OpenAI, 3 runs,
+#   bash run.sh                      index the documents and run every question with OpenAI, 3 runs,
 #                                    rewriting results/openai/ and the README result section
 #                                    (needs OPENAI_API_KEY)
 #   bash run.sh --local              the same with local models through Ollama, into results/local/

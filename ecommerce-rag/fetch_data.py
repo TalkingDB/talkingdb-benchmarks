@@ -1,6 +1,6 @@
 """Download the benchmark data from Hugging Face and check every file by SHA-256.
 
-The six PDFs and the 70 questions live in the dataset
+The six PDFs and the questions live in the dataset
 https://huggingface.co/datasets/TalkingDB/ecommerce-rag , not in git. DATA.txt lists each
 file with its SHA-256, the dataset commit it is fetched from, its path in the dataset and
 its path here. Fetching from a fixed commit means later uploads to the dataset never change

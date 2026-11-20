@@ -11,7 +11,7 @@ task_categories:
 
 # E-commerce RAG: retrieval benchmark
 
-The data for the TalkingDB e-commerce RAG benchmark: six documents a customer support bot answers from (Indian consumer law, Meesho store policies and a Havells product manual), and the 70 questions with the evidence each answer needs. The code and results are on GitHub: [talkingdb-benchmarks/ecommerce-rag](https://github.com/TalkingDB/talkingdb-benchmarks/tree/main/ecommerce-rag).
+The data for the TalkingDB e-commerce RAG benchmark: six documents a customer support bot answers from (Indian consumer law, Meesho store policies and a Havells product manual), and the support questions with the evidence each answer needs. The code and results are on GitHub: [talkingdb-benchmarks/ecommerce-rag](https://github.com/TalkingDB/talkingdb-benchmarks/tree/main/ecommerce-rag).
 
 | File | What it is | Source | SHA-256 |
 | :--- | :--- | :--- | :--- |
@@ -21,7 +21,7 @@ The data for the TalkingDB e-commerce RAG benchmark: six documents a customer su
 | `meesho.com_legal_returns, refunds and replacement_embed=true.pdf` | Meesho Returns, Exchange and Refunds Policy | [Meesho (official legal page, saved as PDF)](https://www.meesho.com/legal/returns,%20refunds%20and%20replacement?embed=true) | `3e31040490ade605610b09a47fa06c49e1b690989b51d416f33552fbbc54c2b4` |
 | `Penalty Structure and Handling Incorrect Penalties _ Meesho.pdf` | Meesho Supplier Learning Hub: Penalty Structure | [Meesho (supplier learning hub, saved as PDF)](https://supplier.meesho.com/learning-hub/lessons/how-to-handle-incorrect-penalties) | `b0d8be4a98b53d438b747de1c12857acf034c0696e5d52516de4600dcb268d32` |
 | `Siphon_WP_Manual_1.pdf` | Havells Siphon Water Purifier User Manual | [Havells India Ltd. (official product manual)](https://havells.com/media/wysiwyg/Siphon_WP_Manual_1.pdf) | `43421721c336b9bfcacb045960599b9e10d74d47213c9acaa626684fd92a2a8d` |
-| `questions.json` | The 70 support questions, each with its primary and supporting evidence as document, page and exact quote | Written by Smarter.codes | `0660eb4db1fefb24d26ba674992758fae34fd98f32f311b885601736392b9e05` |
+| `questions.json` | The support questions, each with its primary and supporting evidence as document, page and exact quote | Written by Smarter.codes | `0660eb4db1fefb24d26ba674992758fae34fd98f32f311b885601736392b9e05` |
 
 The documents are as provided by the client for this support bot; titles and original links are in `documents/sources.json` on GitHub. Each remains under the terms of its publisher.
 

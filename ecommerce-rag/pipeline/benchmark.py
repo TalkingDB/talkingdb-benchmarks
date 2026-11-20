@@ -1,4 +1,4 @@
-"""Run the 70 questions through the e-commerce RAG pipeline and record what it retrieves.
+"""Run every question in cases/questions.json through the e-commerce RAG pipeline and record what it retrieves.
 
 Uses the pipeline's own code (ecommerce-rag-agent, pinned in AGENT_COMMIT.txt): the same
 document loader, chunker, vector store, reranker and question rewriting as the app. Only
