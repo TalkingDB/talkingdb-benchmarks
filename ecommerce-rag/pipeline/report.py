@@ -27,14 +27,14 @@ def load(folder):
     return summary, config, rows
 
 
-def section(folder):
+def section(folder, base=None):
     """Markdown for one run: settings, the result table, and where the loss happens."""
     summary, config, rows = load(folder)
     n = summary["questions_scored"]
     v20, v4 = summary["top20_verdicts"], summary["top4_verdicts"]
     no_answer = [r for r in rows if r["top20_verdict"].startswith("N/A")]
     declined = sum(1 for r in no_answer if r["top4_verdict"].startswith("PASS"))
-    risk = v4.get("RISK", 0)
+    empty = sum(p == "(none)" for r in no_answer for p in r["top4_per_run"].split(" | "))
     pass4 = v4.get("PASS", 0) - declined
     head = summary["metrics"]["All primary evidence in top 4 (headline)"]
     lost20 = v20.get("PARTIAL", 0) + v20.get("FAIL", 0)
@@ -48,7 +48,7 @@ def section(folder):
         + (f", {config['run_date']}" if config.get("run_date") else "")
         + f": `{config['chat_model']}` ({config['llm_provider']}), `{config['embedding_model']}` embeddings, {reranker}, "
         f"{config['fetch_k']} candidates, top {config['top_k']}, rerank cutoff {config['min_rerank_score']}, "
-        f"{runs} run{'s' if runs != 1 else ''} ([config]({rel(folder, 'config.json')})).",
+        f"{runs} run{'s' if runs != 1 else ''} ([config]({rel(folder, 'config.json', base)})).",
         "",
         "| Stage | Questions | Result |",
         "| :--- | :--- | :--- |",
@@ -56,7 +56,8 @@ def section(folder):
         f"PASS {v20.get('PASS', 0)}, PARTIAL {v20.get('PARTIAL', 0)}, FAIL {v20.get('FAIL', 0)} |",
         f"| Top 4, after the reranker (what the bot answers from) | {n} | {head['mean']:.1%} per run "
         f"({round(head['min'] * n)} to {round(head['max'] * n)} of {n}): PASS {pass4}, FAIL {v4.get('FAIL', 0)} by most runs |",
-        f"| No answer in the documents | {len(no_answer)} | {declined} declined; {risk} let passages through to the answer step (RISK) |",
+        f"| No answer in the documents | {len(no_answer)} | passages got through in {len(no_answer) * runs - empty} of "
+        f"{len(no_answer) * runs} runs (RISK); nothing got through in the other {empty} |",
         "",
         f"In {lost20} of the {n} questions, search never puts a primary piece of evidence in the top 20, so no reranker "
         f"could keep it. In {lost_rerank} more, every primary piece is in the top 20 but the reranker drops at least one."
@@ -86,8 +87,8 @@ def section(folder):
         ]
     lines += [
         "",
-        f"Per question, with each stage's verdict and the passages returned: [per_question.csv]({rel(folder, 'per_question.csv')}). "
-        f"Every metric, mean and range over the runs: [summary.json]({rel(folder, 'summary.json')}).",
+        f"Per question, with each stage's verdict and the passages returned: [per_question.csv]({rel(folder, 'per_question.csv', base)}). "
+        f"Every metric, mean and range over the runs: [summary.json]({rel(folder, 'summary.json', base)}).",
     ]
     return "\n".join(lines)
 
@@ -116,11 +117,9 @@ def full_report(folder):
             f"## All metrics\n\n{metrics_table(summary)}\n")
 
 
-def rel(folder, name):
-    """Link target as seen from where the section is written."""
-    folder = Path(folder).resolve()
-    base = HERE if folder == PUBLISHED.resolve() else folder
-    return (folder / name).relative_to(base).as_posix()
+def rel(folder, name, base):
+    """Link target as seen from base, the folder of the file being written (default: the run folder)."""
+    return (Path(folder).resolve() / name).relative_to(Path(base or folder).resolve()).as_posix()
 
 
 def write_report(folder):
@@ -136,7 +135,7 @@ def write_report(folder):
             sys.exit("README.md has no result markers")
         before, rest = doc.split(START, 1)
         _, after = rest.split(END, 1)
-        readme.write_text(f"{before}{START}\n{section(folder)}\n{END}{after}", encoding="utf-8")
+        readme.write_text(f"{before}{START}\n{section(folder, HERE)}\n{END}{after}", encoding="utf-8")
         print("README.md result section rewritten from results/openai")
     return text
 

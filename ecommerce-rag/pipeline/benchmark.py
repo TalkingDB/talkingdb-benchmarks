@@ -25,6 +25,7 @@ from pathlib import Path
 HERE = Path(__file__).resolve().parent.parent
 AGENT = HERE / "agent-src" / "ecommerce-rag-agent"
 INDEX_DIR = HERE / ".index"
+RUNS = 3
 
 sys.path.insert(0, str(HERE / "pipeline"))
 import score  # noqa: E402
@@ -49,8 +50,19 @@ def configure(local: bool) -> None:
 
 
 def ensure_index(settings, reingest: bool) -> None:
+    """Build the index if it is empty, asked for, or built from other documents or chunk settings."""
+    import hashlib
+
     from app.vectorstore import count_points
 
+    stamp = json.dumps({
+        "documents": {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((HERE / "documents").glob("*.pdf"))},
+        **{k: str(getattr(settings, k)) for k in ("embedding_id", "chunking_strategy", "chunk_size", "chunk_overlap")},
+    }, sort_keys=True)
+    stamp_file = INDEX_DIR / f"{settings.collection}.json"
+    if not reingest and count_points(settings) and (not stamp_file.exists() or stamp_file.read_text(encoding="utf-8") != stamp):
+        print("Documents or chunk settings changed since the index was built; rebuilding it.")
+        reingest = True
     if reingest:
         # Delete the collection's files before any Qdrant client opens them. Qdrant's local
         # delete leaves its SQLite file open and ignores the error, so on Windows the old
@@ -65,6 +77,8 @@ def ensure_index(settings, reingest: bool) -> None:
 
         print(f"Indexing the documents with {settings.embedding_id} ...")
         ingest.run(None)
+    INDEX_DIR.mkdir(exist_ok=True)
+    stamp_file.write_text(stamp, encoding="utf-8")
 
 
 def snapshot(store, out: Path) -> dict:
@@ -176,7 +190,7 @@ class Runner:
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--local", action="store_true", help="use local models through Ollama instead of OpenAI")
-    p.add_argument("--runs", type=int, default=3)
+    p.add_argument("--runs", type=int, default=RUNS)
     p.add_argument("--only", default="", help="comma-separated question ids, for a quick check")
     p.add_argument("--reingest", action="store_true", help="rebuild the index even if it exists")
     p.add_argument("--answers", action="store_true",
@@ -192,7 +206,7 @@ def main():
 
     settings = get_settings()
     out = HERE / "results" / ("local" if args.local else "openai")
-    if args.only:
+    if args.only or args.runs != RUNS:  # quick runs never replace a full one
         out = out.with_name(out.name + "-partial")
     out.mkdir(parents=True, exist_ok=True)
 

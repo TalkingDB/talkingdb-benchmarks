@@ -18,7 +18,7 @@ OPENAI_API_KEY=sk-... bash run.sh
 
 | Option | What it does |
 | :--- | :--- |
-| `--runs 1`, `--only Q01,Q68` | A single run, or a few questions (written to `results/openai-partial/`) |
+| `--runs 1`, `--only Q01,Q68` | A single run, or a few questions (written to `results/openai-partial/`, never over the published run) |
 | `--reingest` | Rebuild the index |
 | `--answers` | Also have the bot answer from the same top 4, and check each answer cites its evidence |
 | `--local` | Use Ollama (`bge-m3`, `qwen3.5:9b`) instead of OpenAI; results go to `results/local/` |
@@ -45,7 +45,7 @@ Run `openai`, 2026-11-20: `gpt-4o-mini` (openai), `text-embedding-3-small` embed
 | :--- | :--- | :--- |
 | Top 20, after vector search | 64 | 40 (62.5%) have all primary evidence: PASS 40, PARTIAL 13, FAIL 11 |
 | Top 4, after the reranker (what the bot answers from) | 64 | 31.8% per run (20 to 21 of 64): PASS 21, FAIL 43 by most runs |
-| No answer in the documents | 6 | 3 declined; 3 let passages through to the answer step (RISK) |
+| No answer in the documents | 6 | passages got through in 10 of 18 runs (RISK); nothing got through in the other 8 |
 
 In 24 of the 64 questions, search never puts a primary piece of evidence in the top 20, so no reranker could keep it. In 19 more, every primary piece is in the top 20 but the reranker drops at least one. The top 4 changed between runs for 32 of the 70 questions, so a question can pass in one run and fail in the next.
 
@@ -64,7 +64,7 @@ Each question lists **primary** evidence (what the answer cannot do without) and
 | Top 20 (search) | every primary piece found | some found | none found |
 | Top 4 (after reranking) | every primary piece kept, in most runs | | otherwise |
 
-Some questions have no answer in the documents: they pass when nothing gets through the reranker, and are a RISK when passages still get through. No language model writes or judges the score; `pipeline/score.py` has a self check and re-scores the saved run to the same [summary.json](results/openai/summary.json).
+Some questions have no answer in the documents: they pass when nothing gets through the reranker (empty retrieval), and are a RISK when passages still get through. Whether the bot then declines to answer is checked only with `--answers`. No language model writes or judges the score; `pipeline/score.py` has a self check and re-scores the saved run to the same [summary.json](results/openai/summary.json).
 
 ## Limits
 

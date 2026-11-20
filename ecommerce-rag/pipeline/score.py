@@ -12,7 +12,7 @@ and gives a verdict per stage:
   top 20  PASS all primary units found, PARTIAL some, FAIL none
   top 4   PASS all primary units in the top 4 (majority of runs), FAIL otherwise
 Questions whose answer is not in the documents pass the top 4 when nothing gets through
-(the bot declines), and are a RISK when passages still get through.
+(empty retrieval), and are a RISK when passages still get through.
 
 Usage, plain Python 3, no installs:
   python3 pipeline/score.py                 self check, then re-score the saved OpenAI run
@@ -150,9 +150,9 @@ def verdicts(case, scored_runs, rec0, index):
         declined = sum(s["top4_ok"] for s in scored_runs)
         top20 = "N/A: answer not in documents"
         if declined * 2 > runs:
-            top4 = "PASS: nothing passes the reranker, the bot declines" + (f" ({declined}/{runs} runs)" if declined < runs else "")
+            top4 = "PASS: nothing passes the reranker" + (f" ({declined}/{runs} runs)" if declined < runs else "")
         else:
-            top4 = f"RISK: answer not in documents, but {scored_runs[0]['n_kept']} passages pass the reranker"
+            top4 = f"RISK: answer not in documents, but passages pass the reranker in {runs - declined}/{runs} runs"
         return top20, top4
 
     order = [c for c, _ in rec0["top_vector"]]
