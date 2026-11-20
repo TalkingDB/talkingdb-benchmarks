@@ -1,40 +1,26 @@
 # Railway tables: rows lost at a page break
 
-A small, open test of one problem in regulated documents: a long table that runs across PDF pages.
+Standard PDF table extraction drops the first row of every new page. TalkingDB puts those rows back, so a plain question gets the whole answer. Free and open source.
 
-On a public UK rail safety document, standard PDF table extraction loses the first row of every new page. The TalkingDB page break fix keeps those rows, and [TalkingDB TTT](https://github.com/TalkingDB/module-ttt) finds them when you ask in plain English. Everything here is free to use and open source, so you can rerun it, or point it at your own documents.
+![Same question, without and with the fix](images/query-fails-and-succeeds.png)
 
-![Where rows go missing at a page break](images/lost-rows.png)
+## Try it in three steps
 
-![What TalkingDB returns](images/talkingdb-answer.png)
+Linux or WSL, about ten minutes, CPU only ([what you need](#run-it-yourself)).
 
-It is not only the lost rows. Every row that survives standard extraction carries wrong or merged column names: on pages 2 to 4 the lost row becomes the column names for the 111 rows below it, and on page 1 eight printed columns come out as six. The page break fix gives pages 2 to 4 their printed column names back; page 1 stays merged (limit 3).
+```bash
+git clone https://github.com/TalkingDB/talkingdb-benchmarks.git && cd talkingdb-benchmarks/railway-tables
+bash setup.sh
+bash run.sh your.pdf "your question" --row-id "REQ-\d+"
+```
 
-![The rows that survive get the wrong labels](images/wrong-column-names.png)
+`--row-id` says what a row ID looks like in your table ([examples](#try-it-on-your-own-documents)). You get the matching rows, each with its page. To rerun our result instead, type `bash run.sh` ([what it checks](#the-result)).
 
-## The result
+More detail: [how it works](#how-it-works), [where rows go missing](#where-rows-go-missing), [the result](#the-result), [the documents](#the-documents), [limits](#limits-plainly).
 
-Five lookups on pages 1 to 4 of the index, 13 expected rows ([cases](cases/raib-lookups.json), [full results](results/results.json)).
+## How it works
 
-| | Rows that survive extraction | Rows TTT returns within 300 words | Lookups complete | Wrong rows |
-| :--- | :--- | :--- | :--- | :--- |
-| Standard extraction | 10 of 13 | 10 of 13 | 2 of 5 | 0 |
-| With the TalkingDB page break fix | **13 of 13** | **13 of 13** | **5 of 5** | **0** |
-
-Same search in both rows. The only difference is the page break fix, so the three missing rows are lost at extraction, before any search runs.
-
-## The documents
-
-Both are public UK government publications, used under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). Contains public sector information licensed under the Open Government Licence v3.0.
-
-| Document | What it tests | Source | SHA-256 |
-| :--- | :--- | :--- | :--- |
-| [Index of RAIB recommendations](documents/raib-recommendations-index.pdf), Rail Accident Investigation Branch, pages 1 to 4 | One table running across many pages; several rows per report; a recommendation with three organisations that must act | [GOV.UK](https://www.gov.uk/government/publications/index-of-raib-recommendations) | `e07edb0f606e86cbdc2e75e845703251fb484f8952f3df6ab0a8000ee82e706f` |
-| [Passenger rail usage, October to December 2025](documents/orr-passenger-rail-usage-oct-dec-2025.pdf), Office of Rail and Road | Questions whose answer needs a section named elsewhere, such as Annex 1 ([questions](cases/orr-questions.json)) | [ORR data portal](https://dataportal.orr.gov.uk/media/2hto1os3/passenger-rail-usage-oct-dec-2025.pdf) | `aa769ae7dac8525a3625dc9db3a01486431313b30d8d0d74700b9df173351a10` |
-
-## How we tested, in plain words
-
-![From document to answer: what happens in between](images/how-it-works.png)
+![What happens between the PDF and the answer](images/how-it-works.png)
 
 1. **Read the tables.** An open source PDF table extractor reads pages 1 to 4: no OCR, accurate table mode, CPU only ([extract.py](pipeline/extract.py); exact version in [requirements-extract.txt](requirements-extract.txt)). Its output is saved in [results/extraction-raib-pages-1-4.json](results/extraction-raib-pages-1-4.json), so you can check every later step without running it.
 2. **Fix the page breaks.** The extractor marks the first row of each new page as column names. A row that holds a row ID, here a recommendation number such as `13/2024/03`, is kept as data whatever that mark says, and a table on the next page joins the one before it when its first row is data ([join_pages.py](pipeline/join_pages.py)).
@@ -49,6 +35,36 @@ Both are public UK government publications, used under the [Open Government Lice
 | Recommendation 07/2023/04 | Environment Agency p3; Natural Resources Wales p3; Network Rail p4 |
 | Report 99/1999, invented | Nothing |
 
+## Where rows go missing
+
+![Where rows go missing at a page break](images/lost-rows.png)
+
+It is not only the lost rows. Every row that survives standard extraction carries wrong or merged column names: on pages 2 to 4 the lost row becomes the column names for the 111 rows below it, and on page 1 eight printed columns come out as six. The page break fix gives pages 2 to 4 their printed column names back; page 1 stays merged (limit 3).
+
+![The rows that survive get the wrong labels](images/wrong-column-names.png)
+
+## The result
+
+Five lookups on pages 1 to 4 of the index, 13 expected rows ([cases](cases/raib-lookups.json), [full results](results/results.json)).
+
+| | Rows that survive extraction | Rows TTT returns within 300 words | Lookups complete | Wrong rows |
+| :--- | :--- | :--- | :--- | :--- |
+| Standard extraction | 10 of 13 | 10 of 13 | 2 of 5 | 0 |
+| With the TalkingDB page break fix | **13 of 13** | **13 of 13** | **5 of 5** | **0** |
+
+Same search in both rows. The only difference is the page break fix, so the three missing rows are lost at extraction, before any search runs. For example, "Which recommendations did RAIB report 13/2024 make, who must act on each and what is its status?" gets 2 of its 3 rows without the fix and all 3 with it (picture at the top).
+
+![What TalkingDB returns](images/talkingdb-answer.png)
+
+## The documents
+
+Both are public UK government publications, used under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). Contains public sector information licensed under the Open Government Licence v3.0.
+
+| Document | What it tests | Source | SHA-256 |
+| :--- | :--- | :--- | :--- |
+| [Index of RAIB recommendations](documents/raib-recommendations-index.pdf), Rail Accident Investigation Branch, pages 1 to 4 | One table running across many pages; several rows per report; a recommendation with three organisations that must act | [GOV.UK](https://www.gov.uk/government/publications/index-of-raib-recommendations) | `e07edb0f606e86cbdc2e75e845703251fb484f8952f3df6ab0a8000ee82e706f` |
+| [Passenger rail usage, October to December 2025](documents/orr-passenger-rail-usage-oct-dec-2025.pdf), Office of Rail and Road | Questions whose answer needs a section named elsewhere, such as Annex 1 ([questions](cases/orr-questions.json)) | [ORR data portal](https://dataportal.orr.gov.uk/media/2hto1os3/passenger-rail-usage-oct-dec-2025.pdf) | `aa769ae7dac8525a3625dc9db3a01486431313b30d8d0d74700b9df173351a10` |
+
 ## Run it yourself
 
 Linux or WSL, with `git` and [uv](https://docs.astral.sh/uv/). CPU only; setup takes about ten minutes the first time.
@@ -60,7 +76,7 @@ bash setup.sh
 bash run.sh
 ```
 
-`run.sh` runs the self checks, the five lookups through TTT, rewrites `results/results.json` and redraws the two images. Only want the first part? `python3 pipeline/benchmark.py` needs nothing but Python 3.
+`run.sh` runs the self checks, the five lookups through TTT, rewrites `results/results.json` and redraws the images. Only want the first part? `python3 pipeline/benchmark.py` needs nothing but Python 3.
 
 ## Try it on your own documents
 
@@ -91,7 +107,7 @@ If it fails on your document, we would like to see where. Please [open an issue]
 | `pipeline/ask.py` | Step 3, index rows in TTT and ask |
 | `pipeline/score.py` | Exact scoring, with a self check |
 | `pipeline/benchmark.py` | Runs the five lookups with and without the fix |
-| `pipeline/make_images.py` | Draws the two images from the PDF and the results |
+| `pipeline/make_images.py` | Draws the images from the PDF and the results |
 | `results/` | Saved extraction output and the results |
 | `setup.sh`, `run.sh`, `TTT_COMMITS.txt` | Setup and run; TTT is pinned to the commits listed |
 

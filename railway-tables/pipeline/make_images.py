@@ -32,6 +32,12 @@ table { border-collapse: collapse; margin: 4pt 0 6pt 0; }
 td, th { font-size: 11pt; padding: 4pt 8pt; border: 1px solid #8c959f; text-align: left; }
 th { background-color: #eef1f4; }
 .big { font-size: 15pt; font-weight: bold; }
+.q { font-size: 12pt; background-color: #f3f4f6; padding: 6pt; }
+.head-bad { color: #b42318; font-weight: bold; font-size: 13pt; margin: 10pt 0 3pt 0; }
+.head-good { color: #0b6e4f; font-weight: bold; font-size: 13pt; margin: 10pt 0 3pt 0; }
+td.ok { color: #0b6e4f; font-weight: bold; }
+td.miss { color: #b42318; font-weight: bold; }
+.why { color: #b42318; font-size: 9.5pt; }
 """
 
 
@@ -182,132 +188,108 @@ def column_names():
         f.unlink()
 
 
+def _box(pg, r, title, body, edge, fill=(0.97, 0.98, 0.99), width=1.2):
+    pg.draw_rect(r, color=edge, fill=fill, width=width)
+    assert pg.insert_textbox(r + (8, 6, -6, 0), title, fontsize=11, fontname="hebo", color=(0.11, 0.12, 0.14)) >= 0, title
+    if body:
+        assert pg.insert_textbox(r + (8, 24, -6, -2), body, fontsize=9.2, fontname="helv", color=(0.11, 0.12, 0.14)) >= 0, body
+
+
+def _arrow(pg, a, b, colour):
+    pg.draw_line(a, b, color=colour, width=1.6)
+    pg.draw_polyline([b + (-7, -5), b, b + (-7, 5)], color=colour, width=1.6)
+
+
 def how_it_works():
-    """Diagram: document to output, with where rows are lost and what the fix changes."""
+    """Two lanes, same PDF and same search: without and with the TalkingDB page break fix."""
     res = json.loads((ROOT / "results/results.json").read_text(encoding="utf-8"))
-    std = res["rows_surviving_extraction"]["standard_extraction"]
-    fix = res["ttt_answers"]["with_page_break_fix"]
-    W, H = 640, 790
+    std, fix = res["ttt_answers"]["standard_extraction"], res["ttt_answers"]["with_page_break_fix"]
+    q_std, q_fix = std["lookups_detail"][0], fix["lookups_detail"][0]
+    ink, grey = (0.11, 0.12, 0.14), (0.45, 0.48, 0.52)
+    W, H = 940, 440
     doc = pymupdf.open()
     pg = doc.new_page(width=W, height=H)
-    ink, grey = (0.11, 0.12, 0.14), (0.35, 0.38, 0.42)
-    steps = [
-        (
-            "1. Document",
-            "UK RAIB index of recommendations, a public PDF. Pages 1 to 4 hold one table of 149 rows.",
-            None,
-        ),
-        (
-            "2. Table extraction",
-            "An open source extractor reads each page as its own table.",
-            None,
-        ),
-        (
-            "3. TalkingDB page break fix",
-            "A row with an ID is data. A table that continues on the next page joins the one before. Printed column names, page kept.",
-            GREEN,
-        ),
-        (
-            "4. Chunks: one per table row",
-            "149 rows, each written as column: value, plus its page.",
-            None,
-        ),
-        (
-            "5. TTT index",
-            "Every row indexed by its words, column names and page. Symbolic: no vectors, no language model.",
-            None,
-        ),
-        ("6. Question", '"Which recommendations did RAIB report 13/2024 make?"', None),
-        (
-            "7. Retrieval",
-            f"The top matching rows that fit in {res['budget_words']} words.",
-            None,
-        ),
-        (
-            "8. Output",
-            "13/2024/01 Network Rail, page 1; 13/2024/02 Dundee City Council, page 1; 13/2024/03 RSSB, page 2.",
-            GREEN,
-        ),
+    pg.insert_textbox(pymupdf.Rect(24, 14, W - 24, 46), "What happens between the PDF and the answer", fontsize=18, fontname="hebo", color=ink)
+    pg.insert_textbox(pymupdf.Rect(24, 44, W - 24, 62), "Same PDF, same extractor, same search. The only difference is step 3.", fontsize=10, fontname="helv", color=grey)
+    stages = ["1. PDF", "2. Read the tables", "3. Fix page breaks", "4. Chunks", "5. TTT search", "6. Answer"]
+    x0, bw, gap = 24, 134, 18
+    xs = [x0 + k * (bw + gap) for k in range(6)]
+    for x, s in zip(xs, stages):
+        pg.insert_textbox(pymupdf.Rect(x, 74, x + bw, 92), s, fontsize=10, fontname="hebo", color=grey)
+    lanes = [
+        ("Without the fix", RED, 104, [
+            ("149 rows", "One table over 4 pages"),
+            ("146 rows kept", "First row of each new page read as column names, so 3 rows lost and labels wrong"),
+            ("No fix", ""),
+            ("146 chunks", "Wrong or merged column names"),
+            ("Same search", "Symbolic index, no language model"),
+            (f"{q_std['found_rows']} of {q_std['expected_rows']} rows", "The RSSB row on page 2 never comes back"),
+        ]),
+        ("With the TalkingDB fix", GREEN, 256, [
+            ("149 rows", "One table over 4 pages"),
+            ("Same extraction", "Same 3 rows read as column names"),
+            ("Rows put back", "A row with an ID is data; tables join across pages; printed column names"),
+            ("149 chunks", "One per row, with column names and page"),
+            ("Same search", "Symbolic index, no language model"),
+            (f"{q_fix['found_rows']} of {q_fix['expected_rows']} rows", "Including RSSB on page 2, each with its page"),
+        ]),
     ]
-    pg.insert_textbox(
-        pymupdf.Rect(28, 14, W - 28, 48),
-        "From document to answer: what happens in between",
-        fontsize=18,
-        fontname="hebo",
-        color=ink,
-    )
-    pg.insert_textbox(
-        pymupdf.Rect(28, 46, W - 28, 64),
-        "Railway table test, one public PDF. Every number comes from results/results.json.",
-        fontsize=9.5,
-        fontname="helv",
-        color=grey,
-    )
-    x0, x1, top, bh, gap = 28, 352, 76, 62, 26
-    boxes = []
-    for i, (title, body, colour) in enumerate(steps):
-        y = top + i * (bh + gap)
-        r = pymupdf.Rect(x0, y, x1, y + bh)
-        pg.draw_rect(
-            r, color=colour or grey, fill=(0.97, 0.98, 0.99), width=2 if colour else 1
-        )
-        pg.insert_textbox(
-            r + (10, 7, -8, 0), title, fontsize=11.5, fontname="hebo", color=ink
-        )
-        pg.insert_textbox(
-            r + (10, 24, -8, -2), body, fontsize=9, fontname="helv", color=ink
-        )
-        boxes.append(r)
-        if i:
-            a = pymupdf.Point((x0 + x1) / 2, boxes[i - 1].y1 + 2)
-            b = pymupdf.Point((x0 + x1) / 2, r.y0 - 3)
-            pg.draw_line(a, b, color=grey, width=1.4)
-            pg.draw_polyline([b + (-5, -7), b, b + (5, -7)], color=grey, width=1.4)
-
-    def callout(box, rect, colour, title, body):
-        pg.draw_rect(rect, color=colour, fill=(1, 1, 1), width=1.6)
-        pg.insert_textbox(
-            rect + (8, 6, -6, 0), title, fontsize=10.5, fontname="hebo", color=colour
-        )
-        pg.insert_textbox(
-            rect + (8, 22, -6, -2), body, fontsize=8.8, fontname="helv", color=ink
-        )
-        y = (box.y0 + box.y1) / 2
-        pg.draw_line(
-            pymupdf.Point(box.x1, y),
-            pymupdf.Point(rect.x0, y),
-            color=colour,
-            width=1.2,
-            dashes="[3 2] 0",
-        )
-
-    b2, b5, b8 = boxes[1], boxes[4], boxes[7]
-    callout(
-        b2,
-        pymupdf.Rect(368, b2.y0 - 4, W - 20, b2.y1 + 6),
-        RED,
-        "Where it goes wrong",
-        f"The first row of each new page is read as column names. {std['expected_rows'] - std['found_rows']} of the "
-        f"{std['expected_rows']} expected rows are lost, and all 146 rows that survive carry wrong or merged column names.",
-    )
-    callout(
-        b5,
-        pymupdf.Rect(368, b5.y0 - 4, W - 20, b5.y1 + 4),
-        grey,
-        "TTT's own PDF reader today",
-        "It converts the PDF to a Word file first and loses the long table rows before indexing: 0 of 13. "
-        "Moving steps 2 and 3 into it is next.",
-    )
-    callout(
-        b8,
-        pymupdf.Rect(368, b8.y0, W - 20, b8.y1),
-        GREEN,
-        "Result, five lookups",
-        f"{fix['found_rows']} of {fix['expected_rows']} expected rows, {fix['complete_lookups']} of {fix['lookups']} "
-        f"lookups complete, {fix['wrong_rows']} wrong rows. Same search without step 3: "
-        f"{res['ttt_answers']['standard_extraction']['found_rows']} of 13.",
-    )
+    for name, colour, top, boxes in lanes:
+        assert pg.insert_textbox(pymupdf.Rect(x0, top, W - 24, top + 24), name, fontsize=12, fontname="hebo", color=colour) >= 0
+        y0, y1 = top + 26, top + 126
+        for k, (t, body) in enumerate(boxes):
+            r = pymupdf.Rect(xs[k], y0, xs[k] + bw, y1)
+            skipped = t == "No fix"
+            edge = grey if skipped else (colour if k in (2, 5) or (k == 1 and colour == RED) else grey)
+            fill = (0.95, 0.95, 0.96) if skipped else ((0.99, 0.94, 0.94) if edge == RED else ((0.93, 0.98, 0.95) if edge == GREEN else (0.97, 0.98, 0.99)))
+            _box(pg, r, t, body, edge, fill, 2 if edge != grey else 1.1)
+            if k:
+                _arrow(pg, pymupdf.Point(xs[k - 1] + bw + 2, (y0 + y1) / 2), pymupdf.Point(xs[k] - 3, (y0 + y1) / 2), grey)
+    q = q_fix["question"]
+    pg.insert_textbox(pymupdf.Rect(x0, 396, W - 24, 414), f"Question asked in both lanes: \"{q}\"", fontsize=9.5, fontname="helv", color=ink)
+    pg.insert_textbox(pymupdf.Rect(x0, 413, W - 24, 432),
+                      f"All five lookups: {std['found_rows']} of {std['expected_rows']} rows without the fix, {fix['found_rows']} of {fix['expected_rows']} with it, {fix['wrong_rows']} wrong rows. TTT's own PDF reader loses these rows today, so step 2 uses an open source extractor.",
+                      fontsize=9, fontname="helv", color=grey)
     pg.get_pixmap(dpi=150).save(OUT / "how-it-works.png")
+
+
+def query_compare():
+    """The same plain English question, without and with the fix: what comes back for report 13/2024."""
+    res = json.loads((ROOT / "results/results.json").read_text(encoding="utf-8"))
+    budget = res["budget_words"]
+    expected = json.loads((ROOT / "cases/raib-lookups.json").read_text(encoding="utf-8"))[0]["expected_rows"]
+
+    def got(variant):
+        case = res["ttt_answers"][variant]["lookups_detail"][0]
+        rows = [i for r in case["results"] for cells in cells_of(r) if (i := identity(cells))]
+        return case["question"], rows
+
+    question, std_rows = got("standard_extraction")
+    _, fix_rows = got("with_page_break_fix")
+    std_ids = {(a, b, c) for a, b, c in std_rows}
+    fix_ids = {(a, b, c) for a, b, c in fix_rows}
+    gold = [(e["recommendation"], e["implementer"], e["page"]) for e in expected]
+    assert len([g for g in gold if g in std_ids]) == 2 and all(g in fix_ids for g in gold)
+
+    def column(title, ids, ok_class):
+        rows = ""
+        for rec, who, page in gold:
+            hit = (rec, who, page) in ids
+            mark = "&#10003;" if hit else "&#10007;"
+            cls = "ok" if hit else "miss"
+            note = "" if hit else "<br/><span class='why'>Missing: read as column names</span>"
+            rows += f"<tr><td class='{cls}'>{mark}</td><td>{rec}</td><td>{who}{note}</td><td>page {page}</td></tr>"
+        n = sum((g in ids) for g in gold)
+        return (f"<p class='{ok_class}'>{title}: {n} of {len(gold)} rows</p>"
+                f"<table><tr><th></th><th>Recommendation</th><th>Who must act</th><th>Page</th></tr>{rows}</table>")
+
+    html = f"""<h1>Same question, without and with the fix</h1>
+<p class="q"><b>Question:</b> {question}</p>
+{column("Without the fix", std_ids, "head-bad")}
+{column("With the TalkingDB fix", fix_ids, "head-good")}
+<p class="note">What TTT returned within {budget} words, rows for report 13/2024. The other results were rows from other reports.
+Same PDF, same extractor, same search in both. No language model.</p>"""
+    render(html.replace("class='ok'", "class='ok'"), "query-fails-and-succeeds", 470)
 
 
 if __name__ == "__main__":
@@ -315,4 +297,5 @@ if __name__ == "__main__":
     answer()
     column_names()
     how_it_works()
+    query_compare()
     print("images written:", sorted(p.name for p in OUT.glob("*.png")))
