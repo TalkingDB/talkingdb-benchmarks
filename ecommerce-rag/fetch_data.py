@@ -1,8 +1,10 @@
 """Download the benchmark data from Hugging Face and check every file by SHA-256.
 
-The six PDFs, the saved run outputs and the question-by-question spreadsheet live in the
-dataset https://huggingface.co/datasets/TalkingDB/ecommerce-rag , not in git. DATA.txt
-lists each file with its SHA-256. Plain Python 3, no installs.
+The six PDFs and the 70 questions live in the dataset
+https://huggingface.co/datasets/TalkingDB/ecommerce-rag , not in git. DATA.txt lists each
+file with its SHA-256, the dataset commit it is fetched from, its path in the dataset and
+its path here. Fetching from a fixed commit means later uploads to the dataset never change
+this benchmark. Plain Python 3, no installs.
 
 Usage: python3 fetch_data.py           download what is missing or changed
        python3 fetch_data.py --check   only check the files already here
@@ -15,7 +17,7 @@ import urllib.request
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-BASE = "https://huggingface.co/datasets/TalkingDB/ecommerce-rag/resolve/main/"
+DATASET = "https://huggingface.co/datasets/TalkingDB/ecommerce-rag/resolve/"
 
 
 def sha256(path):
@@ -27,15 +29,16 @@ def sha256(path):
 
 
 def manifest():
+    """(sha256, dataset commit, path in the dataset, path here) for each file."""
     for line in (HERE / "DATA.txt").read_text(encoding="utf-8").splitlines():
         if line.strip() and not line.startswith("#"):
-            digest, rel = line.split(maxsplit=1)
-            yield digest, rel
+            digest, commit, remote, local = line.split("\t")
+            yield digest, commit, remote, local
 
 
 def main(check_only=False):
     bad = []
-    for digest, rel in manifest():
+    for digest, commit, remote, rel in manifest():
         path = HERE / rel
         if path.exists() and sha256(path) == digest:
             print(f"ok       {rel}")
@@ -47,7 +50,7 @@ def main(check_only=False):
         path.parent.mkdir(parents=True, exist_ok=True)
         tmp = path.with_suffix(path.suffix + ".part")
         try:
-            urllib.request.urlretrieve(BASE + urllib.parse.quote(rel), tmp)
+            urllib.request.urlretrieve(f"{DATASET}{commit}/{urllib.parse.quote(remote)}", tmp)
         except OSError as e:
             bad.append(rel)
             print(f"FAILED   {rel}: {e}")

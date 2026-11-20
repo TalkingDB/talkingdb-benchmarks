@@ -11,7 +11,7 @@
 #
 # Without installs or an API key:
 #   python3 fetch_data.py && python3 pipeline/score.py
-#                                    fetch the saved OpenAI run from Hugging Face, re-score it
+#                                    fetch the questions from Hugging Face, re-score the saved run
 #                                    and check it matches summary.json
 set -e
 HERE="$(cd "$(dirname "$0")" && pwd)"

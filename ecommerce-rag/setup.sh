@@ -2,14 +2,14 @@
 # Set up the benchmark on Linux or WSL (tested on Ubuntu under WSL).
 # Needs git and uv (https://docs.astral.sh/uv/). Takes a few minutes the first time.
 #
-#   documents/, results/          checked by SHA-256 (fetched from Hugging Face when missing)
+#   documents/, cases/questions.json  fetched from Hugging Face at pinned commits, checked by SHA-256
 #   agent-src/ecommerce-rag-agent  the RAG pipeline, checked out at the commit in AGENT_COMMIT.txt
 #   .venv-rag                     Python 3.13 with the pipeline's pinned dependencies
 set -e
 HERE="$(cd "$(dirname "$0")" && pwd)"
 cd "$HERE"
 
-python3 fetch_data.py  # the PDFs and saved run outputs, checked by SHA-256
+python3 fetch_data.py  # the PDFs and the questions, checked by SHA-256
 
 read -r name sha < AGENT_COMMIT.txt
 mkdir -p agent-src

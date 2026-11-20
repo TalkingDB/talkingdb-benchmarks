@@ -12,7 +12,7 @@ bash setup.sh
 OPENAI_API_KEY=sk-... bash run.sh
 ```
 
-No API key? `python3 fetch_data.py && python3 pipeline/score.py` fetches the saved run and re-scores it with plain Python, nothing to install. Prefer local models? `bash run.sh --local` ([how](#use-local-models)).
+No API key? `python3 fetch_data.py && python3 pipeline/score.py` fetches the questions and re-scores the saved run with plain Python, nothing to install. Prefer local models? `bash run.sh --local` ([how](#use-local-models)).
 
 More detail: [how it works](#how-it-works), [the result](#the-result), [the questions](#the-questions), [scoring](#scoring), [the documents](#the-documents), [limits](#limits-plainly).
 
@@ -46,11 +46,11 @@ Per question, with each stage's verdict and the passages returned: [per_question
 
 Rerunning `bash run.sh` rewrites this section from the new run (`python3 pipeline/report.py`).
 
-To read the published run question by question, with the text of every chunk in its top 20 and top 4, open [questions-with-chunks.xlsx](https://huggingface.co/datasets/TalkingDB/ecommerce-rag/blob/main/results/openai/questions-with-chunks.xlsx) on Hugging Face (also fetched to `results/openai/` by `python3 fetch_data.py`).
+To read the published run question by question, with the text of every chunk in its top 20 and top 4, open [questions-with-chunks.xlsx](results/openai/questions-with-chunks.xlsx).
 
 ## The questions
 
-70 questions written by Smarter.codes from customer support situations: change of mind, damaged or wrong items, refunds, warranties, cancellations, consumer rights, follow-ups that challenge an earlier answer, and questions the documents cannot answer. Q01 to Q30 are single situations; Q31 to Q71 combine two or three ([cases/questions.json](cases/questions.json)).
+70 questions written by Smarter.codes from customer support situations: change of mind, damaged or wrong items, refunds, warranties, cancellations, consumer rights, follow-ups that challenge an earlier answer, and questions the documents cannot answer. Q01 to Q30 are single situations; Q31 to Q71 combine two or three ([questions.json](https://huggingface.co/datasets/TalkingDB/ecommerce-rag/blob/92092b46c725d24d048b9a4ed62861d1c05761f5/questions.json) on Hugging Face, fetched to `cases/questions.json`).
 
 | ID | Area | Question |
 | :--- | :--- | :--- |
@@ -130,7 +130,7 @@ Q26 is a two-turn conversation, and Q27 to Q29 are asked as follow-ups to it, so
 
 ## Scoring
 
-Each question lists the evidence a complete retrieval must find ([cases/questions.json](cases/questions.json)):
+Each question lists the evidence a complete retrieval must find ([questions.json](https://huggingface.co/datasets/TalkingDB/ecommerce-rag/blob/92092b46c725d24d048b9a4ed62861d1c05761f5/questions.json) on Hugging Face, fetched to `cases/questions.json`):
 
 - **Primary evidence**: what the answer cannot do without, usually one or two passages.
 - **Supporting evidence**: what makes the answer better. Reported, not required.
@@ -177,7 +177,7 @@ export OPENAI_API_KEY=sk-...
 bash run.sh
 ```
 
-`setup.sh` checks the documents and saved outputs by SHA-256 ([fetch_data.py](fetch_data.py)), checks out the bot's code at the pinned commit and installs its dependencies at the versions that built the published index ([requirements.txt](requirements.txt)). `run.sh` checks the scoring rules, indexes the documents (277 passages, a fraction of a cent of embeddings), asks the 70 questions three times and rewrites `results/openai/`. It takes about 20 minutes with `gpt-4o-mini` and `text-embedding-3-small`.
+`setup.sh` fetches the documents and the questions from Hugging Face at pinned commits and checks them by SHA-256 ([fetch_data.py](fetch_data.py)), checks out the bot's code at the pinned commit and installs its dependencies at the versions that built the published index ([requirements.txt](requirements.txt)). `run.sh` checks the scoring rules, indexes the documents (277 passages, a fraction of a cent of embeddings), asks the 70 questions three times and rewrites `results/openai/`. It takes about 20 minutes with `gpt-4o-mini` and `text-embedding-3-small`.
 
 Options: `--runs 1` for a single run, `--only Q01,Q68` for a few questions (written to `results/openai-partial/`), `--reingest` to rebuild the index. A key can also go in an `.env` file in this folder.
 
@@ -223,12 +223,12 @@ bash run.sh --local
 | Path | What it is |
 | :--- | :--- |
 | `documents/` | `sources.json` (titles and links); the six PDFs are fetched from Hugging Face |
-| `cases/questions.json` | The 70 questions with their primary and supporting evidence |
+| `cases/questions.json` | The 70 questions with their primary and supporting evidence, fetched from Hugging Face |
 | `pipeline/benchmark.py` | Indexes the documents and runs the questions through the bot's retrieval |
 | `pipeline/score.py` | Exact scoring, with a self check; plain Python |
 | `pipeline/report.py` | Writes the result section: the README for the OpenAI run, `report.md` for a local run |
-| `results/openai/` | The published run: `config.json`, `summary.json`, `per_question.csv` in git; `index.json`, `runs.jsonl` and `questions-with-chunks.xlsx` fetched from Hugging Face |
+| `results/openai/` | The published run: `index.json`, `runs.jsonl`, `config.json`, `summary.json`, `per_question.csv`, and `questions-with-chunks.xlsx` to read it question by question |
 | `setup.sh`, `run.sh`, `AGENT_COMMIT.txt`, `requirements.txt` | Setup and run; the bot's code is pinned to the listed commit |
-| `fetch_data.py`, `DATA.txt`, `DATASET_CARD.md` | The data files on [Hugging Face](https://huggingface.co/datasets/TalkingDB/ecommerce-rag), by SHA-256, and the dataset card |
+| `fetch_data.py`, `DATA.txt`, `DATASET_CARD.md` | The data files on [Hugging Face](https://huggingface.co/datasets/TalkingDB/ecommerce-rag), each with its SHA-256 and the dataset commit it comes from, and the dataset card |
 
 Built by [TalkingDB](https://talkingdb.io/). Code under [AGPL-3.0](../LICENSE).
