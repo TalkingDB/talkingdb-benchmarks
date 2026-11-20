@@ -1,0 +1,19 @@
+{
+  "llm_provider": "openai",
+  "chat_model": "gpt-4o-mini",
+  "embedding_provider": "openai",
+  "embedding_model": "text-embedding-3-small",
+  "reranker": "llm",
+  "rerank_model": "",
+  "fetch_k": "20",
+  "min_relevance": "0.2",
+  "top_k": "4",
+  "min_rerank_score": "0.4",
+  "temperature": "0.0",
+  "chunking_strategy": "recursive",
+  "chunk_size": "1000",
+  "chunk_overlap": "150",
+  "agent_commit": "5311ebd8f017ab4733ecea9f0dd92befd46abce5",
+  "runs": 3,
+  "run_date": "2026-11-20"
+}

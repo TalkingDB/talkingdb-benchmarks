@@ -1,0 +1,11 @@
+# SHA-256 and path of each data file kept on Hugging Face (https://huggingface.co/datasets/TalkingDB/ecommerce-rag).
+# fetch_data.py downloads them and refuses any file whose hash differs.
+0ae7f82ab5b77d50087cd4cd2dd2dbc12755c0bdb31371fdefd042b020d50756 documents/CP Act 2019_1732700731.pdf
+e3c4bf5cb1a7189563e7aebea9f16e5e83ce14cdf7b2d45eda5d238cc53c0a41 documents/india_consumer_protection_ecommerce_rules_2020.pdf
+a67801f5e03dda4bfb37396f91ebe0146e191fbe8d484cae5faadbbe8409dd84 documents/Learn More About Shipping & Delivery Charges for Meesho Supplier.pdf
+3e31040490ade605610b09a47fa06c49e1b690989b51d416f33552fbbc54c2b4 documents/meesho.com_legal_returns, refunds and replacement_embed=true.pdf
+b0d8be4a98b53d438b747de1c12857acf034c0696e5d52516de4600dcb268d32 documents/Penalty Structure and Handling Incorrect Penalties _ Meesho.pdf
+43421721c336b9bfcacb045960599b9e10d74d47213c9acaa626684fd92a2a8d documents/Siphon_WP_Manual_1.pdf
+51dbf3518019c592b5dda203f2b9ee5e0879c202c24a9def47c73d625a4c831f results/openai/index.json
+92eba996d5b432bf872ca44bc9162b249372c0cbd13913404c238c8e83ecf0c8 results/openai/runs.jsonl
+bbf368e0f5e1969e2365fa9af366e949bd55e5fa0afffcf5add9b6ad649da1e4 results/openai/questions-with-chunks.xlsx

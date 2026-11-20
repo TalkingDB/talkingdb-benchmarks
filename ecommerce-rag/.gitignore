@@ -1,0 +1,10 @@
+agent-src/
+.index/
+.env
+results/*-partial/
+*.part
+# kept on Hugging Face (DATA.txt), fetched by fetch_data.py
+documents/*.pdf
+results/openai/index.json
+results/openai/runs.jsonl
+results/openai/questions-with-chunks.xlsx
