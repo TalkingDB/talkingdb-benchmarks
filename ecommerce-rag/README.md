@@ -105,7 +105,7 @@ Some questions have no answer in the documents: they pass when nothing gets thro
 
 | Path | What it is |
 | :--- | :--- |
-| `pipeline/` | `benchmark.py` runs the questions, `score.py` scores them, `report.py` writes the result section |
+| `pipeline/` | `benchmark.py` runs the questions, `score.py` scores them, `report.py` writes the result section, `test_benchmark.py` tests that only a full default run replaces `results/openai/` (`python -m unittest discover -s pipeline`) |
 | `results/openai/` | The published run: index, raw runs, config, summary, per-question verdicts, spreadsheet |
 | `documents/sources.json` | Document titles and links; the PDFs are fetched into `documents/` |
 | `setup.sh`, `run.sh`, `requirements.txt`, `requirements.lock`, `AGENT_COMMIT.txt` | Setup and run, pinned |

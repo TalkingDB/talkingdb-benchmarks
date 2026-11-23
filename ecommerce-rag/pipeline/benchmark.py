@@ -29,10 +29,10 @@ HERE = Path(__file__).resolve().parent.parent
 AGENT = HERE / "agent-src" / "ecommerce-rag-agent"
 INDEX_DIR = HERE / ".index"
 RUNS = 3
-# The pipeline settings recorded in config.json.
-CONFIG_KEYS = ("llm_provider", "chat_model", "embedding_provider", "embedding_model", "reranker", "rerank_model",
-               "fetch_k", "min_relevance", "top_k", "min_rerank_score", "temperature",
-               "chunking_strategy", "chunk_size", "chunk_overlap")
+# Settings fields that say where the run reads and writes, not how the pipeline behaves. Every
+# other field of the pipeline's Settings is recorded in config.json and checked for changes.
+NOT_SETTING_FIELDS = {"docs_dir", "sources_file", "feedback_file", "interactions_file", "qdrant_url",
+                      "qdrant_api_key", "qdrant_path", "ollama_base_url"}
 # Environment variables that pick where the run reads and writes, the provider or the key,
 # not how the pipeline behaves; setting them is not a custom setting.
 NOT_SETTINGS = {"DOCS_DIR", "SOURCES_FILE", "QDRANT_PATH", "QDRANT_URL", "QDRANT_API_KEY", "INTERACTIONS_FILE",
@@ -74,11 +74,25 @@ def check_agent() -> str:
     if head.stdout.strip() != pinned:
         sys.exit(f"The pipeline code is at {head.stdout.strip()[:12]}, but AGENT_COMMIT.txt pins {pinned[:12]}. "
                  "Run: bash setup.sh")
-    edited = git("status", "--porcelain", "--untracked-files=no").stdout.strip()
+    # Untracked files count too (an added module could change what runs), apart from the
+    # bytecode Python writes itself: the pipeline repo does not ignore __pycache__.
+    status = git("status", "--porcelain", "--untracked-files=all").stdout.splitlines()
+    edited = "\n".join(line for line in status
+                       if not (line.startswith("?? ") and (line.endswith(".pyc") or "__pycache__/" in line)))
     if edited:
-        sys.exit(f"The pipeline code at {pinned[:12]} has local edits, so a run would not measure that commit:\n"
-                 f"{edited}\nUndo them (git -C {AGENT.relative_to(HERE).as_posix()} checkout -- .) or run: bash setup.sh")
+        rel = AGENT.relative_to(HERE).as_posix()
+        sys.exit(f"The pipeline code at {pinned[:12]} has local edits or added files, so a run would not measure "
+                 f"that commit:\n{edited}\nUndo edits with: git -C {rel} checkout -- .\n"
+                 f"Remove added files (lines starting ??) with: git -C {rel} clean -f <file>")
     return pinned
+
+
+def setting_names(settings) -> list:
+    """Every field of the pipeline's Settings that changes how it behaves, in its own order, so a
+    setting added to the pipeline later is recorded and checked without a change here."""
+    import dataclasses
+
+    return [f.name for f in dataclasses.fields(settings) if f.name not in NOT_SETTING_FIELDS]
 
 
 def custom_settings(settings) -> dict:
@@ -95,7 +109,8 @@ def custom_settings(settings) -> dict:
         defaults = Settings()
     finally:
         os.environ.update(saved)
-    return {k: str(getattr(settings, k)) for k in CONFIG_KEYS if str(getattr(settings, k)) != str(getattr(defaults, k))}
+    return {k: str(getattr(settings, k)) for k in setting_names(settings)
+            if str(getattr(settings, k)) != str(getattr(defaults, k))}
 
 
 def output_folder(args, custom: dict):
@@ -310,7 +325,7 @@ def main():
     index = snapshot(runner.assistant.vectorstore, stage)
     check_evidence(cases, index)
 
-    config = {k: str(getattr(settings, k)) for k in CONFIG_KEYS}
+    config = {k: str(getattr(settings, k)) for k in setting_names(settings)}
     config["agent_commit"] = check_agent()
     config["runs"] = args.runs
     config["answers"] = args.answers
