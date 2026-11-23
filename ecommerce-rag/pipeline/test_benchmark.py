@@ -106,5 +106,109 @@ class PinnedAgent(unittest.TestCase):
             benchmark.check_agent()
 
 
+QUESTIONS = [
+    {"id": "Q01", "primary": [1]}, {"id": "Q02", "primary": []},
+    {"id": "Q03", "primary": [1], "not_scored": "needs a live order"},
+]
+
+
+class Arguments(unittest.TestCase):
+    """Bad --only and --runs values stop the run with a message, before any setup."""
+
+    def ids(self, only):
+        return [c["id"] for c in benchmark.select_cases(only, QUESTIONS)]
+
+    def test_no_only_runs_every_scored_question(self):
+        self.assertEqual(self.ids(""), ["Q01", "Q02"])
+
+    def test_only_is_case_and_space_insensitive(self):
+        self.assertEqual(self.ids(" q02 , Q01,q01"), ["Q01", "Q02"])
+
+    def test_unknown_id_stops(self):
+        for only in ("Q99", "Q01,Q99", ",", "Q1"):
+            with self.subTest(only), self.assertRaises(SystemExit) as stop:
+                self.ids(only)
+            self.assertIsInstance(stop.exception.code, str)
+
+    def test_not_scored_id_stops(self):
+        with self.assertRaises(SystemExit) as stop:
+            self.ids("Q03")
+        self.assertIn("needs a live order", stop.exception.code)
+
+    def test_runs_must_be_positive(self):
+        self.assertEqual(benchmark.positive_int("2"), 2)
+        for bad in ("0", "-1"):
+            with self.subTest(bad), self.assertRaises(Exception):
+                benchmark.positive_int(bad)
+
+
+class Reranker(unittest.TestCase):
+    """A reranker that falls back to vector order is retried, then stops the run."""
+
+    class Chunk:
+        def __init__(self, vector, rerank):
+            self.vector_score, self.rerank_score = vector, rerank
+            self.document = mock.Mock(metadata={"chunk_id": 1})
+
+    def runner(self, results):
+        r = benchmark.Runner.__new__(benchmark.Runner)
+        r.settings = Namespace(fetch_k=20, top_k=4, min_relevance=0.2, min_rerank_score=0.4)
+        doc = mock.Mock(metadata={"chunk_id": 1})
+        r.assistant = mock.Mock()
+        r.assistant.vectorstore.similarity_search_with_score.return_value = [(doc, 0.7)]
+        r.assistant.reranker.name = "llm"
+        r.assistant.reranker.rerank.side_effect = results
+        return r
+
+    def test_fallback_detection(self):
+        self.assertTrue(benchmark.is_fallback("llm", [self.Chunk(0.7, 0.7)]))
+        self.assertFalse(benchmark.is_fallback("llm", [self.Chunk(0.7, 0.9)]))
+        self.assertFalse(benchmark.is_fallback("llm", []))
+        self.assertFalse(benchmark.is_fallback("none", [self.Chunk(0.7, 0.7)]))
+
+    def test_retry_recovers(self):
+        r = self.runner([[self.Chunk(0.7, 0.7)], [self.Chunk(0.7, 0.9)]])
+        found, kept = r.retrieve("q")
+        self.assertEqual(found["reranked"], [[1, 0.9]])
+        self.assertEqual(r.assistant.reranker.rerank.call_count, 2)
+
+    def test_repeated_fallback_stops(self):
+        r = self.runner([[self.Chunk(0.7, 0.7)]] * benchmark.RERANK_ATTEMPTS)
+        with self.assertRaises(benchmark.RerankFailed):
+            r.retrieve("q")
+
+
+class Report(unittest.TestCase):
+    """A partial run shows only the rows for the kinds of question it holds."""
+
+    def render(self, ids):
+        import score, report  # noqa: E401
+        src = Path(__file__).resolve().parent.parent / "results" / "openai"
+        if not (src / "runs.jsonl").exists() or not score.CASES.exists():
+            self.skipTest("needs the published run and cases/questions.json (bash setup.sh)")
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp)
+            (out / "index.json").write_bytes((src / "index.json").read_bytes())
+            (out / "config.json").write_bytes((src / "config.json").read_bytes())
+            lines = [line for line in (src / "runs.jsonl").read_text(encoding="utf-8").splitlines()
+                     if any(f'"id": "{i}"' in line for i in ids)]
+            (out / "runs.jsonl").write_text("\n".join(lines) + "\n", encoding="utf-8")
+            score.write(out, *score.score_folder(out))
+            return report.full_report(out)
+
+    def test_only_questions_with_evidence(self):
+        text = self.render(["Q01"])
+        self.assertIn("Top 20, after vector search", text)
+        self.assertNotIn("No answer in the documents", text)
+        self.assertNotIn("0 of 0", text)
+
+    def test_only_no_answer_questions(self):
+        text = self.render(["Q15"])
+        self.assertIn("No answer in the documents | 1 |", text)
+        self.assertNotIn("Top 20, after vector search", text)
+        self.assertNotIn("headline", text)
+        self.assertNotIn("## All metrics", text)
+
+
 if __name__ == "__main__":
     unittest.main()

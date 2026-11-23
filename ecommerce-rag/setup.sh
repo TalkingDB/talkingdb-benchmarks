@@ -19,6 +19,7 @@ if [ -n "${SSL_CERT_FILE:-}" ] && [ ! -f "$SSL_CERT_FILE" ]; then unset SSL_CERT
 "$PY" fetch_data.py  # the PDFs and the questions, checked by SHA-256
 
 read -r name sha < AGENT_COMMIT.txt
+sha="${sha%$'\r'}"  # a Windows checkout can leave a CRLF line ending
 mkdir -p agent-src
 [ -d "agent-src/$name/.git" ] || git clone -q "https://github.com/TalkingDB/$name.git" "agent-src/$name"
 git -C "agent-src/$name" fetch -q origin "$sha" 2>/dev/null || true

@@ -206,6 +206,8 @@ def score_folder(folder):
         for c in json.loads((folder / "index.json").read_text(encoding="utf-8"))
     }
     records = [json.loads(line) for line in (folder / "runs.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
+    if not records:
+        sys.exit(f"{folder / 'runs.jsonl'} holds no runs, so there is nothing to score.")
     by_q = {}
     for rec in records:
         by_q.setdefault(rec["id"], []).append(rec)
@@ -263,13 +265,19 @@ def score_folder(folder):
         "top20_verdicts": dict(sorted(counts20.items())),
         "top4_verdicts": dict(sorted(counts4.items())),
     }
+    # A metric no question in the run applies to (a partial run with only one kind of question)
+    # is left out rather than shown as 0%.
     for k, name in METRICS:
+        if not any(per_run[k]):
+            continue
         vals = [statistics.mean(v) if v else 0.0 for v in per_run[k]]
         summary["metrics"][name] = {"mean": round(statistics.mean(vals), 3), "min": round(min(vals), 3), "max": round(max(vals), 3)}
     if has_answers:
         named = ANSWER_METRICS + [("declined", "Declined when the answer is not in the documents")]
         summary["answer_metrics"] = {}
         for k, name in named:
+            if not any(ans_run[k]):
+                continue
             vals = [statistics.mean(v) if v else 0.0 for v in ans_run[k]]
             summary["answer_metrics"][name] = {"mean": round(statistics.mean(vals), 3),
                                                "min": round(min(vals), 3), "max": round(max(vals), 3)}

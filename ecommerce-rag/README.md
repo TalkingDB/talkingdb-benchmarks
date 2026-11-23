@@ -34,7 +34,7 @@ The first run builds the search index from the documents; later runs reuse it un
 
 **4. Read the result**
 
-The run ends by printing a report with every percentage. It also saves the report in `results/openai/report.md`, writes the other files in `results/openai/`, and updates [The result](#the-result) below. A rerun replaces these, so `git diff` shows what changed. A run that stops early (a failed check, an API error, Ctrl+C) changes nothing.
+The run ends by printing a report with every percentage. It also saves the report in `results/openai/report.md`, writes the other files in `results/openai/`, and updates [The result](#the-result) below. A rerun replaces these, so `git diff` shows what changed. A run that stops early (a failed check, an API error, Ctrl+C) changes nothing. A run also stops if the reranker's model call keeps failing, because the pipeline would then fall back to vector order and the run would no longer measure the reranker.
 
 **Options** for `bash run.sh`:
 

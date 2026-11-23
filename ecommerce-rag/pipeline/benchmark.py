@@ -218,6 +218,46 @@ def check_evidence(cases, index) -> None:
     print(f"Index: {len(index)} chunks; all evidence quotes found.")
 
 
+RERANK_ATTEMPTS = 3
+
+
+class RerankFailed(Exception):
+    """The LLM reranker fell back to vector order on every attempt."""
+
+
+def is_fallback(reranker_name, ranked) -> bool:
+    """True when the LLM reranker returned vector order: every rerank score equals the vector score."""
+    return reranker_name == "llm" and bool(ranked) and all(
+        abs(c.rerank_score - c.vector_score) < 1e-9 for c in ranked)
+
+
+def positive_int(text):
+    n = int(text)
+    if n < 1:
+        raise argparse.ArgumentTypeError(f"must be 1 or more, not {n}")
+    return n
+
+
+def select_cases(only, cases_all):
+    """The scored questions, or the ones --only names. Stops on an id that does not exist or
+    is not scored, rather than silently running fewer questions."""
+    cases = [c for c in cases_all if not c.get("not_scored")]
+    if not only:
+        return cases
+    wanted = list(dict.fromkeys(x.strip().upper() for x in only.split(",") if x.strip()))
+    if not wanted:
+        sys.exit("--only names no question ids, e.g. --only Q01,Q68")
+    known = {c["id"]: c for c in cases_all}
+    unknown = [w for w in wanted if w not in known]
+    if unknown:
+        sys.exit(f"Unknown question id(s) in --only: {', '.join(unknown)}. "
+                 f"The ids are {cases_all[0]['id']} to {cases_all[-1]['id']}, as in cases/questions.json.")
+    skipped = [w for w in wanted if known[w].get("not_scored")]
+    if skipped:
+        sys.exit("Not scored, so not run: " + "; ".join(f"{w} ({known[w]['not_scored']})" for w in skipped))
+    return [c for c in cases if c["id"] in wanted]
+
+
 class Runner:
     def __init__(self, settings):
         from app.rag import build_assistant
@@ -247,7 +287,12 @@ class Runner:
         s, a = self.settings, self.assistant
         hits = a.vectorstore.similarity_search_with_score(query, k=max(s.fetch_k, s.top_k))
         candidates = [(d, sc) for d, sc in hits if sc >= s.min_relevance]
-        ranked = a.reranker.rerank(query, candidates) if candidates else []
+        for _ in range(RERANK_ATTEMPTS):
+            ranked = a.reranker.rerank(query, candidates) if candidates else []
+            if not is_fallback(a.reranker.name, ranked):
+                break
+        else:
+            raise RerankFailed(query)
         kept = [c for c in ranked if c.rerank_score >= s.min_rerank_score][: s.top_k]
         cid = lambda d: int(d.metadata["chunk_id"])  # noqa: E731
         return {
@@ -255,8 +300,7 @@ class Runner:
             "candidates": [cid(d) for d, _ in candidates],
             "reranked": [[cid(c.document), round(c.rerank_score, 3)] for c in ranked],
             "kept": [cid(c.document) for c in kept],
-            "rerank_fallback": bool(ranked) and a.reranker.name == "llm"
-            and all(abs(c.rerank_score - c.vector_score) < 1e-9 for c in ranked),
+            "rerank_fallback": False,
         }, kept
 
     def answer(self, question, kept, history):
@@ -285,12 +329,17 @@ class Runner:
 def main():
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     p.add_argument("--local", action="store_true", help="use local models through Ollama instead of OpenAI")
-    p.add_argument("--runs", type=int, default=RUNS)
+    p.add_argument("--runs", type=positive_int, default=RUNS, help=f"times each question is asked (default {RUNS})")
     p.add_argument("--only", default="", help="comma-separated question ids, for a quick check")
     p.add_argument("--reingest", action="store_true", help="rebuild the index even if it exists")
     p.add_argument("--answers", action="store_true",
                    help="also write the bot's answer from the same top 4 and score it (one more model call per question)")
     args = p.parse_args()
+    # Check the questions before any setup, so a typo in --only costs nothing.
+    if not score.CASES.exists():
+        sys.exit(f"{score.CASES.relative_to(HERE).as_posix()} not found. Run: bash setup.sh")
+    cases_all = json.loads(score.CASES.read_text(encoding="utf-8"))["questions"]
+    cases = select_cases(args.only, cases_all)
 
     configure(args.local)
     import logging
@@ -315,12 +364,12 @@ def main():
 
     ensure_index(settings, args.reingest)
     runner = Runner(settings)
-    cases_all = json.loads(score.CASES.read_text(encoding="utf-8"))["questions"]
+    # Close the local index on any exit, including a stop below; left to interpreter shutdown,
+    # Qdrant's own cleanup prints an ImportError traceback after the real message.
+    import atexit
+
+    atexit.register(runner.assistant.vectorstore.client.close)
     by_id = {c["id"]: c for c in cases_all}
-    cases = [c for c in cases_all if not c.get("not_scored")]
-    if args.only:
-        wanted = {x.strip() for x in args.only.split(",")}
-        cases = [c for c in cases if c["id"] in wanted]
 
     index = snapshot(runner.assistant.vectorstore, stage)
     check_evidence(cases, index)
@@ -340,7 +389,13 @@ def main():
             for case in cases:
                 n += 1
                 query, asked, prior, history = runner.query_for(case, by_id)
-                found, kept = runner.retrieve(query)
+                try:
+                    found, kept = runner.retrieve(query)
+                except RerankFailed:
+                    sys.exit(f"The LLM reranker ({settings.rerank_model or settings.chat_model}) failed {RERANK_ATTEMPTS} "
+                             f"times on {case['id']} (see the warning above) and fell back to vector order, so this run "
+                             f"would not measure the reranker. Nothing was written to results/{out.name}/. "
+                             "Check the model name, API key or Ollama, then run again.")
                 rec = {"run": run, "id": case["id"], "query": query, "prior_turns": prior, **found}
                 if args.answers:
                     rec.update(runner.answer(asked, kept, history))
