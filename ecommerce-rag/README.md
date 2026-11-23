@@ -2,11 +2,11 @@
 
 A customer support bot answers questions about returns, refunds, warranties and consumer rights from six documents (Indian consumer law, Meesho store policies, a Havells product manual). This benchmark asks it a set of support questions and checks, word for word, whether the passages it retrieves hold the evidence each answer needs. It measures the pipeline as it is today; no fix is applied.
 
-The documents and the questions are on Hugging Face: [TalkingDB/ecommerce-rag](https://huggingface.co/datasets/TalkingDB/ecommerce-rag).
+The documents and the questions are in a private Hugging Face dataset, [TalkingDB/ecommerce-rag](https://huggingface.co/datasets/TalkingDB/ecommerce-rag), because the store policies and the manual belong to their publishers. Running the benchmark needs a Hugging Face account with access to it.
 
 ## Run it
 
-You need a terminal with bash (Linux, macOS, WSL, or Git Bash on Windows), [git](https://git-scm.com/), [uv](https://docs.astral.sh/uv/) (it installs Python for you) and an OpenAI API key.
+You need a terminal with bash (Linux, macOS, WSL, or Git Bash on Windows), [git](https://git-scm.com/), [uv](https://docs.astral.sh/uv/) (it installs Python for you), an OpenAI API key, and a [Hugging Face token](https://huggingface.co/settings/tokens) from an account with access to the dataset.
 
 **1. Get the code**
 
@@ -18,37 +18,39 @@ cd talkingdb-benchmarks/ecommerce-rag
 **2. Set up (once)**
 
 ```bash
+cp .env.example .env   # then put your OPENAI_API_KEY and HF_TOKEN in .env
 bash setup.sh
 ```
 
-This downloads the documents and questions from Hugging Face and checks each file's SHA-256, downloads the bot's code at the commit in [AGENT_COMMIT.txt](AGENT_COMMIT.txt), and installs its dependencies.
+`.env` is ignored by git. Instead of `HF_TOKEN` in `.env`, `hf auth login` or `export HF_TOKEN=hf_...` also work. Setup downloads the documents and questions from the private dataset and checks each file's SHA-256, downloads the bot's code at the commit in [AGENT_COMMIT.txt](AGENT_COMMIT.txt), and installs the exact package versions in [requirements.lock](requirements.lock). A run stops if the bot's code is at another commit or has local edits.
 
 **3. Run**
 
 ```bash
-export OPENAI_API_KEY=sk-...
 bash run.sh
 ```
 
-The first run builds the search index from the documents; later runs reuse it. Every question is asked three times, which takes about 20 minutes.
+The first run builds the search index from the documents; later runs reuse it until a document, `documents/sources.json` or a chunk setting changes. Every question is asked three times, which takes about 20 minutes.
 
 **4. Read the result**
 
-The run ends by printing a report with every percentage. It also saves the report in `results/openai/report.md`, writes the other files in `results/openai/`, and updates [The result](#the-result) below. Rerunning overwrites these, so `git diff` shows what changed.
+The run ends by printing a report with every percentage. It also saves the report in `results/openai/report.md`, writes the other files in `results/openai/`, and updates [The result](#the-result) below. A rerun replaces these, so `git diff` shows what changed. A run that stops early (a failed check, an API error, Ctrl+C) changes nothing.
 
 **Options** for `bash run.sh`:
 
 | Option | What it does |
 | :--- | :--- |
-| `--only Q01,Q68` | Run only these questions; results go to `results/openai-partial/`, so the published run is untouched |
+| `--only Q01,Q68` | Run only these questions |
 | `--runs 1` | Ask each question once instead of three times |
-| `--reingest` | Rebuild the search index, for example after the documents or the chunking change |
-| `--answers` | Also have the bot write its answer from the same top 4, and check the answer cites the evidence |
+| `--reingest` | Rebuild the search index |
+| `--answers` | Also have the bot write its answer from the same top 4, and check the answer cites the evidence; results go to `results/openai-answers/` |
 | `--local` | Use local models through Ollama (`bge-m3`, `qwen3.5:9b`) instead of OpenAI; results go to `results/local/` |
+
+Only a full run with the default settings replaces `results/openai/` and the result below. `--only`, a different `--runs`, or a setting changed through an environment variable (for example `TOP_K=6 bash run.sh`) writes to a `-partial` folder instead, such as `results/openai-partial/`. `config.json` in each folder records the settings the run used; editing it changes nothing.
 
 A quick test: `bash run.sh --runs 1 --only Q01`.
 
-**No API key?** You can still check the saved run without installing anything: `python fetch_data.py && python pipeline/score.py` downloads the questions, re-scores `results/openai/` and confirms it matches `summary.json`.
+**No OpenAI key?** With dataset access you can still check the saved run without installing anything: `python fetch_data.py && python pipeline/score.py` downloads the questions, re-scores `results/openai/` and confirms it matches `summary.json`.
 
 ## How it works
 
@@ -106,7 +108,7 @@ Some questions have no answer in the documents: they pass when nothing gets thro
 | `pipeline/` | `benchmark.py` runs the questions, `score.py` scores them, `report.py` writes the result section |
 | `results/openai/` | The published run: index, raw runs, config, summary, per-question verdicts, spreadsheet |
 | `documents/sources.json` | Document titles and links; the PDFs are fetched into `documents/` |
-| `setup.sh`, `run.sh`, `requirements.txt`, `AGENT_COMMIT.txt` | Setup and run, pinned |
+| `setup.sh`, `run.sh`, `requirements.txt`, `requirements.lock`, `AGENT_COMMIT.txt` | Setup and run, pinned |
 | `fetch_data.py`, `DATA.txt`, `DATASET_CARD.md` | Data files on Hugging Face with their SHA-256 and dataset commit, and the dataset card |
 
 Built by [TalkingDB](https://talkingdb.io/). Code under [AGPL-3.0](../LICENSE).

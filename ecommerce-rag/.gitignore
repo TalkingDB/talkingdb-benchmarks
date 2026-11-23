@@ -3,6 +3,7 @@ agent-src/
 .env
 .venv-rag/
 results/*-partial/
+results/*.tmp/
 *.part
 # kept on Hugging Face (DATA.txt), fetched by fetch_data.py
 documents/*.pdf

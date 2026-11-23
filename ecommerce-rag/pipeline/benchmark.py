@@ -9,9 +9,12 @@ follow-up questions (Q26 to Q29).
   python pipeline/benchmark.py --local           local models through Ollama
   python pipeline/benchmark.py --runs 1 --only Q01,Q68
 
-Writes results/<openai|local>/: index.json (every chunk in the index), runs.jsonl (top 20,
-reranker scores and top 4 for every question and run), config.json, then scores them with
-score.py into summary.json and per_question.csv.
+Writes index.json (every chunk in the index), runs.jsonl (top 20, reranker scores and top 4
+for every question and run) and config.json, then scores them with score.py into
+summary.json and per_question.csv. A full run with the default settings writes
+results/<openai|local>/; --answers adds "-answers" to the folder, and --only, a different
+--runs or settings changed through the environment add "-partial", so they never replace it.
+The files are written to a staging folder and moved into place only when the run finishes.
 """
 
 import argparse
@@ -26,6 +29,14 @@ HERE = Path(__file__).resolve().parent.parent
 AGENT = HERE / "agent-src" / "ecommerce-rag-agent"
 INDEX_DIR = HERE / ".index"
 RUNS = 3
+# The pipeline settings recorded in config.json.
+CONFIG_KEYS = ("llm_provider", "chat_model", "embedding_provider", "embedding_model", "reranker", "rerank_model",
+               "fetch_k", "min_relevance", "top_k", "min_rerank_score", "temperature",
+               "chunking_strategy", "chunk_size", "chunk_overlap")
+# Environment variables that pick where the run reads and writes, the provider or the key,
+# not how the pipeline behaves; setting them is not a custom setting.
+NOT_SETTINGS = {"DOCS_DIR", "SOURCES_FILE", "QDRANT_PATH", "QDRANT_URL", "QDRANT_API_KEY", "INTERACTIONS_FILE",
+                "FEEDBACK_FILE", "LLM_PROVIDER", "EMBEDDING_PROVIDER", "OPENAI_API_KEY", "OLLAMA_BASE_URL"}
 
 sys.path.insert(0, str(HERE / "pipeline"))
 import score  # noqa: E402
@@ -46,17 +57,82 @@ def configure(local: bool) -> None:
     os.environ["EMBEDDING_PROVIDER"] = provider
     if not AGENT.exists():
         sys.exit(f"Pipeline code not found at {AGENT}. Run: bash setup.sh")
+    check_agent()
     sys.path.insert(0, str(AGENT))
 
 
+def check_agent() -> str:
+    """Stop unless the pipeline code is at the commit in AGENT_COMMIT.txt with no local edits,
+    so a run never claims a commit whose code it did not run. Returns the commit."""
+    import subprocess
+
+    pinned = (HERE / "AGENT_COMMIT.txt").read_text().split()[1]
+    git = lambda *a: subprocess.run(["git", "-C", str(AGENT), *a], capture_output=True, text=True)  # noqa: E731
+    head = git("rev-parse", "HEAD")
+    if head.returncode:
+        sys.exit(f"{AGENT} is not a git checkout. Run: bash setup.sh")
+    if head.stdout.strip() != pinned:
+        sys.exit(f"The pipeline code is at {head.stdout.strip()[:12]}, but AGENT_COMMIT.txt pins {pinned[:12]}. "
+                 "Run: bash setup.sh")
+    edited = git("status", "--porcelain", "--untracked-files=no").stdout.strip()
+    if edited:
+        sys.exit(f"The pipeline code at {pinned[:12]} has local edits, so a run would not measure that commit:\n"
+                 f"{edited}\nUndo them (git -C {AGENT.relative_to(HERE).as_posix()} checkout -- .) or run: bash setup.sh")
+    return pinned
+
+
+def custom_settings(settings) -> dict:
+    """The recorded settings that differ from the pipeline's defaults, because an environment
+    variable or a .env file changed them. Defaults come from the pipeline's own code: its
+    settings are rebuilt with every variable it reads (apart from NOT_SETTINGS) removed."""
+    import re
+
+    from app.config import Settings
+
+    names = set(re.findall(r'"([A-Z][A-Z0-9_]+)"', (AGENT / "app" / "config.py").read_text(encoding="utf-8")))
+    saved = {n: os.environ.pop(n) for n in names - NOT_SETTINGS if n in os.environ}
+    try:
+        defaults = Settings()
+    finally:
+        os.environ.update(saved)
+    return {k: str(getattr(settings, k)) for k in CONFIG_KEYS if str(getattr(settings, k)) != str(getattr(defaults, k))}
+
+
+def output_folder(args, custom: dict):
+    """results/openai (or results/local) for a full run with the default settings; any other run
+    gets its own folder, so it never replaces the full run. Returns the folder and the reasons."""
+    name = "local" if args.local else "openai"
+    reasons = []
+    if args.answers:
+        name += "-answers"
+        reasons.append("--answers")
+    partial = []
+    if args.only:
+        partial.append("--only")
+    if args.runs != RUNS:
+        partial.append(f"--runs {args.runs}")
+    if custom:
+        partial.append("custom settings: " + ", ".join(f"{k}={v}" for k, v in custom.items()))
+    if partial:
+        name += "-partial"
+        reasons += partial
+    return HERE / "results" / name, reasons
+
+
 def ensure_index(settings, reingest: bool) -> None:
-    """Build the index if it is empty, asked for, or built from other documents or chunk settings."""
+    """Build the index if it is empty, asked for, or built from other inputs or chunk settings."""
     import hashlib
 
+    from app.loaders import SUPPORTED_EXTENSIONS
     from app.vectorstore import count_points
 
+    # Fingerprint exactly what the loader reads: every file it ingests (same extension rule),
+    # and sources.json, whose titles and links are stored in every chunk.
+    docs = Path(settings.docs_dir)
+    inputs = [p for p in sorted(docs.iterdir()) if p.is_file() and p.suffix.lower() in SUPPORTED_EXTENSIONS]
+    inputs.append(Path(settings.sources_file))
     stamp = json.dumps({
-        "documents": {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted((HERE / "documents").glob("*.pdf"))},
+        "inputs": {p.name: hashlib.sha256(p.read_bytes()).hexdigest() if p.exists() else None for p in inputs},
         **{k: str(getattr(settings, k)) for k in ("embedding_id", "chunking_strategy", "chunk_size", "chunk_overlap")},
     }, sort_keys=True)
     stamp_file = INDEX_DIR / f"{settings.collection}.json"
@@ -76,6 +152,9 @@ def ensure_index(settings, reingest: bool) -> None:
     if reingest or count_points(settings) == 0:
         import ingest
 
+        # Written back only after a complete build, so a build that stops halfway is never
+        # taken for a finished index on the next run.
+        stamp_file.unlink(missing_ok=True)
         print(f"Indexing the documents with {settings.embedding_id} ...")
         ingest.run(None)
     INDEX_DIR.mkdir(exist_ok=True)
@@ -206,10 +285,18 @@ def main():
     from app.config import get_settings
 
     settings = get_settings()
-    out = HERE / "results" / ("local" if args.local else "openai")
-    if args.only or args.runs != RUNS:  # quick runs never replace a full one
-        out = out.with_name(out.name + "-partial")
-    out.mkdir(parents=True, exist_ok=True)
+    out, reasons = output_folder(args, custom_settings(settings))
+    if reasons:
+        print(f"Writing to results/{out.name}/ ({'; '.join(reasons)}), not over the full run.")
+    # Everything is written to a staging folder and moved into place only when the run has
+    # finished and been scored, so a run that stops (a failed check, an API error, Ctrl+C)
+    # leaves the results already in the folder untouched.
+    stage = out.with_name(out.name + ".tmp")
+    if stage.exists():
+        import shutil
+
+        shutil.rmtree(stage)
+    stage.mkdir(parents=True)
 
     ensure_index(settings, args.reingest)
     runner = Runner(settings)
@@ -220,22 +307,19 @@ def main():
         wanted = {x.strip() for x in args.only.split(",")}
         cases = [c for c in cases if c["id"] in wanted]
 
-    index = snapshot(runner.assistant.vectorstore, out)
+    index = snapshot(runner.assistant.vectorstore, stage)
     check_evidence(cases, index)
 
-    config = {k: str(getattr(settings, k)) for k in (
-        "llm_provider", "chat_model", "embedding_provider", "embedding_model", "reranker", "rerank_model",
-        "fetch_k", "min_relevance", "top_k", "min_rerank_score", "temperature",
-        "chunking_strategy", "chunk_size", "chunk_overlap")}
-    config["agent_commit"] = (HERE / "AGENT_COMMIT.txt").read_text().split()[1]
+    config = {k: str(getattr(settings, k)) for k in CONFIG_KEYS}
+    config["agent_commit"] = check_agent()
     config["runs"] = args.runs
     config["answers"] = args.answers
     config["run_date"] = date.today().isoformat()
-    (out / "config.json").write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
+    (stage / "config.json").write_text(json.dumps(config, indent=2) + "\n", encoding="utf-8")
     print("Config:", config)
 
     total = args.runs * len(cases)
-    with open(out / "runs.jsonl", "w", encoding="utf-8") as log:
+    with open(stage / "runs.jsonl", "w", encoding="utf-8") as log:
         n = 0
         for run in range(1, args.runs + 1):
             for case in cases:
@@ -250,8 +334,15 @@ def main():
                 print(f"run {run}/{args.runs}  {n:>3}/{total}  {case['id']}  top 4: {rec['kept']}", flush=True)
 
     runner.assistant.vectorstore.client.close()  # close the local index now, not during interpreter shutdown
-    summary, rows = score.score_folder(out)
-    score.write(out, summary, rows)
+    summary, rows = score.score_folder(stage)
+    score.write(stage, summary, rows)
+
+    # The run is complete: replace the files it produced, file by file, so anything else kept
+    # in the folder (such as the spreadsheet in results/openai) stays.
+    out.mkdir(parents=True, exist_ok=True)
+    for f in stage.iterdir():
+        os.replace(f, out / f.name)
+    stage.rmdir()
     import report
 
     print("\n" + report.write_report(out))

@@ -26,3 +26,5 @@ The data for the TalkingDB e-commerce RAG benchmark: six documents a customer su
 The documents are as provided by the client for this support bot; titles and original links are in `documents/sources.json` on GitHub. Each remains under the terms of its publisher.
 
 The benchmark fetches the documents from commit `322248c5359b26d99d185e91f34304ca4e347734` and the questions from commit `92092b46c725d24d048b9a4ed62861d1c05761f5`, so later uploads here never change it. To get the files with their hashes checked, run `python3 fetch_data.py` from the GitHub folder.
+
+This dataset is private: the store policies and the manual belong to their publishers and are not redistributed. Access is for TalkingDB members; `fetch_data.py` uses your Hugging Face token (`hf auth login`, or `HF_TOKEN`).

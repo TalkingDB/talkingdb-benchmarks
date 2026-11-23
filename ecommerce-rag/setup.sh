@@ -3,7 +3,8 @@
 # Needs git and uv (https://docs.astral.sh/uv/); uv also provides Python. Takes a few minutes the first time.
 #
 #   .venv-rag                         Python 3.13 with the pipeline's pinned dependencies
-#   documents/, cases/questions.json  fetched from Hugging Face at pinned commits, checked by SHA-256
+#   documents/, cases/questions.json  fetched from the private Hugging Face dataset at pinned commits,
+#                                     checked by SHA-256; needs a token: hf auth login, or HF_TOKEN
 #   agent-src/ecommerce-rag-agent     the RAG pipeline, checked out at the commit in AGENT_COMMIT.txt
 set -e
 HERE="$(cd "$(dirname "$0")" && pwd)"
@@ -23,5 +24,5 @@ mkdir -p agent-src
 git -C "agent-src/$name" fetch -q origin "$sha" 2>/dev/null || true
 git -C "agent-src/$name" checkout -q "$sha"
 
-VIRTUAL_ENV=.venv-rag uv pip install -q -r requirements.txt
+VIRTUAL_ENV=.venv-rag uv pip install -q -r requirements.lock  # exact versions, dependencies included
 echo "Setup done. Next: bash run.sh (needs OPENAI_API_KEY) or bash run.sh --local (needs Ollama)"

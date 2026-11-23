@@ -6,10 +6,11 @@
 #                                    (needs OPENAI_API_KEY)
 #   bash run.sh --local              the same with local models through Ollama, into results/local/
 #   bash run.sh --answers            also have the bot answer from the same top 4, and check each
-#                                    answer cites its evidence (one more model call per question)
+#                                    answer cites its evidence (one more model call per question),
+#                                    into results/openai-answers/
 #   bash run.sh --runs 1 --only Q01  a quick check on a few questions
 #
-# Without installs or an API key:
+# Without installs or an OpenAI key (needs access to the private dataset):
 #   python3 fetch_data.py && python3 pipeline/score.py
 #                                    fetch the questions from Hugging Face, re-score the saved run
 #                                    and check it matches summary.json
