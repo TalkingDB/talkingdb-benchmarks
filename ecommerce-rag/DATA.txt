@@ -2,6 +2,8 @@
 # tab separated: SHA-256, dataset commit, path in the dataset, path here.
 # fetch_data.py downloads each file from that exact commit and refuses any file whose hash differs.
 # Documents: commit 322248c5359b26d99d185e91f34304ca4e347734. Questions: commit 92092b46c725d24d048b9a4ed62861d1c05761f5.
+# The published run's passage text (index.json) and spreadsheet moved out of git on 25 November 2026; they are
+# fetched from main until the upload's commit is pinned here. The SHA-256 still fixes their bytes.
 0ae7f82ab5b77d50087cd4cd2dd2dbc12755c0bdb31371fdefd042b020d50756	322248c5359b26d99d185e91f34304ca4e347734	CP Act 2019_1732700731.pdf	documents/CP Act 2019_1732700731.pdf
 e3c4bf5cb1a7189563e7aebea9f16e5e83ce14cdf7b2d45eda5d238cc53c0a41	322248c5359b26d99d185e91f34304ca4e347734	india_consumer_protection_ecommerce_rules_2020.pdf	documents/india_consumer_protection_ecommerce_rules_2020.pdf
 a67801f5e03dda4bfb37396f91ebe0146e191fbe8d484cae5faadbbe8409dd84	322248c5359b26d99d185e91f34304ca4e347734	Learn More About Shipping & Delivery Charges for Meesho Supplier.pdf	documents/Learn More About Shipping & Delivery Charges for Meesho Supplier.pdf
@@ -9,3 +11,5 @@ a67801f5e03dda4bfb37396f91ebe0146e191fbe8d484cae5faadbbe8409dd84	322248c5359b26d
 b0d8be4a98b53d438b747de1c12857acf034c0696e5d52516de4600dcb268d32	322248c5359b26d99d185e91f34304ca4e347734	Penalty Structure and Handling Incorrect Penalties _ Meesho.pdf	documents/Penalty Structure and Handling Incorrect Penalties _ Meesho.pdf
 43421721c336b9bfcacb045960599b9e10d74d47213c9acaa626684fd92a2a8d	322248c5359b26d99d185e91f34304ca4e347734	Siphon_WP_Manual_1.pdf	documents/Siphon_WP_Manual_1.pdf
 0660eb4db1fefb24d26ba674992758fae34fd98f32f311b885601736392b9e05	92092b46c725d24d048b9a4ed62861d1c05761f5	questions.json	cases/questions.json
+6b174bbc2b1716566689f3774843c88e566702058a4f0852023e2a30505ea2aa	main	results/openai/index.json	results/openai/index.json
+598b9e36cbdd7967b6989930639419960ba5f4656a25b34fc5b21fb00dd4fac6	main	results/openai/questions-with-chunks.xlsx	results/openai/questions-with-chunks.xlsx

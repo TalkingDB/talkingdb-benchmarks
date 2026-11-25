@@ -184,8 +184,8 @@ class Report(unittest.TestCase):
     def render(self, ids):
         import score, report  # noqa: E401
         src = Path(__file__).resolve().parent.parent / "results" / "openai"
-        if not (src / "runs.jsonl").exists() or not score.CASES.exists():
-            self.skipTest("needs the published run and cases/questions.json (bash setup.sh)")
+        if not (src / "runs.jsonl").exists() or not (src / "index.json").exists() or not score.CASES.exists():
+            self.skipTest("needs the published run, its index.json and cases/questions.json (bash setup.sh)")
         with tempfile.TemporaryDirectory() as tmp:
             out = Path(tmp)
             (out / "index.json").write_bytes((src / "index.json").read_bytes())
@@ -208,6 +208,51 @@ class Report(unittest.TestCase):
         self.assertNotIn("Top 20, after vector search", text)
         self.assertNotIn("headline", text)
         self.assertNotIn("## All metrics", text)
+
+
+class PublisherText(unittest.TestCase):
+    """Passage text from the publishers' documents goes to the private dataset, never to git."""
+
+    def fake_store(self, texts):
+        points = [Namespace(payload={"metadata": {"chunk_id": i, "source": "a.pdf", "page": 1}, "page_content": t})
+                  for i, t in enumerate(texts)]
+        client = mock.Mock()
+        client.scroll.return_value = (points, None)
+        return Namespace(client=client, collection_name="c")
+
+    def test_snapshot_keeps_text_out_of_chunks_json(self):
+        import hashlib
+        import json
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp)
+            benchmark.snapshot(self.fake_store(["returns within seven days", "unrelated"]), out)
+            public = json.loads((out / "chunks.json").read_text(encoding="utf-8"))
+            self.assertNotIn("returns", (out / "chunks.json").read_text(encoding="utf-8"))
+            self.assertEqual(public[0]["sha256"], hashlib.sha256(b"returns within seven days").hexdigest())
+            self.assertEqual([c["text"] for c in json.loads((out / "index.json").read_text(encoding="utf-8"))],
+                             ["returns within seven days", "unrelated"])
+
+    def test_score_refuses_text_that_does_not_match_chunks_json(self):
+        import json
+        import score
+        with tempfile.TemporaryDirectory() as tmp:
+            out = Path(tmp)
+            benchmark.snapshot(self.fake_store(["returns within seven days"]), out)
+            (out / "index.json").write_text(json.dumps([{"chunk_id": 0, "document": "a.pdf", "page": 1,
+                                                         "text": "something else"}]), encoding="utf-8")
+            cases = out / "questions.json"
+            cases.write_text(json.dumps({"questions": []}), encoding="utf-8")
+            with mock.patch.object(score, "CASES", cases), self.assertRaises(SystemExit) as stop:
+                score.score_folder(out)
+            self.assertIn("does not match", str(stop.exception))
+
+    def test_no_passage_text_is_tracked_in_git(self):
+        here = Path(__file__).resolve().parent.parent
+        tracked = subprocess.run(["git", "ls-files", "results"], cwd=here, capture_output=True, text=True).stdout.split()
+        if not tracked:
+            self.skipTest("not a git checkout")
+        self.assertFalse([f for f in tracked if f.endswith(("index.json", ".xlsx"))])
+        self.assertIn("results/openai/chunks.json", tracked)
 
 
 if __name__ == "__main__":

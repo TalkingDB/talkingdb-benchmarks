@@ -22,6 +22,7 @@ Usage, plain Python 3, no installs:
 """
 
 import csv
+import hashlib
 import json
 import statistics
 import sys
@@ -198,13 +199,24 @@ METRICS = [
 ]
 
 
+def public_chunks(chunks):
+    """The chunks without their text: id, document, page, length and the SHA-256 of the exact text.
+    Publishers' text stays in the private dataset; these let anyone match a chunk id to its source."""
+    return [{"chunk_id": c["chunk_id"], "document": c["document"], "page": c.get("page"), "chars": len(c["text"]),
+             "sha256": hashlib.sha256(c["text"].encode("utf-8")).hexdigest()} for c in chunks]
+
+
 def score_folder(folder):
     folder = Path(folder)
     cases = {c["id"]: c for c in json.loads(CASES.read_text(encoding="utf-8"))["questions"]}
-    index = {
-        c["chunk_id"]: {"document": c["document"], "text": norm(c["text"])}
-        for c in json.loads((folder / "index.json").read_text(encoding="utf-8"))
-    }
+    if not (folder / "index.json").exists():
+        sys.exit(f"{folder / 'index.json'} is missing. It holds the passage text and is kept in the private "
+                 "Hugging Face dataset: run python fetch_data.py first.")
+    chunks = json.loads((folder / "index.json").read_text(encoding="utf-8"))
+    public = folder / "chunks.json"
+    if public.exists() and json.loads(public.read_text(encoding="utf-8")) != public_chunks(chunks):
+        sys.exit(f"{folder / 'index.json'} does not match {public}: the passage text differs from the published run.")
+    index = {c["chunk_id"]: {"document": c["document"], "text": norm(c["text"])} for c in chunks}
     records = [json.loads(line) for line in (folder / "runs.jsonl").read_text(encoding="utf-8").splitlines() if line.strip()]
     if not records:
         sys.exit(f"{folder / 'runs.jsonl'} holds no runs, so there is nothing to score.")
