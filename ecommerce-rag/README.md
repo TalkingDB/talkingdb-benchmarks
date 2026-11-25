@@ -80,6 +80,8 @@ In 24 of the 64 questions, search never puts a primary piece of evidence in the 
 Per question, with each stage's verdict and the passages returned: [per_question.csv](results/openai/per_question.csv). Every metric, mean and range over the runs: [summary.json](results/openai/summary.json).
 <!-- result:end -->
 
+![Where the support bot's questions end up](images/where-questions-end-up.png)
+
 For each question's verdicts and the passages each stage returned, use [per_question.csv](results/openai/per_question.csv); [chunks.json](results/openai/chunks.json) maps every passage number to its document and page. The passages themselves are the publishers' text, so they are not on GitHub: with dataset access, `python fetch_data.py` puts them in `results/openai/index.json`, and the spreadsheet `questions-with-chunks.xlsx` (with every chunk's text in its Chunks tab, and top 20, top 4 and verdict columns from an earlier run, top 4: 33.3%) in `results/openai/`.
 
 ## Scoring
@@ -105,7 +107,7 @@ Some questions have no answer in the documents: they pass when nothing gets thro
 
 | Path | What it is |
 | :--- | :--- |
-| `pipeline/` | `benchmark.py` runs the questions, `score.py` scores them, `report.py` writes the result section, `test_benchmark.py` tests that only a full default run replaces `results/openai/` (`python -m unittest discover -s pipeline`) |
+| `pipeline/` | `benchmark.py` runs the questions, `score.py` scores them, `report.py` writes the result section, `make_images.py` draws the image above from the saved run (`pip install -r requirements-images.txt`), `test_benchmark.py` tests that only a full default run replaces `results/openai/` (`python -m unittest discover -s pipeline`) |
 | `results/openai/` | The published run: chunk list without text (`chunks.json`), raw runs, config, summary, per-question verdicts. The passage text (`index.json`) and the spreadsheet are in the private dataset |
 | `documents/sources.json` | Document titles and links; the PDFs are fetched into `documents/` |
 | `setup.sh`, `run.sh`, `requirements.txt`, `requirements.lock`, `AGENT_COMMIT.txt` | Setup and run, pinned |
