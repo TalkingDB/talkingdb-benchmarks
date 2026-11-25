@@ -1,0 +1,809 @@
+{
+  "what": "Every option shown once at every letter, with the rows each method showed in the published run",
+  "dataset_hashes": {
+    "cases/evaluation.json": "fc52713d4abdae88ece2c6cb91f975b8ad00c95c8c7e80bbab3fd78401cede27",
+    "sources.json": "e48ca7f814add3954fabc7d057438351eeae9e86be68ef8b71b67485bfe6d038",
+    "definitions.json": "9b6522b6d6eb6981771d30658ec9980068bde1d130280f6e70d389d6488f20db"
+  },
+  "saved_decisions_sha256": {
+    "results/evaluation/per-case.jsonl": "10dcc16a34ddf97fe3282a0700e8a70f199637ac61563f0f81c37aa22607d82c",
+    "results/ttt/scored/per-case.jsonl": "935481863d7f560f79145b1f52f7716ccfe880ef6160e6b2ffb8343f53760b50"
+  },
+  "per_run_sha256": "f6c07e2ac626cad52223e0ccb8e2594795fb99f496f02071ad624cc001eefc74",
+  "runs": 1449,
+  "published_decisions_reproduced": 371,
+  "largest_score_change_on_reproduction": 3.052e-05,
+  "model": {
+    "id": "HuggingFaceTB/SmolLM2-360M-Instruct",
+    "revision": "a10cc1512eabd3dde888204e902eca88bddb4951",
+    "format": "ONNX Q4",
+    "api_cost": 0,
+    "runs_by_onnxruntime": {
+      "1.23.2": 1135,
+      "1.29.0": 314
+    },
+    "runs_by_tokenizers": {
+      "shim-0.22.1-compatible": 1449
+    }
+  },
+  "arms": {
+    "no_glossary": {
+      "questions": 53,
+      "answerable_questions": 40,
+      "answerable_runs": 156,
+      "grounded_runs": 0,
+      "right_meaning_wrong_row_runs": 58,
+      "wrong_meaning_runs": 57,
+      "declined_answerable_runs": 41,
+      "letter_only_grounded_runs": 0,
+      "same_choice_in_every_rotation": 0,
+      "grounded_in_every_rotation": 0,
+      "control_questions": 13,
+      "control_runs": 51,
+      "correct_decline_runs": 13,
+      "letter_only_decline_runs": 13,
+      "letters_chosen": {
+        "C": 206,
+        "E": 1
+      }
+    },
+    "glossary_in_system_prompt": {
+      "questions": 53,
+      "answerable_questions": 40,
+      "answerable_runs": 156,
+      "grounded_runs": 51,
+      "right_meaning_wrong_row_runs": 8,
+      "wrong_meaning_runs": 56,
+      "declined_answerable_runs": 41,
+      "letter_only_grounded_runs": 49,
+      "same_choice_in_every_rotation": 0,
+      "grounded_in_every_rotation": 0,
+      "control_questions": 13,
+      "control_runs": 51,
+      "correct_decline_runs": 13,
+      "letter_only_decline_runs": 13,
+      "letters_chosen": {
+        "C": 200,
+        "E": 6,
+        "F": 1
+      }
+    },
+    "glossary_full": {
+      "questions": 53,
+      "answerable_questions": 40,
+      "answerable_runs": 156,
+      "grounded_runs": 50,
+      "right_meaning_wrong_row_runs": 8,
+      "wrong_meaning_runs": 56,
+      "declined_answerable_runs": 42,
+      "letter_only_grounded_runs": 49,
+      "same_choice_in_every_rotation": 0,
+      "grounded_in_every_rotation": 0,
+      "control_questions": 13,
+      "control_runs": 51,
+      "correct_decline_runs": 13,
+      "letter_only_decline_runs": 13,
+      "letters_chosen": {
+        "C": 198,
+        "E": 9
+      }
+    },
+    "talkingdb_ttt": {
+      "questions": 53,
+      "answerable_questions": 40,
+      "answerable_runs": 156,
+      "grounded_runs": 41,
+      "right_meaning_wrong_row_runs": 16,
+      "wrong_meaning_runs": 56,
+      "declined_answerable_runs": 43,
+      "letter_only_grounded_runs": 38,
+      "same_choice_in_every_rotation": 0,
+      "grounded_in_every_rotation": 0,
+      "control_questions": 13,
+      "control_runs": 51,
+      "correct_decline_runs": 14,
+      "letter_only_decline_runs": 13,
+      "letters_chosen": {
+        "C": 192,
+        "D": 1,
+        "E": 12,
+        "F": 2
+      }
+    },
+    "bm25": {
+      "questions": 53,
+      "answerable_questions": 40,
+      "answerable_runs": 156,
+      "grounded_runs": 40,
+      "right_meaning_wrong_row_runs": 15,
+      "wrong_meaning_runs": 58,
+      "declined_answerable_runs": 43,
+      "letter_only_grounded_runs": 41,
+      "same_choice_in_every_rotation": 0,
+      "grounded_in_every_rotation": 0,
+      "control_questions": 13,
+      "control_runs": 51,
+      "correct_decline_runs": 13,
+      "letter_only_decline_runs": 13,
+      "letters_chosen": {
+        "C": 194,
+        "D": 1,
+        "E": 12
+      }
+    },
+    "bge_dense": {
+      "questions": 53,
+      "answerable_questions": 40,
+      "answerable_runs": 156,
+      "grounded_runs": 44,
+      "right_meaning_wrong_row_runs": 12,
+      "wrong_meaning_runs": 56,
+      "declined_answerable_runs": 44,
+      "letter_only_grounded_runs": 43,
+      "same_choice_in_every_rotation": 0,
+      "grounded_in_every_rotation": 0,
+      "control_questions": 13,
+      "control_runs": 51,
+      "correct_decline_runs": 14,
+      "letter_only_decline_runs": 13,
+      "letters_chosen": {
+        "C": 192,
+        "D": 1,
+        "E": 14
+      }
+    },
+    "scoped_prototype": {
+      "questions": 53,
+      "answerable_questions": 40,
+      "answerable_runs": 156,
+      "grounded_runs": 49,
+      "right_meaning_wrong_row_runs": 9,
+      "wrong_meaning_runs": 55,
+      "declined_answerable_runs": 43,
+      "letter_only_grounded_runs": 48,
+      "same_choice_in_every_rotation": 0,
+      "grounded_in_every_rotation": 0,
+      "control_questions": 13,
+      "control_runs": 51,
+      "correct_decline_runs": 13,
+      "letter_only_decline_runs": 13,
+      "letters_chosen": {
+        "A": 1,
+        "C": 195,
+        "D": 2,
+        "E": 9
+      }
+    }
+  },
+  "by_case_type": {
+    "no_glossary": {
+      "ambiguous": {
+        "questions": 10,
+        "answerable_questions": 0,
+        "answerable_runs": 0,
+        "grounded_runs": 0,
+        "right_meaning_wrong_row_runs": 0,
+        "wrong_meaning_runs": 0,
+        "declined_answerable_runs": 0,
+        "letter_only_grounded_runs": 0,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 10,
+        "control_runs": 39,
+        "correct_decline_runs": 10,
+        "letter_only_decline_runs": 10,
+        "letters_chosen": {
+          "C": 39
+        }
+      },
+      "implicit": {
+        "questions": 20,
+        "answerable_questions": 20,
+        "answerable_runs": 78,
+        "grounded_runs": 0,
+        "right_meaning_wrong_row_runs": 29,
+        "wrong_meaning_runs": 28,
+        "declined_answerable_runs": 21,
+        "letter_only_grounded_runs": 0,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 0,
+        "control_runs": 0,
+        "correct_decline_runs": 0,
+        "letter_only_decline_runs": 0,
+        "letters_chosen": {
+          "C": 77,
+          "E": 1
+        }
+      },
+      "named": {
+        "questions": 20,
+        "answerable_questions": 20,
+        "answerable_runs": 78,
+        "grounded_runs": 0,
+        "right_meaning_wrong_row_runs": 29,
+        "wrong_meaning_runs": 29,
+        "declined_answerable_runs": 20,
+        "letter_only_grounded_runs": 0,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 0,
+        "control_runs": 0,
+        "correct_decline_runs": 0,
+        "letter_only_decline_runs": 0,
+        "letters_chosen": {
+          "C": 78
+        }
+      },
+      "unsupported": {
+        "questions": 3,
+        "answerable_questions": 0,
+        "answerable_runs": 0,
+        "grounded_runs": 0,
+        "right_meaning_wrong_row_runs": 0,
+        "wrong_meaning_runs": 0,
+        "declined_answerable_runs": 0,
+        "letter_only_grounded_runs": 0,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 3,
+        "control_runs": 12,
+        "correct_decline_runs": 3,
+        "letter_only_decline_runs": 3,
+        "letters_chosen": {
+          "C": 12
+        }
+      }
+    },
+    "glossary_in_system_prompt": {
+      "ambiguous": {
+        "questions": 10,
+        "answerable_questions": 0,
+        "answerable_runs": 0,
+        "grounded_runs": 0,
+        "right_meaning_wrong_row_runs": 0,
+        "wrong_meaning_runs": 0,
+        "declined_answerable_runs": 0,
+        "letter_only_grounded_runs": 0,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 10,
+        "control_runs": 39,
+        "correct_decline_runs": 10,
+        "letter_only_decline_runs": 10,
+        "letters_chosen": {
+          "C": 39
+        }
+      },
+      "implicit": {
+        "questions": 20,
+        "answerable_questions": 20,
+        "answerable_runs": 78,
+        "grounded_runs": 29,
+        "right_meaning_wrong_row_runs": 0,
+        "wrong_meaning_runs": 29,
+        "declined_answerable_runs": 20,
+        "letter_only_grounded_runs": 29,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 0,
+        "control_runs": 0,
+        "correct_decline_runs": 0,
+        "letter_only_decline_runs": 0,
+        "letters_chosen": {
+          "C": 77,
+          "F": 1
+        }
+      },
+      "named": {
+        "questions": 20,
+        "answerable_questions": 20,
+        "answerable_runs": 78,
+        "grounded_runs": 22,
+        "right_meaning_wrong_row_runs": 8,
+        "wrong_meaning_runs": 27,
+        "declined_answerable_runs": 21,
+        "letter_only_grounded_runs": 20,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 0,
+        "control_runs": 0,
+        "correct_decline_runs": 0,
+        "letter_only_decline_runs": 0,
+        "letters_chosen": {
+          "C": 72,
+          "E": 6
+        }
+      },
+      "unsupported": {
+        "questions": 3,
+        "answerable_questions": 0,
+        "answerable_runs": 0,
+        "grounded_runs": 0,
+        "right_meaning_wrong_row_runs": 0,
+        "wrong_meaning_runs": 0,
+        "declined_answerable_runs": 0,
+        "letter_only_grounded_runs": 0,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 3,
+        "control_runs": 12,
+        "correct_decline_runs": 3,
+        "letter_only_decline_runs": 3,
+        "letters_chosen": {
+          "C": 12
+        }
+      }
+    },
+    "glossary_full": {
+      "ambiguous": {
+        "questions": 10,
+        "answerable_questions": 0,
+        "answerable_runs": 0,
+        "grounded_runs": 0,
+        "right_meaning_wrong_row_runs": 0,
+        "wrong_meaning_runs": 0,
+        "declined_answerable_runs": 0,
+        "letter_only_grounded_runs": 0,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 10,
+        "control_runs": 39,
+        "correct_decline_runs": 10,
+        "letter_only_decline_runs": 10,
+        "letters_chosen": {
+          "C": 39
+        }
+      },
+      "implicit": {
+        "questions": 20,
+        "answerable_questions": 20,
+        "answerable_runs": 78,
+        "grounded_runs": 29,
+        "right_meaning_wrong_row_runs": 0,
+        "wrong_meaning_runs": 29,
+        "declined_answerable_runs": 20,
+        "letter_only_grounded_runs": 29,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 0,
+        "control_runs": 0,
+        "correct_decline_runs": 0,
+        "letter_only_decline_runs": 0,
+        "letters_chosen": {
+          "C": 78
+        }
+      },
+      "named": {
+        "questions": 20,
+        "answerable_questions": 20,
+        "answerable_runs": 78,
+        "grounded_runs": 21,
+        "right_meaning_wrong_row_runs": 8,
+        "wrong_meaning_runs": 27,
+        "declined_answerable_runs": 22,
+        "letter_only_grounded_runs": 20,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 0,
+        "control_runs": 0,
+        "correct_decline_runs": 0,
+        "letter_only_decline_runs": 0,
+        "letters_chosen": {
+          "C": 69,
+          "E": 9
+        }
+      },
+      "unsupported": {
+        "questions": 3,
+        "answerable_questions": 0,
+        "answerable_runs": 0,
+        "grounded_runs": 0,
+        "right_meaning_wrong_row_runs": 0,
+        "wrong_meaning_runs": 0,
+        "declined_answerable_runs": 0,
+        "letter_only_grounded_runs": 0,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 3,
+        "control_runs": 12,
+        "correct_decline_runs": 3,
+        "letter_only_decline_runs": 3,
+        "letters_chosen": {
+          "C": 12
+        }
+      }
+    },
+    "talkingdb_ttt": {
+      "ambiguous": {
+        "questions": 10,
+        "answerable_questions": 0,
+        "answerable_runs": 0,
+        "grounded_runs": 0,
+        "right_meaning_wrong_row_runs": 0,
+        "wrong_meaning_runs": 0,
+        "declined_answerable_runs": 0,
+        "letter_only_grounded_runs": 0,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 10,
+        "control_runs": 39,
+        "correct_decline_runs": 11,
+        "letter_only_decline_runs": 10,
+        "letters_chosen": {
+          "C": 37,
+          "E": 2
+        }
+      },
+      "implicit": {
+        "questions": 20,
+        "answerable_questions": 20,
+        "answerable_runs": 78,
+        "grounded_runs": 21,
+        "right_meaning_wrong_row_runs": 6,
+        "wrong_meaning_runs": 29,
+        "declined_answerable_runs": 22,
+        "letter_only_grounded_runs": 20,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 0,
+        "control_runs": 0,
+        "correct_decline_runs": 0,
+        "letter_only_decline_runs": 0,
+        "letters_chosen": {
+          "C": 71,
+          "D": 1,
+          "E": 4,
+          "F": 2
+        }
+      },
+      "named": {
+        "questions": 20,
+        "answerable_questions": 20,
+        "answerable_runs": 78,
+        "grounded_runs": 20,
+        "right_meaning_wrong_row_runs": 10,
+        "wrong_meaning_runs": 27,
+        "declined_answerable_runs": 21,
+        "letter_only_grounded_runs": 18,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 0,
+        "control_runs": 0,
+        "correct_decline_runs": 0,
+        "letter_only_decline_runs": 0,
+        "letters_chosen": {
+          "C": 72,
+          "E": 6
+        }
+      },
+      "unsupported": {
+        "questions": 3,
+        "answerable_questions": 0,
+        "answerable_runs": 0,
+        "grounded_runs": 0,
+        "right_meaning_wrong_row_runs": 0,
+        "wrong_meaning_runs": 0,
+        "declined_answerable_runs": 0,
+        "letter_only_grounded_runs": 0,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 3,
+        "control_runs": 12,
+        "correct_decline_runs": 3,
+        "letter_only_decline_runs": 3,
+        "letters_chosen": {
+          "C": 12
+        }
+      }
+    },
+    "bm25": {
+      "ambiguous": {
+        "questions": 10,
+        "answerable_questions": 0,
+        "answerable_runs": 0,
+        "grounded_runs": 0,
+        "right_meaning_wrong_row_runs": 0,
+        "wrong_meaning_runs": 0,
+        "declined_answerable_runs": 0,
+        "letter_only_grounded_runs": 0,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 10,
+        "control_runs": 39,
+        "correct_decline_runs": 10,
+        "letter_only_decline_runs": 10,
+        "letters_chosen": {
+          "C": 38,
+          "D": 1
+        }
+      },
+      "implicit": {
+        "questions": 20,
+        "answerable_questions": 20,
+        "answerable_runs": 78,
+        "grounded_runs": 18,
+        "right_meaning_wrong_row_runs": 7,
+        "wrong_meaning_runs": 31,
+        "declined_answerable_runs": 22,
+        "letter_only_grounded_runs": 21,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 0,
+        "control_runs": 0,
+        "correct_decline_runs": 0,
+        "letter_only_decline_runs": 0,
+        "letters_chosen": {
+          "C": 72,
+          "E": 6
+        }
+      },
+      "named": {
+        "questions": 20,
+        "answerable_questions": 20,
+        "answerable_runs": 78,
+        "grounded_runs": 22,
+        "right_meaning_wrong_row_runs": 8,
+        "wrong_meaning_runs": 27,
+        "declined_answerable_runs": 21,
+        "letter_only_grounded_runs": 20,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 0,
+        "control_runs": 0,
+        "correct_decline_runs": 0,
+        "letter_only_decline_runs": 0,
+        "letters_chosen": {
+          "C": 72,
+          "E": 6
+        }
+      },
+      "unsupported": {
+        "questions": 3,
+        "answerable_questions": 0,
+        "answerable_runs": 0,
+        "grounded_runs": 0,
+        "right_meaning_wrong_row_runs": 0,
+        "wrong_meaning_runs": 0,
+        "declined_answerable_runs": 0,
+        "letter_only_grounded_runs": 0,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 3,
+        "control_runs": 12,
+        "correct_decline_runs": 3,
+        "letter_only_decline_runs": 3,
+        "letters_chosen": {
+          "C": 12
+        }
+      }
+    },
+    "bge_dense": {
+      "ambiguous": {
+        "questions": 10,
+        "answerable_questions": 0,
+        "answerable_runs": 0,
+        "grounded_runs": 0,
+        "right_meaning_wrong_row_runs": 0,
+        "wrong_meaning_runs": 0,
+        "declined_answerable_runs": 0,
+        "letter_only_grounded_runs": 0,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 10,
+        "control_runs": 39,
+        "correct_decline_runs": 11,
+        "letter_only_decline_runs": 10,
+        "letters_chosen": {
+          "C": 37,
+          "E": 2
+        }
+      },
+      "implicit": {
+        "questions": 20,
+        "answerable_questions": 20,
+        "answerable_runs": 78,
+        "grounded_runs": 23,
+        "right_meaning_wrong_row_runs": 4,
+        "wrong_meaning_runs": 29,
+        "declined_answerable_runs": 22,
+        "letter_only_grounded_runs": 24,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 0,
+        "control_runs": 0,
+        "correct_decline_runs": 0,
+        "letter_only_decline_runs": 0,
+        "letters_chosen": {
+          "C": 72,
+          "D": 1,
+          "E": 5
+        }
+      },
+      "named": {
+        "questions": 20,
+        "answerable_questions": 20,
+        "answerable_runs": 78,
+        "grounded_runs": 21,
+        "right_meaning_wrong_row_runs": 8,
+        "wrong_meaning_runs": 27,
+        "declined_answerable_runs": 22,
+        "letter_only_grounded_runs": 19,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 0,
+        "control_runs": 0,
+        "correct_decline_runs": 0,
+        "letter_only_decline_runs": 0,
+        "letters_chosen": {
+          "C": 71,
+          "E": 7
+        }
+      },
+      "unsupported": {
+        "questions": 3,
+        "answerable_questions": 0,
+        "answerable_runs": 0,
+        "grounded_runs": 0,
+        "right_meaning_wrong_row_runs": 0,
+        "wrong_meaning_runs": 0,
+        "declined_answerable_runs": 0,
+        "letter_only_grounded_runs": 0,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 3,
+        "control_runs": 12,
+        "correct_decline_runs": 3,
+        "letter_only_decline_runs": 3,
+        "letters_chosen": {
+          "C": 12
+        }
+      }
+    },
+    "scoped_prototype": {
+      "ambiguous": {
+        "questions": 10,
+        "answerable_questions": 0,
+        "answerable_runs": 0,
+        "grounded_runs": 0,
+        "right_meaning_wrong_row_runs": 0,
+        "wrong_meaning_runs": 0,
+        "declined_answerable_runs": 0,
+        "letter_only_grounded_runs": 0,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 10,
+        "control_runs": 39,
+        "correct_decline_runs": 10,
+        "letter_only_decline_runs": 10,
+        "letters_chosen": {
+          "C": 38,
+          "D": 1
+        }
+      },
+      "implicit": {
+        "questions": 20,
+        "answerable_questions": 20,
+        "answerable_runs": 78,
+        "grounded_runs": 28,
+        "right_meaning_wrong_row_runs": 0,
+        "wrong_meaning_runs": 28,
+        "declined_answerable_runs": 22,
+        "letter_only_grounded_runs": 28,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 0,
+        "control_runs": 0,
+        "correct_decline_runs": 0,
+        "letter_only_decline_runs": 0,
+        "letters_chosen": {
+          "A": 1,
+          "C": 71,
+          "D": 1,
+          "E": 5
+        }
+      },
+      "named": {
+        "questions": 20,
+        "answerable_questions": 20,
+        "answerable_runs": 78,
+        "grounded_runs": 21,
+        "right_meaning_wrong_row_runs": 9,
+        "wrong_meaning_runs": 27,
+        "declined_answerable_runs": 21,
+        "letter_only_grounded_runs": 20,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 0,
+        "control_runs": 0,
+        "correct_decline_runs": 0,
+        "letter_only_decline_runs": 0,
+        "letters_chosen": {
+          "C": 74,
+          "E": 4
+        }
+      },
+      "unsupported": {
+        "questions": 3,
+        "answerable_questions": 0,
+        "answerable_runs": 0,
+        "grounded_runs": 0,
+        "right_meaning_wrong_row_runs": 0,
+        "wrong_meaning_runs": 0,
+        "declined_answerable_runs": 0,
+        "letter_only_grounded_runs": 0,
+        "same_choice_in_every_rotation": 0,
+        "grounded_in_every_rotation": 0,
+        "control_questions": 3,
+        "control_runs": 12,
+        "correct_decline_runs": 3,
+        "letter_only_decline_runs": 3,
+        "letters_chosen": {
+          "C": 12
+        }
+      }
+    }
+  },
+  "paired_vs_glossary": {
+    "no_glossary": {
+      "questions_better": 0,
+      "questions_worse": 40,
+      "questions_same": 0,
+      "family_mean_delta": -0.3258,
+      "family_bootstrap_95": [
+        -0.3396,
+        -0.315
+      ]
+    },
+    "glossary_full": {
+      "questions_better": 0,
+      "questions_worse": 1,
+      "questions_same": 39,
+      "family_mean_delta": -0.0042,
+      "family_bootstrap_95": [
+        -0.0125,
+        0.0
+      ]
+    },
+    "talkingdb_ttt": {
+      "questions_better": 0,
+      "questions_worse": 8,
+      "questions_same": 32,
+      "family_mean_delta": -0.0537,
+      "family_bootstrap_95": [
+        -0.095,
+        -0.0187
+      ]
+    },
+    "bm25": {
+      "questions_better": 0,
+      "questions_worse": 7,
+      "questions_same": 33,
+      "family_mean_delta": -0.0567,
+      "family_bootstrap_95": [
+        -0.0946,
+        -0.025
+      ]
+    },
+    "bge_dense": {
+      "questions_better": 1,
+      "questions_worse": 5,
+      "questions_same": 34,
+      "family_mean_delta": -0.0317,
+      "family_bootstrap_95": [
+        -0.0792,
+        0.0063
+      ]
+    },
+    "scoped_prototype": {
+      "questions_better": 2,
+      "questions_worse": 3,
+      "questions_same": 35,
+      "family_mean_delta": -0.0042,
+      "family_bootstrap_95": [
+        -0.0479,
+        0.025
+      ]
+    }
+  }
+}
