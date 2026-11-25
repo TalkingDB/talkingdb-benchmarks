@@ -1,5 +1,6 @@
 # SHA-256 and path of each data file kept on Hugging Face (https://huggingface.co/datasets/TalkingDB/railway-tables).
-# fetch_data.py downloads them and refuses any file whose hash differs.
+# fetch_data.py downloads them from dataset commit 036eaa607fecf78a69540096469405b0fe22df0e
+# and refuses any file whose hash differs.
 e07edb0f606e86cbdc2e75e845703251fb484f8952f3df6ab0a8000ee82e706f documents/raib-recommendations-index.pdf
 aa769ae7dac8525a3625dc9db3a01486431313b30d8d0d74700b9df173351a10 documents/orr-passenger-rail-usage-oct-dec-2025.pdf
 cfbb2b5d38e2f6623fefa5f990aee0f2bf37dd99e0c314ce554d392e2d3c755d results/extraction-raib-pages-1-4.json

@@ -1,8 +1,8 @@
 """Download the benchmark data from Hugging Face and check every file by SHA-256.
 
 The two public PDFs and the saved extraction output are kept out of git, in the
-dataset https://huggingface.co/datasets/TalkingDB/railway-tables . DATA.txt lists
-each file with its SHA-256. Plain Python 3, no installs.
+dataset https://huggingface.co/datasets/TalkingDB/railway-tables , fetched from one
+pinned dataset commit. DATA.txt lists each file with its SHA-256. Plain Python 3, no installs.
 
 Usage: python3 fetch_data.py           download what is missing or changed
        python3 fetch_data.py --check   only check the files already here
@@ -14,7 +14,10 @@ import urllib.request
 from pathlib import Path
 
 HERE = Path(__file__).resolve().parent
-BASE = "https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/"
+# The dataset commit these files are fetched from, so later uploads to the dataset never
+# change what an older checkout of this benchmark downloads.
+REVISION = "036eaa607fecf78a69540096469405b0fe22df0e"
+BASE = f"https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/{REVISION}/"
 
 
 def sha256(path):

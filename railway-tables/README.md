@@ -75,7 +75,7 @@ These are the exact questions TTT gets, and what a complete answer must contain 
 
 ## The documents
 
-The two PDFs and the saved extraction output are stored on [Hugging Face](https://huggingface.co/datasets/TalkingDB/railway-tables), not in git. `setup.sh` downloads them and checks each one against its SHA-256 in [DATA.txt](DATA.txt); `python3 fetch_data.py` does the same on its own.
+The two PDFs and the saved extraction output are stored on [Hugging Face](https://huggingface.co/datasets/TalkingDB/railway-tables), not in git. `setup.sh` downloads them from the pinned dataset commit [`036eaa6`](https://huggingface.co/datasets/TalkingDB/railway-tables/tree/036eaa607fecf78a69540096469405b0fe22df0e) and checks each one against its SHA-256 in [DATA.txt](DATA.txt); `python3 fetch_data.py` does the same on its own.
 
 Both are public UK government publications, used under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). Contains public sector information licensed under the Open Government Licence v3.0.
 
