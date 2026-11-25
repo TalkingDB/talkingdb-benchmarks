@@ -92,5 +92,50 @@ class BenchmarkTests(unittest.TestCase):
             checked_order(report, [case], self.rows)
 
 
+class RerunAndVerifyTests(unittest.TestCase):
+    def setUp(self):
+        self.entries = read_json("definitions.json")
+        self.cases = read_json("cases/evaluation.json")
+
+    def test_rotations_put_every_option_at_every_letter_once(self):
+        from balanced_rerun import rotations
+
+        for case in self.cases:
+            with self.subTest(case=case["id"]):
+                options = answer_options(case, self.entries)
+                orders = [list(o.values()) for _, o in rotations(options)]
+                self.assertEqual(orders[0], list(options.values()))
+                for position in range(len(options)):
+                    column = [order[position] for order in orders]
+                    self.assertEqual(sorted(map(repr, column)), sorted(map(repr, options.values())))
+
+    def test_letter_only_baseline_counts_each_grounded_option_once(self):
+        from balanced_rerun import counts
+
+        case = next(c for c in self.cases if c["id"] == "CDF-04")
+        rows = [{"id": case["id"], "kind": case["kind"], "chosen": "E21", "selected": "C",
+                 "verdict": "grounded_answer", "shown": ["E21", "E42"]} for _ in range(3)]
+        result = counts(rows, self.cases, self.entries)
+        self.assertEqual(result["letter_only_grounded_runs"], 1)
+        self.assertEqual(result["grounded_in_every_rotation"], 1)
+
+    def test_verify_rejects_a_changed_decision(self):
+        import verify
+
+        case = next(c for c in self.cases if c["id"] == "CDF-04")
+        options = answer_options(case, self.entries)
+        right = next(letter for letter, e in options.items() if e and e["id"] == "E21")
+        logits = {letter: (1.0 if letter == right else 0.0) for letter in options}
+        row = {"id": "CDF-04", "arm": "test", "option_logits": logits, "selected": right, "citation": "E21",
+               "answer": "Cumulative Distribution Function", "shown": ["E21"], "verdict": "grounded_answer",
+               "recall_at_3": True}
+        verify.failures.clear()
+        verify.check_decision(row, case, self.entries)
+        self.assertEqual(verify.failures, [])
+        verify.check_decision({**row, "shown": []}, case, self.entries)
+        self.assertTrue(any("verdict does not follow" in f for f in verify.failures))
+        verify.failures.clear()
+
+
 if __name__ == "__main__":
     unittest.main()

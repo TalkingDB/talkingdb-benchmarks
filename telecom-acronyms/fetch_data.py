@@ -1,6 +1,7 @@
 """Download the benchmark data from Hugging Face and check every file by SHA-256.
 
-The raw per question results are kept out of git, in the dataset
+The raw per question results, the position balanced rerun and the outcomes table
+are kept out of git, in the dataset
 https://huggingface.co/datasets/TalkingDB/telecom-acronyms . DATA.txt lists each
 file with its SHA-256. Plain Python 3, no installs. The specification PDFs are not
 here: sources.py downloads them from ETSI and checks them the same way.
