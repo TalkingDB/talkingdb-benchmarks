@@ -1,1 +1,5 @@
 .cache/
+results/evaluation/per-case.jsonl
+results/ttt/rankings.json
+results/ttt/scored/per-case.jsonl
+*.part
