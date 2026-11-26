@@ -1,0 +1,7 @@
+.cache/
+results/evaluation/per-case.jsonl
+results/ttt/rankings.json
+results/ttt/scored/per-case.jsonl
+results/balanced/per-run.jsonl
+outcomes.csv
+*.part

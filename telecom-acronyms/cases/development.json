@@ -1,0 +1,375 @@
+[
+  {
+    "id": "ACS-01",
+    "acronym": "ACS",
+    "kind": "named",
+    "question": "In TS 24.501, what does ACS stand for?",
+    "expected": {
+      "expansions": [
+        "Auto-Configuration Server"
+      ],
+      "citations": [
+        "E01"
+      ],
+      "reason": "TS 24.501 defines ACS in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "ACS-02",
+    "acronym": "ACS",
+    "kind": "implicit",
+    "question": "A home gateway is getting its configuration from a server during setup. In that context, what does ACS stand for?",
+    "expected": {
+      "expansions": [
+        "Auto-Configuration Server"
+      ],
+      "citations": [
+        "E01"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "ACS-03",
+    "acronym": "ACS",
+    "kind": "named",
+    "question": "In TS 38.521-2, what does ACS stand for?",
+    "expected": {
+      "expansions": [
+        "Adjacent Channel Selectivity"
+      ],
+      "citations": [
+        "E02"
+      ],
+      "reason": "TS 38.521-2 defines ACS in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "ACS-04",
+    "acronym": "ACS",
+    "kind": "implicit",
+    "question": "A lab checks how well a receiver tolerates a strong interferer one channel away. What does ACS stand for in that test?",
+    "expected": {
+      "expansions": [
+        "Adjacent Channel Selectivity"
+      ],
+      "citations": [
+        "E02"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "ACS-05",
+    "acronym": "ACS",
+    "kind": "ambiguous",
+    "question": "A note mentions ACS but gives no specification or other context. What does ACS stand for?",
+    "expected": {
+      "abstain": "ambiguous",
+      "reason": "The available specifications define multiple meanings and the note does not select one."
+    }
+  },
+  {
+    "id": "BS-01",
+    "acronym": "BS",
+    "kind": "named",
+    "question": "In TS 23.228, what does BS stand for?",
+    "expected": {
+      "expansions": [
+        "Bearer Service"
+      ],
+      "citations": [
+        "E15"
+      ],
+      "reason": "TS 23.228 defines BS in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "BS-02",
+    "acronym": "BS",
+    "kind": "implicit",
+    "question": "This service capability provides the means to carry signals rather than a specific end user teleservice. What is BS here?",
+    "expected": {
+      "expansions": [
+        "Bearer Service"
+      ],
+      "citations": [
+        "E15"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "BS-03",
+    "acronym": "BS",
+    "kind": "named",
+    "question": "In TS 38.521-2, what does BS stand for?",
+    "expected": {
+      "expansions": [
+        "Base Station"
+      ],
+      "citations": [
+        "E16"
+      ],
+      "reason": "TS 38.521-2 defines BS in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "BS-04",
+    "acronym": "BS",
+    "kind": "implicit",
+    "question": "In the radio test setup, the network side equipment talks over the air to the device under test. What does BS mean?",
+    "expected": {
+      "expansions": [
+        "Base Station"
+      ],
+      "citations": [
+        "E16"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "BS-05",
+    "acronym": "BS",
+    "kind": "ambiguous",
+    "question": "A note mentions BS but gives no specification or other context. What does BS stand for?",
+    "expected": {
+      "abstain": "ambiguous",
+      "reason": "The available specifications define multiple meanings and the note does not select one."
+    }
+  },
+  {
+    "id": "DC-01",
+    "acronym": "DC",
+    "kind": "named",
+    "question": "In TS 23.228, what does DC stand for?",
+    "expected": {
+      "expansions": [
+        "Data Channel"
+      ],
+      "citations": [
+        "E22"
+      ],
+      "reason": "TS 23.228 defines DC in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "DC-02",
+    "acronym": "DC",
+    "kind": "implicit",
+    "question": "An IMS multimedia call uses an additional channel to transfer application data alongside the conversation. What does DC denote?",
+    "expected": {
+      "expansions": [
+        "Data Channel"
+      ],
+      "citations": [
+        "E22"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "DC-03",
+    "acronym": "DC",
+    "kind": "named",
+    "question": "In TS 38.331, what does DC stand for?",
+    "expected": {
+      "expansions": [
+        "Dual Connectivity"
+      ],
+      "citations": [
+        "E23"
+      ],
+      "reason": "TS 38.331 defines DC in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "DC-04",
+    "acronym": "DC",
+    "kind": "implicit",
+    "question": "An NR radio configuration lets the device use a master cell group and a secondary cell group at the same time. What does DC stand for?",
+    "expected": {
+      "expansions": [
+        "Dual Connectivity"
+      ],
+      "citations": [
+        "E23"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "DC-05",
+    "acronym": "DC",
+    "kind": "ambiguous",
+    "question": "A note mentions DC but gives no specification or other context. What does DC stand for?",
+    "expected": {
+      "abstain": "ambiguous",
+      "reason": "The available specifications define multiple meanings and the note does not select one."
+    }
+  },
+  {
+    "id": "PEI-01",
+    "acronym": "PEI",
+    "kind": "named",
+    "question": "In TS 23.501, what does PEI stand for?",
+    "expected": {
+      "expansions": [
+        "Permanent Equipment Identifier"
+      ],
+      "citations": [
+        "E30"
+      ],
+      "reason": "TS 23.501 defines PEI in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "PEI-02",
+    "acronym": "PEI",
+    "kind": "implicit",
+    "question": "The core distinguishes the phone hardware identity from the subscriber identity and the temporary registration identity. What does PEI stand for?",
+    "expected": {
+      "expansions": [
+        "Permanent Equipment Identifier"
+      ],
+      "citations": [
+        "E30",
+        "E31",
+        "E32",
+        "E33"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "PEI-03",
+    "acronym": "PEI",
+    "kind": "named",
+    "question": "In TS 38.331, what does PEI stand for?",
+    "expected": {
+      "expansions": [
+        "Paging Early Indication"
+      ],
+      "citations": [
+        "E34"
+      ],
+      "reason": "TS 38.331 defines PEI in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "PEI-04",
+    "acronym": "PEI",
+    "kind": "implicit",
+    "question": "An idle device looks for a signal telling it whether it should wake for a coming paging occasion. What does PEI stand for?",
+    "expected": {
+      "expansions": [
+        "Paging Early Indication"
+      ],
+      "citations": [
+        "E34"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "PEI-05",
+    "acronym": "PEI",
+    "kind": "ambiguous",
+    "question": "A note mentions PEI but gives no specification or other context. What does PEI stand for?",
+    "expected": {
+      "abstain": "ambiguous",
+      "reason": "The available specifications define multiple meanings and the note does not select one."
+    }
+  },
+  {
+    "id": "TRP-01",
+    "acronym": "TRP",
+    "kind": "named",
+    "question": "In TS 38.321, what does TRP stand for?",
+    "expected": {
+      "expansions": [
+        "Transmit/Receive Point"
+      ],
+      "citations": [
+        "E41"
+      ],
+      "reason": "TS 38.321 defines TRP in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "TRP-02",
+    "acronym": "TRP",
+    "kind": "implicit",
+    "question": "A UE uses different radio endpoints for transmissions in a coordinated setup. What does each TRP stand for in the MAC specification?",
+    "expected": {
+      "expansions": [
+        "Transmit/Receive Point"
+      ],
+      "citations": [
+        "E41"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "TRP-03",
+    "acronym": "TRP",
+    "kind": "named",
+    "question": "In TS 38.521-2, what does TRP stand for?",
+    "expected": {
+      "expansions": [
+        "Total Radiated Power"
+      ],
+      "citations": [
+        "E42"
+      ],
+      "reason": "TS 38.521-2 defines TRP in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "TRP-04",
+    "acronym": "TRP",
+    "kind": "implicit",
+    "question": "The lab integrates the transmitted RF power over all directions in its OTA conformance test. What does TRP stand for?",
+    "expected": {
+      "expansions": [
+        "Total Radiated Power"
+      ],
+      "citations": [
+        "E42"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "TRP-05",
+    "acronym": "TRP",
+    "kind": "ambiguous",
+    "question": "A note mentions TRP but gives no specification or other context. What does TRP stand for?",
+    "expected": {
+      "abstain": "ambiguous",
+      "reason": "The available specifications define multiple meanings and the note does not select one."
+    }
+  },
+  {
+    "id": "ACS-06",
+    "acronym": "ACS",
+    "kind": "unsupported",
+    "question": "Using only the supplied glossary for TS 23.228, what is the expansion of ACS?",
+    "expected": {
+      "abstain": "unsupported",
+      "reason": "None of the supplied glossary entries for this acronym belongs to the requested specification."
+    }
+  },
+  {
+    "id": "TRP-06",
+    "acronym": "TRP",
+    "kind": "unsupported",
+    "question": "Using only the supplied glossary for TS 24.501, what is the expansion of TRP?",
+    "expected": {
+      "abstain": "unsupported",
+      "reason": "None of the supplied glossary entries for this acronym belongs to the requested specification."
+    }
+  }
+]

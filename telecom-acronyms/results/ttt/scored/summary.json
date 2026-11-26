@@ -1,0 +1,211 @@
+{
+  "dataset_hashes": {
+    "cases/evaluation.json": "fc52713d4abdae88ece2c6cb91f975b8ad00c95c8c7e80bbab3fd78401cede27",
+    "sources.json": "e48ca7f814add3954fabc7d057438351eeae9e86be68ef8b71b67485bfe6d038",
+    "definitions.json": "9b6522b6d6eb6981771d30658ec9980068bde1d130280f6e70d389d6488f20db"
+  },
+  "rankings_sha256": "ef4561928e93db8ce834406e7bd334ad81bab3aefc9eb6bed01f5d3d27fe9dd4",
+  "ttt_commits": {
+    "module-ttt": "8d163a0809cf6d32b68627a3afac4ecbb994b6eb",
+    "base-tdb-models": "3295d4073e179791cfbd042430824c1303ccba38",
+    "base-tdb-clients": "29abea220d96efac7b3ecee9deb9f5af49636174",
+    "base-tdb-helpers": "1fef6ea5e54a3562b791aea524d1f02425b68363",
+    "package-content-elementizer": "44320000d88b02fe8ec446d2170e30832f1132d4"
+  },
+  "ttt_versions": {
+    "spacy": "3.8.18",
+    "en-core-web-md": "3.8.0",
+    "networkx": "3.7",
+    "python-docx": "1.2.0"
+  },
+  "model": {
+    "id": "HuggingFaceTB/SmolLM2-360M-Instruct",
+    "revision": "a10cc1512eabd3dde888204e902eca88bddb4951",
+    "format": "ONNX Q4",
+    "onnxruntime": "1.23.2",
+    "tokenizers": "0.22.1",
+    "api_cost": 0
+  },
+  "baseline": "glossary_in_system_prompt",
+  "budget": 768,
+  "k": 3,
+  "mean_ttt_retrieval_seconds": 1.9253,
+  "arms": {
+    "glossary_in_system_prompt": {
+      "cases": 53,
+      "answerable": 40,
+      "evidence_found_at_3": 39,
+      "verdicts": {
+        "wrong_or_missing_citation": 2,
+        "missed_answer": 11,
+        "wrong_expansion": 14,
+        "guessed_on_control": 10,
+        "grounded_answer": 13,
+        "correct_abstention": 3
+      },
+      "answers_citing_unseen_evidence": 11,
+      "mean_input_tokens": 529.9,
+      "mean_seconds": 3.4925
+    },
+    "talkingdb_ttt": {
+      "cases": 53,
+      "answerable": 40,
+      "evidence_found_at_3": 38,
+      "verdicts": {
+        "wrong_or_missing_citation": 3,
+        "missed_answer": 11,
+        "wrong_expansion": 15,
+        "guessed_on_control": 10,
+        "grounded_answer": 11,
+        "correct_abstention": 3
+      },
+      "answers_citing_unseen_evidence": 20,
+      "mean_input_tokens": 205.5,
+      "mean_seconds": 1.2509
+    }
+  },
+  "by_case_type": {
+    "glossary_in_system_prompt": {
+      "ambiguous": {
+        "cases": 10,
+        "answerable": 0,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "guessed_on_control": 8,
+          "correct_abstention": 2
+        },
+        "answers_citing_unseen_evidence": 0,
+        "mean_input_tokens": 761.6,
+        "mean_seconds": 4.7673
+      },
+      "implicit": {
+        "cases": 20,
+        "answerable": 20,
+        "evidence_found_at_3": 19,
+        "verdicts": {
+          "missed_answer": 7,
+          "wrong_expansion": 7,
+          "grounded_answer": 6
+        },
+        "answers_citing_unseen_evidence": 0,
+        "mean_input_tokens": 762.0,
+        "mean_seconds": 5.0053
+      },
+      "named": {
+        "cases": 20,
+        "answerable": 20,
+        "evidence_found_at_3": 20,
+        "verdicts": {
+          "wrong_or_missing_citation": 2,
+          "wrong_expansion": 7,
+          "grounded_answer": 7,
+          "missed_answer": 4
+        },
+        "answers_citing_unseen_evidence": 9,
+        "mean_input_tokens": 228.2,
+        "mean_seconds": 1.649
+      },
+      "unsupported": {
+        "cases": 3,
+        "answerable": 0,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "guessed_on_control": 2,
+          "correct_abstention": 1
+        },
+        "answers_citing_unseen_evidence": 2,
+        "mean_input_tokens": 222.7,
+        "mean_seconds": 1.4487
+      }
+    },
+    "talkingdb_ttt": {
+      "ambiguous": {
+        "cases": 10,
+        "answerable": 0,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "guessed_on_control": 8,
+          "correct_abstention": 2
+        },
+        "answers_citing_unseen_evidence": 1,
+        "mean_input_tokens": 224.9,
+        "mean_seconds": 1.2957
+      },
+      "implicit": {
+        "cases": 20,
+        "answerable": 20,
+        "evidence_found_at_3": 20,
+        "verdicts": {
+          "missed_answer": 7,
+          "wrong_expansion": 8,
+          "grounded_answer": 5
+        },
+        "answers_citing_unseen_evidence": 7,
+        "mean_input_tokens": 204.1,
+        "mean_seconds": 1.2666
+      },
+      "named": {
+        "cases": 20,
+        "answerable": 20,
+        "evidence_found_at_3": 18,
+        "verdicts": {
+          "wrong_or_missing_citation": 3,
+          "wrong_expansion": 7,
+          "grounded_answer": 6,
+          "missed_answer": 4
+        },
+        "answers_citing_unseen_evidence": 10,
+        "mean_input_tokens": 198.6,
+        "mean_seconds": 1.2163
+      },
+      "unsupported": {
+        "cases": 3,
+        "answerable": 0,
+        "evidence_found_at_3": 0,
+        "verdicts": {
+          "guessed_on_control": 2,
+          "correct_abstention": 1
+        },
+        "answers_citing_unseen_evidence": 2,
+        "mean_input_tokens": 196.3,
+        "mean_seconds": 1.2279
+      }
+    }
+  },
+  "paired_vs_glossary": {
+    "talkingdb_ttt": {
+      "wins": 0,
+      "losses": 2,
+      "ties": 38,
+      "family_mean_delta": -0.05,
+      "family_bootstrap_95": [
+        -0.125,
+        0
+      ]
+    }
+  },
+  "paired_by_case_type": {
+    "talkingdb_ttt": {
+      "ambiguous": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 10
+      },
+      "implicit": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 19
+      },
+      "named": {
+        "wins": 0,
+        "losses": 1,
+        "ties": 19
+      },
+      "unsupported": {
+        "wins": 0,
+        "losses": 0,
+        "ties": 3
+      }
+    }
+  }
+}
