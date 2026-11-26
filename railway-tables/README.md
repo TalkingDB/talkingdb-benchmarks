@@ -22,7 +22,7 @@ More detail: [how it works](#how-it-works), [where rows go missing](#where-rows-
 
 ![What happens between the PDF and the answer](images/how-it-works.png)
 
-1. **Read the tables.** An open source PDF table extractor reads pages 1 to 4: no OCR, accurate table mode, CPU only ([extract.py](pipeline/extract.py); exact version in [requirements-extract.txt](requirements-extract.txt)). Its output is saved in [results/extraction-raib-pages-1-4.json](results/extraction-raib-pages-1-4.json), so you can check every later step without running it.
+1. **Read the tables.** An open source PDF table extractor reads pages 1 to 4: no OCR, accurate table mode, CPU only ([extract.py](pipeline/extract.py); exact version in [requirements-extract.txt](requirements-extract.txt)). Its output is saved in [results/extraction-raib-pages-1-4.json](https://huggingface.co/datasets/TalkingDB/railway-tables/blob/main/results/extraction-raib-pages-1-4.json), so you can check every later step without running it.
 2. **Fix the page breaks.** The extractor marks the first row of each new page as column names. A row that holds a row ID, here a recommendation number such as `13/2024/03`, is kept as data whatever that mark says, and a table on the next page joins the one before it when its first row is data ([join_pages.py](pipeline/join_pages.py)).
 3. **Index and ask.** TalkingDB TTT indexes every row with its column names and the page it came from, then answers five plain English questions, such as "Which recommendations did RAIB report 13/2024 make, who must act on each and what is its status?" ([ask.py](pipeline/ask.py)).
 4. **Score exactly.** A row counts only with the exact recommendation number, the right organisation that must act and the right page. One lookup asks about a report that does not exist; any row returned for it fails. Only the results that fit in 300 words count. No language model writes or judges anything ([score.py](pipeline/score.py)).
@@ -52,7 +52,7 @@ Same search in both rows. The only difference is the page break fix, so the thre
 
 These are the exact questions TTT gets, and what a complete answer must contain ([RAIB cases](cases/raib-lookups.json), [ORR questions](cases/orr-questions.json)). A row counts only with the exact recommendation number, the organisation that must act and the page. Each returned row also carries its status, but status is not scored.
 
-**Long tables, [RAIB index](documents/raib-recommendations-index.pdf), pages 1 to 4.** These five give the result above.
+**Long tables, [RAIB index](https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/documents/raib-recommendations-index.pdf), pages 1 to 4.** These five give the result above.
 
 | Question | Expected rows |
 | :--- | :--- |
@@ -62,25 +62,27 @@ These are the exact questions TTT gets, and what a complete answer must contain 
 | Who must implement RAIB recommendation 07/2023/04 and what is its status? | 07/2023/04 Environment Agency, page 3; 07/2023/04 Natural Resources Wales, page 3; 07/2023/04 Network Rail, page 4 |
 | Which recommendations did RAIB report 99/1999 make? | Nothing. Any row returned for this report fails |
 
-**Distant evidence, [ORR report](documents/orr-passenger-rail-usage-oct-dec-2025.pdf).** Included for the next release; their runner is not here yet ([limit 5](#limits-plainly)).
+**Distant evidence, [ORR report](https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/documents/orr-passenger-rail-usage-oct-dec-2025.pdf).** Included for the next release; their runner is not here yet ([limit 5](#limits-plainly)).
 
 | Question | Expected answer | Pages that prove it |
 | :--- | :--- | :--- |
-| What was the quarterly passenger journey total, and which table in the data index lists passenger journeys by operator? | 466 million journeys. Table 1223 lists quarterly passenger journeys by operator. | [1](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=1) or [3](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=3) and [22](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=22) |
-| How many passenger journeys were reported in the latest quarter, and how does Annex 1 count a trip involving a change of train? | 466 million journeys. Each train used is counted as a separate journey. | [1](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=1) or [3](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=3) and [15](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=15) |
-| Why was the Other ticket type omitted from the revenue chart, and which table in the data index supplies those values? | The category includes refunds and miscellaneous items that can lead to negative values. The quarterly ticket type revenue series is Table 1212. | [12](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=12) and [22](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=22) |
-| For Table 1233, why did the operator figures change in July to September 2025 and what does the data index say that series measures? | Govia Thameslink Railway supplied revised figures. Table 1233 tracks quarterly passenger kilometres by operator. | [20](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=20) and [22](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=22) |
-| What was the total distance travelled by passengers in the latest quarter and the change from the comparable prior year quarter? | 16.7 billion passenger kilometres, up 3% from 16.2 billion. | [1](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=1) or [6](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=6) |
-| Which billing system supplied the actual passenger train and vehicle kilometre data and who provided the data? | The Track Access Billing System (TABS). Network Rail provided the data. | [19](documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=19) |
+| What was the quarterly passenger journey total, and which table in the data index lists passenger journeys by operator? | 466 million journeys. Table 1223 lists quarterly passenger journeys by operator. | [1](https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=1) or [3](https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=3) and [22](https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=22) |
+| How many passenger journeys were reported in the latest quarter, and how does Annex 1 count a trip involving a change of train? | 466 million journeys. Each train used is counted as a separate journey. | [1](https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=1) or [3](https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=3) and [15](https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=15) |
+| Why was the Other ticket type omitted from the revenue chart, and which table in the data index supplies those values? | The category includes refunds and miscellaneous items that can lead to negative values. The quarterly ticket type revenue series is Table 1212. | [12](https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=12) and [22](https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=22) |
+| For Table 1233, why did the operator figures change in July to September 2025 and what does the data index say that series measures? | Govia Thameslink Railway supplied revised figures. Table 1233 tracks quarterly passenger kilometres by operator. | [20](https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=20) and [22](https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=22) |
+| What was the total distance travelled by passengers in the latest quarter and the change from the comparable prior year quarter? | 16.7 billion passenger kilometres, up 3% from 16.2 billion. | [1](https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=1) or [6](https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=6) |
+| Which billing system supplied the actual passenger train and vehicle kilometre data and who provided the data? | The Track Access Billing System (TABS). Network Rail provided the data. | [19](https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/documents/orr-passenger-rail-usage-oct-dec-2025.pdf#page=19) |
 
 ## The documents
+
+The two PDFs and the saved extraction output are stored on [Hugging Face](https://huggingface.co/datasets/TalkingDB/railway-tables), not in git. `setup.sh` downloads them from the pinned dataset commit [`036eaa6`](https://huggingface.co/datasets/TalkingDB/railway-tables/tree/036eaa607fecf78a69540096469405b0fe22df0e) and checks each one against its SHA-256 in [DATA.txt](DATA.txt); `python3 fetch_data.py` does the same on its own.
 
 Both are public UK government publications, used under the [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/). Contains public sector information licensed under the Open Government Licence v3.0.
 
 | Document | What it tests | Source | SHA-256 |
 | :--- | :--- | :--- | :--- |
-| [Index of RAIB recommendations](documents/raib-recommendations-index.pdf), Rail Accident Investigation Branch, pages 1 to 4 | One table running across many pages; several rows per report; a recommendation with three organisations that must act | [GOV.UK](https://www.gov.uk/government/publications/index-of-raib-recommendations) | `e07edb0f606e86cbdc2e75e845703251fb484f8952f3df6ab0a8000ee82e706f` |
-| [Passenger rail usage, October to December 2025](documents/orr-passenger-rail-usage-oct-dec-2025.pdf), Office of Rail and Road | Questions whose answer needs a section named elsewhere, such as Annex 1 ([questions](cases/orr-questions.json)) | [ORR data portal](https://dataportal.orr.gov.uk/media/2hto1os3/passenger-rail-usage-oct-dec-2025.pdf) | `aa769ae7dac8525a3625dc9db3a01486431313b30d8d0d74700b9df173351a10` |
+| [Index of RAIB recommendations](https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/documents/raib-recommendations-index.pdf), Rail Accident Investigation Branch, pages 1 to 4 | One table running across many pages; several rows per report; a recommendation with three organisations that must act | [GOV.UK](https://www.gov.uk/government/publications/index-of-raib-recommendations) | `e07edb0f606e86cbdc2e75e845703251fb484f8952f3df6ab0a8000ee82e706f` |
+| [Passenger rail usage, October to December 2025](https://huggingface.co/datasets/TalkingDB/railway-tables/resolve/main/documents/orr-passenger-rail-usage-oct-dec-2025.pdf), Office of Rail and Road | Questions whose answer needs a section named elsewhere, such as Annex 1 ([questions](cases/orr-questions.json)) | [ORR data portal](https://dataportal.orr.gov.uk/media/2hto1os3/passenger-rail-usage-oct-dec-2025.pdf) | `aa769ae7dac8525a3625dc9db3a01486431313b30d8d0d74700b9df173351a10` |
 
 ## Run it yourself
 
@@ -93,7 +95,7 @@ bash setup.sh
 bash run.sh
 ```
 
-`run.sh` runs the self checks, the five lookups through TTT, rewrites `results/results.json` and redraws the images. Only want the first part? `python3 pipeline/benchmark.py` needs nothing but Python 3.
+`run.sh` runs the self checks, the five lookups through TTT, rewrites `results/results.json` and redraws the images. Only want the first part? `python3 fetch_data.py && python3 pipeline/benchmark.py` needs nothing but Python 3.
 
 ## Try it on your own documents
 
@@ -117,7 +119,8 @@ If it fails on your document, we would like to see where. Please [open an issue]
 
 | Path | What it is |
 | :--- | :--- |
-| `documents/` | The two public PDFs |
+| `documents/` | The two public PDFs, downloaded from Hugging Face by `fetch_data.py` |
+| `fetch_data.py`, `DATA.txt` | Downloads the data files and checks them by SHA-256 |
 | `cases/` | The five lookups with expected rows, and the six ORR questions |
 | `pipeline/extract.py` | Step 1, read tables from a PDF |
 | `pipeline/join_pages.py` | Step 2, the page break fix, with a self check |
@@ -125,7 +128,8 @@ If it fails on your document, we would like to see where. Please [open an issue]
 | `pipeline/score.py` | Exact scoring, with a self check |
 | `pipeline/benchmark.py` | Runs the five lookups with and without the fix |
 | `pipeline/make_images.py` | Draws the images from the PDF and the results |
-| `results/` | Saved extraction output and the results |
+| `results/` | The results; the saved extraction output is downloaded like the PDFs |
 | `setup.sh`, `run.sh`, `TTT_COMMITS.txt` | Setup and run; TTT is pinned to the commits listed |
+| `DATASET_CARD.md` | The description shown on the Hugging Face dataset page |
 
 Built by Aaron Sequeira at [TalkingDB](https://talkingdb.io/). Code under [AGPL-3.0](../LICENSE).
