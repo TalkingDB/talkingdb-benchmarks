@@ -8,3 +8,6 @@ results/*.tmp/
 # kept on Hugging Face (DATA.txt), fetched by fetch_data.py
 documents/*.pdf
 cases/questions.json
+# passage text from the publishers' documents: private dataset only, never git
+results/*/index.json
+results/openai/questions-with-chunks.xlsx
