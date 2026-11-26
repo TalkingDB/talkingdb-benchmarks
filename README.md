@@ -11,6 +11,11 @@ Free to use and open source under [AGPL-3.0](LICENSE). Rerun them, change them, 
 
 Built on the open source TalkingDB tools, starting with [module-ttt](https://github.com/TalkingDB/module-ttt).
 
+<p align="center">
+  <img src="docs/images/demo.gif" alt="A short animated tour of talkingdb-benchmarks: what it is, how to start, and which page to read next">
+</p>
+<p align="center"><sub>A short tour: what it is, how to start, and what to read next.</sub></p>
+
 ## How every benchmark here works
 
 <picture>
@@ -68,3 +73,9 @@ Before calling it reproducible, run `setup.sh` and `run.sh` from a fresh clone o
 - [module-ttt](https://github.com/TalkingDB/module-ttt), the document indexing used by these benchmarks
 - [package-content-elementizer](https://github.com/TalkingDB/package-content-elementizer), TalkingDB's document reader
 - [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/), the licence of the UK rail documents
+
+## Support TalkingDB
+
+If talkingdb-benchmarks saved you time, please [give it a star](https://github.com/TalkingDB/talkingdb-benchmarks) ⭐. Stars help other developers find the project.
+
+Found a bug, or a document it gets wrong? [Open an issue](https://github.com/TalkingDB/talkingdb-benchmarks/issues/new). We are always here to help and open to a conversation. Explore the TalkingDB applications at [talkingdb.io](https://talkingdb.io/#applications).
