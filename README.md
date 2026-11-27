@@ -12,9 +12,9 @@ Free to use and open source under [AGPL-3.0](LICENSE). Rerun them, change them, 
 Built on the open source TalkingDB tools, starting with [module-ttt](https://github.com/TalkingDB/module-ttt).
 
 <p align="center">
-  <img src="docs/images/demo.gif" alt="A short animated tour of talkingdb-benchmarks: what it is, how to start, and which page to read next">
+  <img src="docs/images/demo.gif" alt="Animated demo: a railway safety question, the row standard PDF extraction loses at a page break, the same query with and without the fix (2 of 3 rows against 3 of 3), the whole table scored, and the ecommerce-rag result of 40 of 64">
 </p>
-<p align="center"><sub>A short tour: what it is, how to start, and what to read next.</sub></p>
+<p align="center"><sub>Every figure is read from the results files in this repo, with its denominator.</sub></p>
 
 ## How every benchmark here works
 
