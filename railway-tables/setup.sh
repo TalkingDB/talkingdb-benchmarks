@@ -9,6 +9,8 @@ set -e
 HERE="$(cd "$(dirname "$0")" && pwd)"
 cd "$HERE"
 
+python3 fetch_data.py  # the PDFs and saved extraction output, from Hugging Face, checked by SHA-256
+
 [ -d .venv-extract ] || uv venv -q -p 3.14 .venv-extract
 VIRTUAL_ENV=.venv-extract uv pip install -q --torch-backend cpu -r requirements-extract.txt  # CPU build of torch, no GPU libraries
 

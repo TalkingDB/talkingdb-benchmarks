@@ -9,7 +9,8 @@ follow-up questions (Q26 to Q29).
   python pipeline/benchmark.py --local           local models through Ollama
   python pipeline/benchmark.py --runs 1 --only Q01,Q68
 
-Writes index.json (every chunk in the index), runs.jsonl (top 20, reranker scores and top 4
+Writes index.json (every chunk in the index, with its text; kept out of git), chunks.json (the
+same chunks without text, for git), runs.jsonl (top 20, reranker scores and top 4
 for every question and run) and config.json, then scores them with score.py into
 summary.json and per_question.csv. A full run with the default settings writes
 results/<openai|local>/; --answers adds "-answers" to the folder, and --only, a different
@@ -177,7 +178,10 @@ def ensure_index(settings, reingest: bool) -> None:
 
 
 def snapshot(store, out: Path) -> dict:
-    """Save every chunk in the index, so the run can be re-scored without the index."""
+    """Save every chunk in the index, so the run can be re-scored without the index.
+
+    index.json holds the passage text and stays out of git (it goes to the private dataset);
+    chunks.json holds the same chunks without their text, with a SHA-256 of each, for GitHub."""
     points, offset = [], None
     while True:
         batch, offset = store.client.scroll(store.collection_name, limit=256, offset=offset, with_payload=True)
@@ -201,6 +205,7 @@ def snapshot(store, out: Path) -> dict:
         sys.exit(f"The index holds {len(ids)} points for {len(set(ids))} chunks: some chunks are indexed twice, "
                  "which would skew every result. Rebuild it: bash run.sh --reingest")
     (out / "index.json").write_text(json.dumps(chunks, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
+    (out / "chunks.json").write_text(json.dumps(score.public_chunks(chunks), indent=1) + "\n", encoding="utf-8")
     return {c["chunk_id"]: {"document": c["document"], "text": score.norm(c["text"])} for c in chunks}
 
 

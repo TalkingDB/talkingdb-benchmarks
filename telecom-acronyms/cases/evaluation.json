@@ -1,0 +1,741 @@
+[
+  {
+    "id": "AF-01",
+    "acronym": "AF",
+    "kind": "named",
+    "question": "In TS 23.501, what does AF stand for?",
+    "expected": {
+      "expansions": [
+        "Application Function"
+      ],
+      "citations": [
+        "E03"
+      ],
+      "reason": "TS 23.501 defines AF in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "AF-02",
+    "acronym": "AF",
+    "kind": "implicit",
+    "question": "An application asks the 5G core to steer traffic for its flows. What entity does AF denote?",
+    "expected": {
+      "expansions": [
+        "Application Function"
+      ],
+      "citations": [
+        "E03",
+        "E04"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "AF-03",
+    "acronym": "AF",
+    "kind": "named",
+    "question": "In TS 33.310, what does AF stand for?",
+    "expected": {
+      "expansions": [
+        "Authentication Framework"
+      ],
+      "citations": [
+        "E05"
+      ],
+      "reason": "TS 33.310 defines AF in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "AF-04",
+    "acronym": "AF",
+    "kind": "implicit",
+    "question": "I’m reading about trust and peer authentication across network domains with certificates. What is AF in that context?",
+    "expected": {
+      "expansions": [
+        "Authentication Framework"
+      ],
+      "citations": [
+        "E05"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "AF-05",
+    "acronym": "AF",
+    "kind": "ambiguous",
+    "question": "A note mentions AF but gives no specification or other context. What does AF stand for?",
+    "expected": {
+      "abstain": "ambiguous",
+      "reason": "The available specifications define multiple meanings and the note does not select one."
+    }
+  },
+  {
+    "id": "AMF-01",
+    "acronym": "AMF",
+    "kind": "named",
+    "question": "In TS 24.501, what does AMF stand for?",
+    "expected": {
+      "expansions": [
+        "Access and Mobility Management Function"
+      ],
+      "citations": [
+        "E07"
+      ],
+      "reason": "TS 24.501 defines AMF in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "AMF-02",
+    "acronym": "AMF",
+    "kind": "implicit",
+    "question": "A phone sends a NAS registration request and a core network function updates its registration state. What does AMF mean here?",
+    "expected": {
+      "expansions": [
+        "Access and Mobility Management Function"
+      ],
+      "citations": [
+        "E06",
+        "E07",
+        "E08",
+        "E09"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "AMF-03",
+    "acronym": "AMF",
+    "kind": "named",
+    "question": "In TS 33.501, what does AMF stand for in the AUTN format?",
+    "expected": {
+      "expansions": [
+        "Authentication Management Field"
+      ],
+      "citations": [
+        "E10"
+      ],
+      "reason": "TS 33.501 defines AMF in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "AMF-04",
+    "acronym": "AMF",
+    "kind": "implicit",
+    "question": "In the bits carried by AUTN during AKA, what does AMF stand for?",
+    "expected": {
+      "expansions": [
+        "Authentication Management Field"
+      ],
+      "citations": [
+        "E10"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "AMF-05",
+    "acronym": "AMF",
+    "kind": "ambiguous",
+    "question": "A note mentions AMF but gives no specification or other context. What does AMF stand for?",
+    "expected": {
+      "abstain": "ambiguous",
+      "reason": "The available specifications define multiple meanings and the note does not select one."
+    }
+  },
+  {
+    "id": "AS-01",
+    "acronym": "AS",
+    "kind": "named",
+    "question": "In TS 24.501, what does AS stand for?",
+    "expected": {
+      "expansions": [
+        "Access stratum"
+      ],
+      "citations": [
+        "E13"
+      ],
+      "reason": "TS 24.501 defines AS in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "AS-02",
+    "acronym": "AS",
+    "kind": "implicit",
+    "question": "NAS signalling is passed down to the layers that provide the radio connection. What does AS denote on that side of the NAS boundary?",
+    "expected": {
+      "expansions": [
+        "Access stratum"
+      ],
+      "citations": [
+        "E12",
+        "E13",
+        "E14"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "AS-03",
+    "acronym": "AS",
+    "kind": "named",
+    "question": "In TS 23.228, what does AS stand for?",
+    "expected": {
+      "expansions": [
+        "Application Server"
+      ],
+      "citations": [
+        "E11"
+      ],
+      "reason": "TS 23.228 defines AS in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "AS-04",
+    "acronym": "AS",
+    "kind": "implicit",
+    "question": "An IMS node runs service logic after the serving call session control function invokes it over ISC. Which node does AS refer to?",
+    "expected": {
+      "expansions": [
+        "Application Server"
+      ],
+      "citations": [
+        "E11"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "AS-05",
+    "acronym": "AS",
+    "kind": "ambiguous",
+    "question": "A note mentions AS but gives no specification or other context. What does AS stand for?",
+    "expected": {
+      "abstain": "ambiguous",
+      "reason": "The available specifications define multiple meanings and the note does not select one."
+    }
+  },
+  {
+    "id": "CA-01",
+    "acronym": "CA",
+    "kind": "named",
+    "question": "In TS 38.521-2, what does CA stand for?",
+    "expected": {
+      "expansions": [
+        "Carrier Aggregation"
+      ],
+      "citations": [
+        "E19"
+      ],
+      "reason": "TS 38.521-2 defines CA in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "CA-02",
+    "acronym": "CA",
+    "kind": "implicit",
+    "question": "The handset combines two component carriers to increase its usable bandwidth. What does CA stand for?",
+    "expected": {
+      "expansions": [
+        "Carrier Aggregation"
+      ],
+      "citations": [
+        "E18",
+        "E19"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "CA-03",
+    "acronym": "CA",
+    "kind": "named",
+    "question": "In TS 33.310, what does CA stand for?",
+    "expected": {
+      "expansions": [
+        "Certification Authority"
+      ],
+      "citations": [
+        "E17"
+      ],
+      "reason": "TS 33.310 defines CA in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "CA-04",
+    "acronym": "CA",
+    "kind": "implicit",
+    "question": "In the TLS enrolment workflow, the entity signs the peer’s certificate. What does CA stand for?",
+    "expected": {
+      "expansions": [
+        "Certification Authority"
+      ],
+      "citations": [
+        "E17"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "CA-05",
+    "acronym": "CA",
+    "kind": "ambiguous",
+    "question": "A note mentions CA but gives no specification or other context. What does CA stand for?",
+    "expected": {
+      "abstain": "ambiguous",
+      "reason": "The available specifications define multiple meanings and the note does not select one."
+    }
+  },
+  {
+    "id": "CDF-01",
+    "acronym": "CDF",
+    "kind": "named",
+    "question": "In TS 32.255, what does CDF stand for?",
+    "expected": {
+      "expansions": [
+        "Charging Data Function"
+      ],
+      "citations": [
+        "E20"
+      ],
+      "reason": "TS 32.255 defines CDF in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "CDF-02",
+    "acronym": "CDF",
+    "kind": "implicit",
+    "question": "The charging architecture collects events and turns them into charging records. What does CDF stand for in this workflow?",
+    "expected": {
+      "expansions": [
+        "Charging Data Function"
+      ],
+      "citations": [
+        "E20"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "CDF-03",
+    "acronym": "CDF",
+    "kind": "named",
+    "question": "In TS 38.521-2, what does CDF stand for?",
+    "expected": {
+      "expansions": [
+        "Cumulative Distribution Function"
+      ],
+      "citations": [
+        "E21"
+      ],
+      "reason": "TS 38.521-2 defines CDF in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "CDF-04",
+    "acronym": "CDF",
+    "kind": "implicit",
+    "question": "In a radio conformance plot, I want the probability that the measured power is at or below a given value. What does CDF stand for?",
+    "expected": {
+      "expansions": [
+        "Cumulative Distribution Function"
+      ],
+      "citations": [
+        "E21"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "CDF-05",
+    "acronym": "CDF",
+    "kind": "ambiguous",
+    "question": "A note mentions CDF but gives no specification or other context. What does CDF stand for?",
+    "expected": {
+      "abstain": "ambiguous",
+      "reason": "The available specifications define multiple meanings and the note does not select one."
+    }
+  },
+  {
+    "id": "MAC-01",
+    "acronym": "MAC",
+    "kind": "named",
+    "question": "In TS 38.331, what does MAC stand for?",
+    "expected": {
+      "expansions": [
+        "Medium Access Control"
+      ],
+      "citations": [
+        "E25"
+      ],
+      "reason": "TS 38.331 defines MAC in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "MAC-02",
+    "acronym": "MAC",
+    "kind": "implicit",
+    "question": "The RRC layer sets up logical channels and radio scheduling for the layer below it. Which protocol layer is MAC?",
+    "expected": {
+      "expansions": [
+        "Medium Access Control"
+      ],
+      "citations": [
+        "E25"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "MAC-03",
+    "acronym": "MAC",
+    "kind": "named",
+    "question": "In TS 24.501, what does MAC stand for?",
+    "expected": {
+      "expansions": [
+        "Message Authentication Code"
+      ],
+      "citations": [
+        "E24"
+      ],
+      "reason": "TS 24.501 defines MAC in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "MAC-04",
+    "acronym": "MAC",
+    "kind": "implicit",
+    "question": "The receiver checks the integrity tag attached to the NAS message. What does MAC stand for in that check?",
+    "expected": {
+      "expansions": [
+        "Message Authentication Code"
+      ],
+      "citations": [
+        "E24"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "MAC-05",
+    "acronym": "MAC",
+    "kind": "ambiguous",
+    "question": "A note mentions MAC but gives no specification or other context. What does MAC stand for?",
+    "expected": {
+      "abstain": "ambiguous",
+      "reason": "The available specifications define multiple meanings and the note does not select one."
+    }
+  },
+  {
+    "id": "MRB-01",
+    "acronym": "MRB",
+    "kind": "named",
+    "question": "In TS 23.228, what does MRB stand for?",
+    "expected": {
+      "expansions": [
+        "Media Resource Broker"
+      ],
+      "citations": [
+        "E26"
+      ],
+      "reason": "TS 23.228 defines MRB in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "MRB-02",
+    "acronym": "MRB",
+    "kind": "implicit",
+    "question": "An IMS service needs a component to choose a pool of media resources for the session. What does MRB stand for?",
+    "expected": {
+      "expansions": [
+        "Media Resource Broker"
+      ],
+      "citations": [
+        "E26"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "MRB-03",
+    "acronym": "MRB",
+    "kind": "named",
+    "question": "In TS 38.331, what does MRB stand for?",
+    "expected": {
+      "expansions": [
+        "MBS Radio Bearer"
+      ],
+      "citations": [
+        "E27"
+      ],
+      "reason": "TS 38.331 defines MRB in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "MRB-04",
+    "acronym": "MRB",
+    "kind": "implicit",
+    "question": "The device configures a bearer for NR multicast and broadcast traffic. What kind of bearer is an MRB?",
+    "expected": {
+      "expansions": [
+        "MBS Radio Bearer"
+      ],
+      "citations": [
+        "E27"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "MRB-05",
+    "acronym": "MRB",
+    "kind": "ambiguous",
+    "question": "A note mentions MRB but gives no specification or other context. What does MRB stand for?",
+    "expected": {
+      "abstain": "ambiguous",
+      "reason": "The available specifications define multiple meanings and the note does not select one."
+    }
+  },
+  {
+    "id": "MSK-01",
+    "acronym": "MSK",
+    "kind": "named",
+    "question": "In TS 24.501, what does MSK stand for?",
+    "expected": {
+      "expansions": [
+        "MBS Service Key"
+      ],
+      "citations": [
+        "E28"
+      ],
+      "reason": "TS 24.501 defines MSK in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "MSK-02",
+    "acronym": "MSK",
+    "kind": "implicit",
+    "question": "The NAS procedure delivers the key associated with a multicast and broadcast service. What does MSK mean here?",
+    "expected": {
+      "expansions": [
+        "MBS Service Key"
+      ],
+      "citations": [
+        "E28"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "MSK-03",
+    "acronym": "MSK",
+    "kind": "named",
+    "question": "In TS 33.501, what does MSK stand for?",
+    "expected": {
+      "expansions": [
+        "Master Session Key"
+      ],
+      "citations": [
+        "E29"
+      ],
+      "reason": "TS 33.501 defines MSK in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "MSK-04",
+    "acronym": "MSK",
+    "kind": "implicit",
+    "question": "In the 5G security procedure for EAP authentication, the key material exported by EAP includes MSK. What is its expansion?",
+    "expected": {
+      "expansions": [
+        "Master Session Key"
+      ],
+      "citations": [
+        "E29"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "MSK-05",
+    "acronym": "MSK",
+    "kind": "ambiguous",
+    "question": "A note mentions MSK but gives no specification or other context. What does MSK stand for?",
+    "expected": {
+      "abstain": "ambiguous",
+      "reason": "The available specifications define multiple meanings and the note does not select one."
+    }
+  },
+  {
+    "id": "PSI-01",
+    "acronym": "PSI",
+    "kind": "named",
+    "question": "In TS 23.228, what does PSI stand for?",
+    "expected": {
+      "expansions": [
+        "Public Service Identity"
+      ],
+      "citations": [
+        "E35"
+      ],
+      "reason": "TS 23.228 defines PSI in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "PSI-02",
+    "acronym": "PSI",
+    "kind": "implicit",
+    "question": "In IMS, the SIP address is for invoking a service and does not identify an individual subscriber. What does PSI stand for?",
+    "expected": {
+      "expansions": [
+        "Public Service Identity"
+      ],
+      "citations": [
+        "E35"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "PSI-03",
+    "acronym": "PSI",
+    "kind": "named",
+    "question": "In TS 38.321, what does PSI stand for?",
+    "expected": {
+      "expansions": [
+        "PDU Set Importance"
+      ],
+      "citations": [
+        "E36"
+      ],
+      "reason": "TS 38.321 defines PSI in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "PSI-04",
+    "acronym": "PSI",
+    "kind": "implicit",
+    "question": "The MAC scheduler needs the relative priority of a group of packet data units belonging to the same unit of service. Which quantity is PSI?",
+    "expected": {
+      "expansions": [
+        "PDU Set Importance"
+      ],
+      "citations": [
+        "E36",
+        "E37"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "PSI-05",
+    "acronym": "PSI",
+    "kind": "ambiguous",
+    "question": "A note mentions PSI but gives no specification or other context. What does PSI stand for?",
+    "expected": {
+      "abstain": "ambiguous",
+      "reason": "The available specifications define multiple meanings and the note does not select one."
+    }
+  },
+  {
+    "id": "SCS-01",
+    "acronym": "SCS",
+    "kind": "named",
+    "question": "In TS 23.228, what does SCS stand for?",
+    "expected": {
+      "expansions": [
+        "Service Capability Server"
+      ],
+      "citations": [
+        "E38"
+      ],
+      "reason": "TS 23.228 defines SCS in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "SCS-02",
+    "acronym": "SCS",
+    "kind": "implicit",
+    "question": "Within the IMS architecture, an application uses a server exposing service capabilities. What does SCS mean?",
+    "expected": {
+      "expansions": [
+        "Service Capability Server"
+      ],
+      "citations": [
+        "E38"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "SCS-03",
+    "acronym": "SCS",
+    "kind": "named",
+    "question": "In TS 38.521-2, what does SCS stand for?",
+    "expected": {
+      "expansions": [
+        "Subcarrier Spacing"
+      ],
+      "citations": [
+        "E40"
+      ],
+      "reason": "TS 38.521-2 defines SCS in the applicable glossary and context."
+    }
+  },
+  {
+    "id": "SCS-04",
+    "acronym": "SCS",
+    "kind": "implicit",
+    "question": "The radio conformance table lists numerology values of 60 kHz and 120 kHz. What does SCS measure?",
+    "expected": {
+      "expansions": [
+        "Subcarrier Spacing"
+      ],
+      "citations": [
+        "E39",
+        "E40"
+      ],
+      "reason": "The domain clues indicate this expansion. Any source in the evidence set that directly defines this same sense is accepted."
+    }
+  },
+  {
+    "id": "SCS-05",
+    "acronym": "SCS",
+    "kind": "ambiguous",
+    "question": "A note mentions SCS but gives no specification or other context. What does SCS stand for?",
+    "expected": {
+      "abstain": "ambiguous",
+      "reason": "The available specifications define multiple meanings and the note does not select one."
+    }
+  },
+  {
+    "id": "CA-06",
+    "acronym": "CA",
+    "kind": "unsupported",
+    "question": "Using only the supplied glossary for TS 32.255, what is the expansion of CA?",
+    "expected": {
+      "abstain": "unsupported",
+      "reason": "None of the supplied glossary entries for this acronym belongs to the requested specification."
+    }
+  },
+  {
+    "id": "AS-06",
+    "acronym": "AS",
+    "kind": "unsupported",
+    "question": "Using only the supplied glossary for TS 33.310, what is the expansion of AS?",
+    "expected": {
+      "abstain": "unsupported",
+      "reason": "None of the supplied glossary entries for this acronym belongs to the requested specification."
+    }
+  },
+  {
+    "id": "MSK-06",
+    "acronym": "MSK",
+    "kind": "unsupported",
+    "question": "Using only the supplied glossary for TS 38.331, what is the expansion of MSK?",
+    "expected": {
+      "abstain": "unsupported",
+      "reason": "None of the supplied glossary entries for this acronym belongs to the requested specification."
+    }
+  }
+]
