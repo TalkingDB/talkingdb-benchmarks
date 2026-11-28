@@ -1,35 +1,26 @@
-# TalkingDB benchmarks
+<!-- short-readme -->
+<h1 align="center">TalkingDB benchmarks</h1>
 
-Open benchmarks for [TalkingDB](https://talkingdb.io/) tools, on public documents, scored exactly against expected rows and pages. No language model writes or judges the results.
+<p align="center"><b>Open benchmarks for TalkingDB tools, scored exactly. No language model judges anything.</b></p>
 
-Free to use and open source under [AGPL-3.0](LICENSE). Rerun them, change them, or point them at your own documents, and tell us where they break.
+<p align="center"><a href="#try-it">Try it</a> · <a href="docs/reference.md">Full reference</a></p>
 
-| Benchmark | What it tests | Result |
-| :--- | :--- | :--- |
-| [railway-tables](railway-tables) | Tables that run across PDF pages, on a public UK rail safety index | Standard extraction keeps 10 of 13 expected rows; with the TalkingDB page break fix, 13 of 13 |
-| [ecommerce-rag](ecommerce-rag) | What a customer support [RAG](https://en.wikipedia.org/wiki/Retrieval-augmented_generation) bot retrieves, on Indian consumer law and store policies | All primary evidence reaches the top 20 for 62.5% of questions, and the final top 4 for 31.8% |
-
-Built on the open source TalkingDB tools, starting with [module-ttt](https://github.com/TalkingDB/module-ttt).
+<p align="center"><a href="https://github.com/TalkingDB/talkingdb-benchmarks/stargazers"><img src="https://img.shields.io/github/stars/TalkingDB/talkingdb-benchmarks?style=social" alt="GitHub stars"></a> <a href="https://www.gnu.org/licenses/agpl-3.0.html"><img src="https://img.shields.io/badge/license-AGPL--3.0-blue" alt="AGPL-3.0"></a></p>
 
 <p align="center">
   <img src="docs/images/demo.gif" alt="Animated demo: a railway safety question, the row standard PDF extraction loses at a page break, the same query with and without the fix (2 of 3 rows against 3 of 3), the whole table scored, and the ecommerce-rag result of 40 of 64">
 </p>
 <p align="center"><sub>Every figure is read from the results files in this repo, with its denominator.</sub></p>
 
-## How every benchmark here works
+Each benchmark runs on public documents and checks the output row by row and page by page against expected answers. Rerun them, change them, or point them at your own documents.
 
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/images/how-a-benchmark-in-this-repository-runs-dark.svg">
-  <img alt="Public documents are pinned by hash or commit. A pipeline pinned to exact versions processes them. Frozen questions with expected answers are scored exactly, and results are saved next to the code so every figure can be checked without rerunning." src="docs/images/how-a-benchmark-in-this-repository-runs.svg">
-</picture>
+## What it does
 
-<sub>Diagram source: [how-a-benchmark-in-this-repository-runs.mmd](docs/diagrams/how-a-benchmark-in-this-repository-runs.mmd). Edit it and re-render with the steps in [docs/diagrams](docs/diagrams/README.md).</sub>
+- [railway-tables](railway-tables): rows that standard PDF table extraction loses at page breaks, and the fix.
+- [ecommerce-rag](ecommerce-rag): what a support bot actually retrieves, question by question.
+- Every figure comes with its denominator, in the results files.
 
-In words: each benchmark pins its documents and code, asks fixed questions, scores answers exactly, and keeps the results in the repository so anyone can check a figure without running anything.
-
-## Run one
-
-Each folder has its own three step start, in a bash terminal (Linux, macOS or [WSL](https://learn.microsoft.com/en-us/windows/wsl/about)):
+## Try it
 
 ```bash
 git clone https://github.com/TalkingDB/talkingdb-benchmarks.git
@@ -38,41 +29,17 @@ bash setup.sh
 bash run.sh
 ```
 
-Requirements differ per benchmark; read the folder's README first. [railway-tables](railway-tables) runs on CPU in about ten minutes. [ecommerce-rag](ecommerce-rag) needs [uv](https://docs.astral.sh/uv/), an `OPENAI_API_KEY` (or Ollama with `--local`) and a [Hugging Face](https://huggingface.co/docs) token with access to its dataset.
+How to read a result and add a benchmark are in the [full reference](docs/reference.md).
 
-## How to read a result
+## Where it fits
 
-- **Every figure has a denominator.** "10 of 13 rows" is the claim; a percentage alone is not.
-- **Each result names what it compares.** A figure is only about the documents, questions and versions listed in that folder.
-- **Limits are part of the result.** Each folder ends with a plain list of what the benchmark does not show.
+Runs [module-ttt](https://github.com/TalkingDB/module-ttt) and related tools against public documents.
 
-## What these benchmarks are not
+## Learn more
 
-- **Not a leaderboard.** Each one tests a narrow, named problem on a few public documents.
-- **Not proof for other documents.** A result on one index or one store's policies is evidence about those; try it on yours.
-- **Not judged by a language model.** Scoring is exact matching against expected rows, IDs and pages.
-
-## Add a benchmark
-
-Copy the shape of an existing folder:
-
-```text
-your-benchmark/
-├── README.md          what it tests, the result, limits, how to run
-├── setup.sh, run.sh   a three step start that works from an empty folder
-├── documents/         or a script that fetches pinned public documents
-├── cases/             frozen questions and expected answers
-├── pipeline/          the code, at pinned versions
-└── results/           the saved outputs every figure is computed from
-```
-
-Before calling it reproducible, run `setup.sh` and `run.sh` from a fresh clone on a clean machine and check the numbers match.
-
-## Further reading
-
-- [module-ttt](https://github.com/TalkingDB/module-ttt), the document indexing used by these benchmarks
-- [package-content-elementizer](https://github.com/TalkingDB/package-content-elementizer), TalkingDB's document reader
-- [Open Government Licence v3.0](https://www.nationalarchives.gov.uk/doc/open-government-licence/version/3/), the licence of the UK rail documents
+| Page | Read it to |
+| :--- | :--- |
+| [Full reference](docs/reference.md) | read everything that used to be on this page |
 
 ## Support TalkingDB
 
